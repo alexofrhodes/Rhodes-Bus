@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="theme-color" content="#2563eb"/>
+    <meta name="description" content="Rhodes bus schedule and stations map. Installable offline app."/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta name="apple-mobile-web-app-title" content="Bus Schedule"/>
+    <title>Bus Schedule</title>
+    <link rel="manifest" href="manifest.webmanifest"/>
+    <link rel="icon" type="image/png" href="logos/LOGO.png"/>
+    <link rel="apple-touch-icon" href="logos/LOGO.png"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="src/css/styles.css"/>
+
+    <script src="https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" defer></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" defer></script>
+
+    <script>window.__STANDALONE_BUS__ = true;</script>
+    <script src="src/js/data/DataProvider.js" defer></script>
+    <script src="src/js/config/uiLayoutConfig.js" defer></script>
+    <script src="src/js/config/dataSourcesConfig.js" defer></script>
+    <script src="src/js/config/scopeDefinitions.js" defer></script>
+    <script src="src/js/views/viewRegistry.js" defer></script>
+    <script src="src/js/views/tableView.js" defer></script>
+    <script src="src/js/clockTimePicker.js" defer></script>
+    <script src="src/js/app.js" defer></script>
+</head>
+<body class="standalone-bus">
+
+    <div class="app-layout">
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-top-row">
+                    <div class="header-left">
+                        <span class="brand-bus" title="Bus Schedule">
+                            <img class="brand-logo" src="logos/LOGO.png" alt="Bus Schedule" width="28" height="28"/>
+                        </span>
+                        <h1 id="canvas-title" class="sr-only">Bus Schedule</h1>
+                        <div id="live-datetime" class="live-datetime" aria-live="polite"></div>
+                    </div>
+                    <div class="header-view-actions">
+                        <div id="layout-toggles" class="compact-toggle-group"></div>
+                        <div class="print-menu">
+                            <button id="master-print" class="print-mini-btn" type="button" title="Print" aria-haspopup="menu" aria-expanded="false" aria-controls="print-menu-list">
+                                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none">
+                                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                    <rect x="6" y="14" width="12" height="8"></rect>
+                                </svg>
+                                <span class="print-menu-caret" aria-hidden="true">▾</span>
+                            </button>
+                            <div id="print-menu-list" class="print-menu-list" role="menu" hidden>
+                                <div class="print-menu-section-label">Orientation</div>
+                                <div class="print-orient-toggle print-orient-in-menu" role="group" aria-label="Print orientation">
+                                    <button type="button" class="print-orient-chip" data-print-orient="portrait" aria-pressed="false" title="Portrait (vertical)">Portrait</button>
+                                    <button type="button" class="print-orient-chip" data-print-orient="landscape" aria-pressed="true" title="Landscape (horizontal)">Landscape</button>
+                                </div>
+                                <div class="print-menu-divider" role="separator"></div>
+                                <button type="button" class="print-menu-item" role="menuitem" data-print-mode="table">Print Table</button>
+                                <button type="button" class="print-menu-item" role="menuitem" data-print-mode="cards">Print Cards</button>
+                            </div>
+                        </div>
+                        <button id="signs-info-btn" class="about-info-btn" type="button" title="Bus destination signs" aria-label="Bus destination signs">i</button>
+                        <button id="about-info-btn" class="about-info-btn" type="button" title="About" aria-label="About">?</button>
+                    </div>
+                </div>
+
+                <div id="standalone-filter-panel" class="standalone-filter-panel">
+                <div class="header-controls">
+                    <div class="search-shell">
+                        <div class="dest-picker-wrap">
+                            <button id="dest-picker-btn" class="dest-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="dest-picker-panel" title="Pick destinations">Dest</button>
+                            <div id="dest-picker-panel" class="dest-picker-panel" role="listbox" aria-multiselectable="true" hidden></div>
+                        </div>
+                        <label class="search-input-wrap" for="app-search">
+                            <span class="search-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none">
+                                    <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                                    <line x1="15.5" y1="15.5" x2="20" y2="20"></line>
+                                </svg>
+                            </span>
+                            <input type="search" id="app-search" aria-label="Search routes (comma-separated for multiple matches)" placeholder="multi · use commas" autocomplete="off" oninput="handleSearchInput()"/>
+                        </label>
+                        <button id="app-search-clear" class="search-clear-btn" onclick="clearSearchQuery()" type="button" aria-label="Clear search">&times;</button>
+                    </div>
+                    <div id="dynamic-bar-controls" class="dynamic-controls-inline"></div>
+                </div>
+                </div>
+            </header>
+
+            <section class="view-canvas">
+                <div id="inline-filter-pills" class="inline-filter-pills"></div>
+                <div id="view-cards" class="view-container"></div>
+                <div id="view-table" class="view-container" style="display:none;"></div>
+                <div id="view-map" class="view-container" style="display:none;">
+                    <div id="map-container"></div>
+                </div>
+                <div id="view-signs" class="view-container bus-signs-page" style="display:none;" hidden></div>
+            </section>
+        </main>
+    </div>
+
+    <button id="scroll-top-fab" class="scroll-top-fab" type="button" aria-label="Scroll to top">↑</button>
+
+    <div id="install-app-bar" class="install-app-bar" hidden>
+        <button type="button" id="install-app-bar-action" class="install-app-bar-action">Install as app</button>
+        <button type="button" id="install-app-bar-dismiss" class="install-app-bar-dismiss" aria-label="Dismiss install bar">&times;</button>
+    </div>
+
+    <div id="lightbox" class="modal-mask" onclick="closeModalEngine(event)">
+        <div id="modal-body-target" class="modal-card"></div>
+    </div>
+
+</body>
+</html>

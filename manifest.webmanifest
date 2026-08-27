@@ -1,0 +1,28 @@
+{
+  "name": "Transit Schedules — Alex of Rhodes",
+  "short_name": "Bus Schedule",
+  "description": "Rhodes bus schedule and stations map. Offline-capable.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef2f7",
+  "theme_color": "#2563eb",
+  "lang": "en",
+  "categories": ["travel", "navigation", "utilities"],
+  "icons": [
+    {
+      "src": "logos/LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logos/LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

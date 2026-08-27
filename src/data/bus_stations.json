@@ -1,0 +1,5518 @@
+[
+    {
+        "name": "36 ARCHANGELOS TILA",
+        "lat": 36.2213226,
+        "lon": 28.1174604,
+        "code": "69010",
+        "type": "ktel"
+    },
+    {
+        "name": "STEGNA BEACH",
+        "lat": 36.2048239,
+        "lon": 28.1393761,
+        "code": "69012",
+        "type": "ktel"
+    },
+    {
+        "name": "STEGNA 1",
+        "lat": 36.2092454,
+        "lon": 28.1404149,
+        "code": "69012-1",
+        "type": "ktel"
+    },
+    {
+        "name": "STEGNA 2",
+        "lat": 36.2119037,
+        "lon": 28.1415493,
+        "code": "69012-2",
+        "type": "ktel"
+    },
+    {
+        "name": "94 MALONA CENTER E",
+        "lat": 36.2002141,
+        "lon": 28.0724954,
+        "code": "69013",
+        "type": "ktel"
+    },
+    {
+        "name": "38 MALONA CROSSROAD",
+        "lat": 36.1827028,
+        "lon": 28.083387,
+        "code": "69013-1",
+        "type": "ktel"
+    },
+    {
+        "name": "94 MALONA CENTER",
+        "lat": 36.2002372,
+        "lon": 28.0724115,
+        "code": "69013-2",
+        "type": "ktel"
+    },
+    {
+        "name": "38 MALONA CROSSROAD E",
+        "lat": 36.1826326,
+        "lon": 28.0835265,
+        "code": "69013-3",
+        "type": "ktel"
+    },
+    {
+        "name": "H1 CHARAKI",
+        "lat": 36.1664142,
+        "lon": 28.09269,
+        "code": "69014",
+        "type": "ktel"
+    },
+    {
+        "name": "H1 CHARAKI E",
+        "lat": 36.1664218,
+        "lon": 28.0926523,
+        "code": "69014-1",
+        "type": "ktel"
+    },
+    {
+        "name": "H2 CHARAKI AGATHI",
+        "lat": 36.1721085123016,
+        "lon": 28.0912360213032,
+        "code": "69014-2",
+        "type": "ktel"
+    },
+    {
+        "name": "H2 CHARAKI AGATHI E",
+        "lat": 36.1721085123016,
+        "lon": 28.0912360213032,
+        "code": "69014-3",
+        "type": "ktel"
+    },
+    {
+        "name": "95 MASSARI CENTER E",
+        "lat": 36.1773145,
+        "lon": 28.0721269,
+        "code": "69015",
+        "type": "ktel"
+    },
+    {
+        "name": "39 MASSARI CROSSROAD",
+        "lat": 36.1726814,
+        "lon": 28.0749412,
+        "code": "69015-1",
+        "type": "ktel"
+    },
+    {
+        "name": "95 MASSARI CENTER",
+        "lat": 36.1772327,
+        "lon": 28.0721385,
+        "code": "69015-2",
+        "type": "ktel"
+    },
+    {
+        "name": "39 MASSARI CROSSROAD E",
+        "lat": 36.1725926,
+        "lon": 28.0750841,
+        "code": "69015-3",
+        "type": "ktel"
+    },
+    {
+        "name": "A3 AFANTOU CENTER",
+        "lat": 36.2959522,
+        "lon": 28.1626235,
+        "code": "69024",
+        "type": "ktel"
+    },
+    {
+        "name": "22 AFANTOU GOLF",
+        "lat": 36.3032709,
+        "lon": 28.1790454,
+        "code": "69024-1",
+        "type": "ktel"
+    },
+    {
+        "name": "A3 AFANTOU CENTER E",
+        "lat": 36.2958555,
+        "lon": 28.1625817,
+        "code": "69024-10",
+        "type": "ktel"
+    },
+    {
+        "name": "A1 AFANTOU GOLF VIEW E",
+        "lat": 36.3004134,
+        "lon": 28.1754532,
+        "code": "69024-11",
+        "type": "ktel"
+    },
+    {
+        "name": "A2 AFANTOU SARANTARI E",
+        "lat": 36.297974,
+        "lon": 28.1668237,
+        "code": "69024-12",
+        "type": "ktel"
+    },
+    {
+        "name": "A4 AFANTOU POLICE",
+        "lat": 36.2922332,
+        "lon": 28.1580794,
+        "code": "69024-13",
+        "type": "ktel"
+    },
+    {
+        "name": "A5 AFANTOU KANTIS E",
+        "lat": 36.2819009,
+        "lon": 28.1560325,
+        "code": "69024-14",
+        "type": "ktel"
+    },
+    {
+        "name": "22 AFANTOU GOLF E",
+        "lat": 36.304261,
+        "lon": 28.1801564,
+        "code": "69024-2",
+        "type": "ktel"
+    },
+    {
+        "name": "A1 AFANTOU GOLF VIEW",
+        "lat": 36.3005313,
+        "lon": 28.1755465,
+        "code": "69024-3",
+        "type": "ktel"
+    },
+    {
+        "name": "A2 AFANTOU SARANTARI",
+        "lat": 36.2980421,
+        "lon": 28.166783,
+        "code": "69024-4",
+        "type": "ktel"
+    },
+    {
+        "name": "A4 AFANTOU POLICE E",
+        "lat": 36.2923078,
+        "lon": 28.1582133,
+        "code": "69024-5",
+        "type": "ktel"
+    },
+    {
+        "name": "A5 AFANTOU KANTIS",
+        "lat": 36.2818468,
+        "lon": 28.1559459,
+        "code": "69024-6",
+        "type": "ktel"
+    },
+    {
+        "name": "27 AFANTOU BONIS",
+        "lat": 36.2755255,
+        "lon": 28.1512417,
+        "code": "69024-7",
+        "type": "ktel"
+    },
+    {
+        "name": "28 AFANTOU PARAMYTHIA",
+        "lat": 36.2709879,
+        "lon": 28.1477263,
+        "code": "69024-8",
+        "type": "ktel"
+    },
+    {
+        "name": "28 AFANTOU PARAMYTHIA E",
+        "lat": 36.2702144,
+        "lon": 28.1475296,
+        "code": "69024-9",
+        "type": "ktel"
+    },
+    {
+        "name": "31 KOLYMPIA PORTOKALIES",
+        "lat": 36.2537886,
+        "lon": 28.1431272,
+        "code": "69025",
+        "type": "ktel"
+    },
+    {
+        "name": "29 KOLYMPIA AG.PARASKEVI E",
+        "lat": 36.2653328,
+        "lon": 28.1453382,
+        "code": "69025-2",
+        "type": "ktel"
+    },
+    {
+        "name": "30 KOLYMPIA IDRYMA E",
+        "lat": 36.2584587,
+        "lon": 28.1430764,
+        "code": "69025-3",
+        "type": "ktel"
+    },
+    {
+        "name": "31 KOLYMPIA PORTOKALIES E",
+        "lat": 36.2538624,
+        "lon": 28.143263,
+        "code": "69025-4",
+        "type": "ktel"
+    },
+    {
+        "name": "30 KOLYMPIA IDRYMA",
+        "lat": 36.2572775,
+        "lon": 28.142829,
+        "code": "69025-5",
+        "type": "ktel"
+    },
+    {
+        "name": "Archipolis",
+        "lat": 36.2662200927734,
+        "lon": 28.0608501434326,
+        "code": "69026",
+        "type": "ktel"
+    },
+    {
+        "name": "P4 KALYTHIES",
+        "lat": 36.3352556271005,
+        "lon": 28.1749640901783,
+        "code": "69028",
+        "type": "ktel"
+    },
+    {
+        "name": "P3 KALYTHIES VENZINADIKO",
+        "lat": 36.336833,
+        "lon": 28.1767456,
+        "code": "69028-1",
+        "type": "ktel"
+    },
+    {
+        "name": "P2 KALYTHIES VENEZIA",
+        "lat": 36.3373839,
+        "lon": 28.1829277,
+        "code": "69028-2",
+        "type": "ktel"
+    },
+    {
+        "name": "P2 KALYTHIES VENEZIA E",
+        "lat": 36.3371978,
+        "lon": 28.185177,
+        "code": "69028-4",
+        "type": "ktel"
+    },
+    {
+        "name": "P3 KALYTHIES VENZINADIKO E",
+        "lat": 36.3367774,
+        "lon": 28.1767144,
+        "code": "69028-5",
+        "type": "ktel"
+    },
+    {
+        "name": "F31 FALIRAKI CENTER",
+        "lat": 36.3408885,
+        "lon": 28.2038389,
+        "code": "69029",
+        "type": "ktel"
+    },
+    {
+        "name": "F30 FALIRAKI YAMA",
+        "lat": 36.3383667,
+        "lon": 28.2015711,
+        "code": "69029-1",
+        "type": "ktel"
+    },
+    {
+        "name": "P6 PSINTHOS",
+        "lat": 36.3145946,
+        "lon": 28.0955712,
+        "code": "69034",
+        "type": "ktel"
+    },
+    {
+        "name": "P5 PSINTHOS GIPEDO",
+        "lat": 36.3123846,
+        "lon": 28.1021729,
+        "code": "69034-1",
+        "type": "ktel"
+    },
+    {
+        "name": "P5 PSINTHOS GIPEDO E",
+        "lat": 36.3123312,
+        "lon": 28.1022144,
+        "code": "69034-2",
+        "type": "ktel"
+    },
+    {
+        "name": "64 LARDOS CENTER",
+        "lat": 36.0940619,
+        "lon": 28.016485,
+        "code": "69046-1",
+        "type": "ktel"
+    },
+    {
+        "name": "65 LARDOS AG.IOANNIS E",
+        "lat": 36.0825596,
+        "lon": 28.0145609,
+        "code": "69046-2",
+        "type": "ktel"
+    },
+    {
+        "name": "66 LARDOS BAY",
+        "lat": 36.0780263,
+        "lon": 28.0130135,
+        "code": "69046-3",
+        "type": "ktel"
+    },
+    {
+        "name": "66 LARDOS BAY E",
+        "lat": 36.078032,
+        "lon": 28.013093,
+        "code": "69046-4",
+        "type": "ktel"
+    },
+    {
+        "name": "67 LARDOS KAMARI BEACH",
+        "lat": 36.0740427,
+        "lon": 28.0129542,
+        "code": "69046-5",
+        "type": "ktel"
+    },
+    {
+        "name": "67 LARDOS KAMARI BEACH E",
+        "lat": 36.072823,
+        "lon": 28.0126707,
+        "code": "69046-6",
+        "type": "ktel"
+    },
+    {
+        "name": "65 LARDOS AG IOANNI",
+        "lat": 36.0826265,
+        "lon": 28.014467,
+        "code": "69046-7",
+        "type": "ktel"
+    },
+    {
+        "name": "46 LINDOS KRANA E",
+        "lat": 36.0916544,
+        "lon": 28.0811819,
+        "code": "69047",
+        "type": "ktel"
+    },
+    {
+        "name": "46 LINDOS KRANA",
+        "lat": 36.0917989,
+        "lon": 28.0809007,
+        "code": "69047-1",
+        "type": "ktel"
+    },
+    {
+        "name": "47 LINDOS RECEPTION E",
+        "lat": 36.0871169,
+        "lon": 28.0859122,
+        "code": "69047-2",
+        "type": "ktel"
+    },
+    {
+        "name": "47 LINDOS RECEPTION",
+        "lat": 36.0870529,
+        "lon": 28.0857568,
+        "code": "69047-3",
+        "type": "ktel"
+    },
+    {
+        "name": "55 PEFKOI CENTER",
+        "lat": 36.0765776,
+        "lon": 28.0507091,
+        "code": "69048",
+        "type": "ktel"
+    },
+    {
+        "name": "48 PEFKOI PSALTO LINDOS SUN",
+        "lat": 36.0814286,
+        "lon": 28.0765471,
+        "code": "69048-1",
+        "type": "ktel"
+    },
+    {
+        "name": "62 PEFKOI LINDOS PRINCESS E",
+        "lat": 36.079743,
+        "lon": 28.0194474,
+        "code": "69048-10",
+        "type": "ktel"
+    },
+    {
+        "name": "56 PEFKOI CORALLI",
+        "lat": 36.0777856,
+        "lon": 28.0437402,
+        "code": "69048-11",
+        "type": "ktel"
+    },
+    {
+        "name": "57 PEFKOI ILYSSION",
+        "lat": 36.0783313,
+        "lon": 28.0370763,
+        "code": "69048-12",
+        "type": "ktel"
+    },
+    {
+        "name": "57 PEFKOI ILYSSION E",
+        "lat": 36.0782588,
+        "lon": 28.0370633,
+        "code": "69048-13",
+        "type": "ktel"
+    },
+    {
+        "name": "58 PEFKOI SUNRIZE",
+        "lat": 36.0782587,
+        "lon": 28.0345251,
+        "code": "69048-14",
+        "type": "ktel"
+    },
+    {
+        "name": "58 PEFKOI SUNRIZE E",
+        "lat": 36.07818,
+        "lon": 28.0345302,
+        "code": "69048-15",
+        "type": "ktel"
+    },
+    {
+        "name": "63 PEFKOI MINI GOLF",
+        "lat": 36.0871365,
+        "lon": 28.0193264,
+        "code": "69048-16",
+        "type": "ktel"
+    },
+    {
+        "name": "53 PEFKOI BEACH",
+        "lat": 36.0743774,
+        "lon": 28.0561287,
+        "code": "69048-17",
+        "type": "ktel"
+    },
+    {
+        "name": "54 PEFKOI VOUNARI FINAS",
+        "lat": 36.0713112,
+        "lon": 28.0579028,
+        "code": "69048-18",
+        "type": "ktel"
+    },
+    {
+        "name": "59 PEFKOI PRIVILETZ",
+        "lat": 36.0784422,
+        "lon": 28.0278477,
+        "code": "69048-19",
+        "type": "ktel"
+    },
+    {
+        "name": "48 PEFKOI PSALTO LINDOS SUN E",
+        "lat": 36.0813732,
+        "lon": 28.0766568,
+        "code": "69048-2",
+        "type": "ktel"
+    },
+    {
+        "name": "61 PEFKOI COSTA LINDIA E",
+        "lat": 36.0791864,
+        "lon": 28.0217016,
+        "code": "69048-20",
+        "type": "ktel"
+    },
+    {
+        "name": "50 PEFKOI PSALTO VILLE DI LINDO E",
+        "lat": 36.0775011,
+        "lon": 28.0677001,
+        "code": "69048-21",
+        "type": "ktel"
+    },
+    {
+        "name": "51 PEFKOI PSALTO PETALO E",
+        "lat": 36.0772775,
+        "lon": 28.0627165,
+        "code": "69048-22",
+        "type": "ktel"
+    },
+    {
+        "name": "52 PEFKOI AG.IOANNIS E",
+        "lat": 36.0766217,
+        "lon": 28.0599373,
+        "code": "69048-23",
+        "type": "ktel"
+    },
+    {
+        "name": "53 PEFKOI BEACH E",
+        "lat": 36.0744294,
+        "lon": 28.0562145,
+        "code": "69048-24",
+        "type": "ktel"
+    },
+    {
+        "name": "56 PEFKOI CORALLI E",
+        "lat": 36.0777125,
+        "lon": 28.0437219,
+        "code": "69048-25",
+        "type": "ktel"
+    },
+    {
+        "name": "59 PEFKOI PRIVILETZ E",
+        "lat": 36.0783783,
+        "lon": 28.0278315,
+        "code": "69048-26",
+        "type": "ktel"
+    },
+    {
+        "name": "62 PEFKOI LINDOS PRINCESS",
+        "lat": 36.0801563,
+        "lon": 28.0190085,
+        "code": "69048-27",
+        "type": "ktel"
+    },
+    {
+        "name": "63 PEFKOI MINI GOLF E",
+        "lat": 36.0871549,
+        "lon": 28.0192478,
+        "code": "69048-28",
+        "type": "ktel"
+    },
+    {
+        "name": "49 PEFKOI PSALTO LINDOS MEMORIS",
+        "lat": 36.0800043,
+        "lon": 28.0736745,
+        "code": "69048-3",
+        "type": "ktel"
+    },
+    {
+        "name": "49 PEFKOI PSALTO LINDOS MEMORIS E",
+        "lat": 36.0799277,
+        "lon": 28.0737393,
+        "code": "69048-4",
+        "type": "ktel"
+    },
+    {
+        "name": "50 PEFKOI PSALTO VILLE DI LINDO",
+        "lat": 36.0775613,
+        "lon": 28.0677193,
+        "code": "69048-5",
+        "type": "ktel"
+    },
+    {
+        "name": "51 PEFKOI PSALTO PETALO",
+        "lat": 36.077326,
+        "lon": 28.0626814,
+        "code": "69048-6",
+        "type": "ktel"
+    },
+    {
+        "name": "52 PEFKOI AG.IOANNIS",
+        "lat": 36.0766737,
+        "lon": 28.0598906,
+        "code": "69048-7",
+        "type": "ktel"
+    },
+    {
+        "name": "55 PEFKOI CENTER E",
+        "lat": 36.0765075,
+        "lon": 28.0507959,
+        "code": "69048-8",
+        "type": "ktel"
+    },
+    {
+        "name": "60 PEFKOI BELMARE E",
+        "lat": 36.079163,
+        "lon": 28.0237845,
+        "code": "69048-9",
+        "type": "ktel"
+    },
+    {
+        "name": "43 KALATHOS FLEVARIS E",
+        "lat": 36.1115174,
+        "lon": 28.0592186,
+        "code": "69049",
+        "type": "ktel"
+    },
+    {
+        "name": "40 KALATHOS ATRIUM",
+        "lat": 36.1272035,
+        "lon": 28.060249,
+        "code": "69049-1",
+        "type": "ktel"
+    },
+    {
+        "name": "40 KALATHOS ATRIUM E",
+        "lat": 36.1275177,
+        "lon": 28.0604592,
+        "code": "69049-10",
+        "type": "ktel"
+    },
+    {
+        "name": "41 KALATHOS CENTER E",
+        "lat": 36.1212136,
+        "lon": 28.0596693,
+        "code": "69049-11",
+        "type": "ktel"
+    },
+    {
+        "name": "42 KALATHOS STRATOPEDO E",
+        "lat": 36.116796,
+        "lon": 28.0591944,
+        "code": "69049-12",
+        "type": "ktel"
+    },
+    {
+        "name": "45 KALATHOS LINDOS MARE E",
+        "lat": 36.1012748,
+        "lon": 28.0700599,
+        "code": "69049-13",
+        "type": "ktel"
+    },
+    {
+        "name": "41 KALATHOS CENTER",
+        "lat": 36.1213165,
+        "lon": 28.0594403,
+        "code": "69049-2",
+        "type": "ktel"
+    },
+    {
+        "name": "42 KALATHOS STRATOPEDO",
+        "lat": 36.1163069,
+        "lon": 28.05862,
+        "code": "69049-3",
+        "type": "ktel"
+    },
+    {
+        "name": "43 KALATHOS FLEVARIS",
+        "lat": 36.1116853,
+        "lon": 28.0589697,
+        "code": "69049-4",
+        "type": "ktel"
+    },
+    {
+        "name": "44 KALATHOS APOSTOLIS",
+        "lat": 36.1058887,
+        "lon": 28.0618851,
+        "code": "69049-5",
+        "type": "ktel"
+    },
+    {
+        "name": "45 KALATHOS LINDOS MARE",
+        "lat": 36.1011576,
+        "lon": 28.0698585,
+        "code": "69049-6",
+        "type": "ktel"
+    },
+    {
+        "name": "V1 VLICHA LINDOS VILLAGE",
+        "lat": 36.1110195,
+        "lon": 28.0642655,
+        "code": "69049-7",
+        "type": "ktel"
+    },
+    {
+        "name": "V2 VLICHA LINDOS BAY",
+        "lat": 36.1074574,
+        "lon": 28.0659108,
+        "code": "69049-8",
+        "type": "ktel"
+    },
+    {
+        "name": "92 LAERMA",
+        "lat": 36.1542084,
+        "lon": 27.9399698,
+        "code": "69050",
+        "type": "ktel"
+    },
+    {
+        "name": "93 PYLONA CHURCH E",
+        "lat": 36.1049857,
+        "lon": 28.0456344,
+        "code": "69051",
+        "type": "ktel"
+    },
+    {
+        "name": "93 PYLONA EKKLISIA",
+        "lat": 36.1050691,
+        "lon": 28.0454957,
+        "code": "69051-1",
+        "type": "ktel"
+    },
+    {
+        "name": "PYLONA CENTER E",
+        "lat": 36.1058959,
+        "lon": 28.0444188,
+        "code": "69051-2",
+        "type": "ktel"
+    },
+    {
+        "name": "73 KIOTARI RODOS VILLAGE E",
+        "lat": 36.0563861,
+        "lon": 27.9753566,
+        "code": "69055",
+        "type": "ktel"
+    },
+    {
+        "name": "68 KIOTARI GLYSTRA",
+        "lat": 36.0681927,
+        "lon": 27.9945724,
+        "code": "69055-1",
+        "type": "ktel"
+    },
+    {
+        "name": "70 KIOTARI LINDOS IMPERIAL E",
+        "lat": 36.06411,
+        "lon": 27.9893662,
+        "code": "69055-10",
+        "type": "ktel"
+    },
+    {
+        "name": "69 KIOTARI STAFILIA E",
+        "lat": 36.0680223,
+        "lon": 27.9908919,
+        "code": "69055-11",
+        "type": "ktel"
+    },
+    {
+        "name": "72 KIOTARI MAYIA",
+        "lat": 36.0604104,
+        "lon": 27.9854632,
+        "code": "69055-12",
+        "type": "ktel"
+    },
+    {
+        "name": "71 KIOTARI MIRALUNA",
+        "lat": 36.0617597,
+        "lon": 27.9889802,
+        "code": "69055-13",
+        "type": "ktel"
+    },
+    {
+        "name": "70 KIOTARI LINDOS IMPERIAL",
+        "lat": 36.0640563,
+        "lon": 27.9893033,
+        "code": "69055-14",
+        "type": "ktel"
+    },
+    {
+        "name": "69 KIOTARI STAFILIA",
+        "lat": 36.0680951,
+        "lon": 27.9908501,
+        "code": "69055-15",
+        "type": "ktel"
+    },
+    {
+        "name": "68 KIOTARI GLYSTRA E",
+        "lat": 36.0682053,
+        "lon": 27.994333,
+        "code": "69055-16",
+        "type": "ktel"
+    },
+    {
+        "name": "76 KIOTARI CROSSROAD",
+        "lat": 36.0489109,
+        "lon": 27.9514623,
+        "code": "69055-17",
+        "type": "ktel"
+    },
+    {
+        "name": "71 KIOTARI MIRALUNA E",
+        "lat": 36.0617166,
+        "lon": 27.9890401,
+        "code": "69055-2",
+        "type": "ktel"
+    },
+    {
+        "name": "72 KIOTARI MAYIA E",
+        "lat": 36.0603428,
+        "lon": 27.9855017,
+        "code": "69055-3",
+        "type": "ktel"
+    },
+    {
+        "name": "73 KIOTARI RODOS VILLAGE",
+        "lat": 36.0563126,
+        "lon": 27.9751397,
+        "code": "69055-4",
+        "type": "ktel"
+    },
+    {
+        "name": "74 KIOTARI RODOS MARIS",
+        "lat": 36.0545133,
+        "lon": 27.971236,
+        "code": "69055-5",
+        "type": "ktel"
+    },
+    {
+        "name": "74 KIOTARI RODOS MARIS E",
+        "lat": 36.0548032,
+        "lon": 27.9725508,
+        "code": "69055-6",
+        "type": "ktel"
+    },
+    {
+        "name": "75 KIOTARI RODOS PRINCESS",
+        "lat": 36.0516132,
+        "lon": 27.9680167,
+        "code": "69055-7",
+        "type": "ktel"
+    },
+    {
+        "name": "75 KIOTARI RODOS PRINCESS E",
+        "lat": 36.0517316,
+        "lon": 27.9684316,
+        "code": "69055-8",
+        "type": "ktel"
+    },
+    {
+        "name": "76 KIOTARI CROSSROAD E",
+        "lat": 36.0491355,
+        "lon": 27.9520272,
+        "code": "69055-9",
+        "type": "ktel"
+    },
+    {
+        "name": "VATI E",
+        "lat": 36.0604474,
+        "lon": 27.8829142,
+        "code": "69056",
+        "type": "ktel"
+    },
+    {
+        "name": "VATI",
+        "lat": 36.0604919,
+        "lon": 27.8832934,
+        "code": "69056-1",
+        "type": "ktel"
+    },
+    {
+        "name": "80 GENNADI CENTER",
+        "lat": 36.0211528,
+        "lon": 27.9250137,
+        "code": "69057",
+        "type": "ktel"
+    },
+    {
+        "name": "77 GENNADI KABANARI",
+        "lat": 36.0451278,
+        "lon": 27.9469554,
+        "code": "69057-1",
+        "type": "ktel"
+    },
+    {
+        "name": "80 GENNADI CENTER E",
+        "lat": 36.0213198,
+        "lon": 27.9252672,
+        "code": "69057-10",
+        "type": "ktel"
+    },
+    {
+        "name": "96 GENNADI SCHOOL",
+        "lat": 36.0222461,
+        "lon": 27.9235371,
+        "code": "69057-11",
+        "type": "ktel"
+    },
+    {
+        "name": "78 GENNADI SENSATORI E",
+        "lat": 36.0346289,
+        "lon": 27.9352464,
+        "code": "69057-3",
+        "type": "ktel"
+    },
+    {
+        "name": "81 GENNADI GENNADI BAY",
+        "lat": 36.0119963,
+        "lon": 27.9183527,
+        "code": "69057-4",
+        "type": "ktel"
+    },
+    {
+        "name": "77 GENNADI KABANARI E",
+        "lat": 36.045107,
+        "lon": 27.947053,
+        "code": "69057-5",
+        "type": "ktel"
+    },
+    {
+        "name": "78 GENNADI SENSATORI",
+        "lat": 36.0345508,
+        "lon": 27.9349538,
+        "code": "69057-6",
+        "type": "ktel"
+    },
+    {
+        "name": "79 GENNADI PLYNTIRIA E",
+        "lat": 36.023746,
+        "lon": 27.9270521,
+        "code": "69057-7",
+        "type": "ktel"
+    },
+    {
+        "name": "79 GENNADI PLYNTIRIA",
+        "lat": 36.0237958,
+        "lon": 27.9269495,
+        "code": "69057-8",
+        "type": "ktel"
+    },
+    {
+        "name": "81 GENNADI GENNADI BAY E",
+        "lat": 36.0119884,
+        "lon": 27.9184529,
+        "code": "69057-9",
+        "type": "ktel"
+    },
+    {
+        "name": "84 KATTAVIA",
+        "lat": 35.9535512,
+        "lon": 27.7684402,
+        "code": "69060",
+        "type": "ktel"
+    },
+    {
+        "name": "84 KATTAVIA E",
+        "lat": 35.9534557,
+        "lon": 27.768656,
+        "code": "69060-1",
+        "type": "ktel"
+    },
+    {
+        "name": "85 PRASONISI",
+        "lat": 35.8919567,
+        "lon": 27.7734162,
+        "code": "69062",
+        "type": "ktel"
+    },
+    {
+        "name": "91 LACHANIA",
+        "lat": 35.9671192,
+        "lon": 27.863771,
+        "code": "69063",
+        "type": "ktel"
+    },
+    {
+        "name": "PROFYLIA",
+        "lat": 36.099472,
+        "lon": 27.8472881,
+        "code": "69067",
+        "type": "ktel"
+    },
+    {
+        "name": "1 MANDRAKI",
+        "lat": 36.4475832,
+        "lon": 28.2247737,
+        "code": "69079",
+        "type": "ktel"
+    },
+    {
+        "name": "2 PARKO DIMOKRATIAS",
+        "lat": 36.4451145,
+        "lon": 28.2213373,
+        "code": "69079-1",
+        "type": "ktel"
+    },
+    {
+        "name": "11 KOSKINOU",
+        "lat": 36.3881757,
+        "lon": 28.1994689,
+        "code": "69079-10",
+        "type": "ktel"
+    },
+    {
+        "name": "11 KOSKINOU E",
+        "lat": 36.3896867,
+        "lon": 28.2003705,
+        "code": "69079-11",
+        "type": "ktel"
+    },
+    {
+        "name": "F1 GEORGARA",
+        "lat": 36.4323089,
+        "lon": 28.2268842,
+        "code": "69079-12",
+        "type": "ktel"
+    },
+    {
+        "name": "F2 AG.DIMITRIOS",
+        "lat": 36.42999,
+        "lon": 28.2293387,
+        "code": "69079-13",
+        "type": "ktel"
+    },
+    {
+        "name": "F3 LAIKI",
+        "lat": 36.4275219,
+        "lon": 28.2289652,
+        "code": "69079-14",
+        "type": "ktel"
+    },
+    {
+        "name": "5 EPTA VAGIES E",
+        "lat": 36.4340392,
+        "lon": 28.2259909,
+        "code": "69079-15",
+        "type": "ktel"
+    },
+    {
+        "name": "6 XENAKIS E",
+        "lat": 36.4299522,
+        "lon": 28.2247299,
+        "code": "69079-16",
+        "type": "ktel"
+    },
+    {
+        "name": "4 SAN FRANCISCO E",
+        "lat": 36.4396045,
+        "lon": 28.2238564,
+        "code": "69079-17",
+        "type": "ktel"
+    },
+    {
+        "name": "8 IKA E",
+        "lat": 36.4132335,
+        "lon": 28.2096699,
+        "code": "69079-18",
+        "type": "ktel"
+    },
+    {
+        "name": "F2 AG.DIMITRIOS E",
+        "lat": 36.430267,
+        "lon": 28.2284019,
+        "code": "69079-19",
+        "type": "ktel"
+    },
+    {
+        "name": "3 UNIVERCITY",
+        "lat": 36.4421472,
+        "lon": 28.221407,
+        "code": "69079-2",
+        "type": "ktel"
+    },
+    {
+        "name": "2 PARKO DIMOKRATIAS E",
+        "lat": 36.4450758,
+        "lon": 28.2215149,
+        "code": "69079-23",
+        "type": "ktel"
+    },
+    {
+        "name": "3 UNIVERCITY E",
+        "lat": 36.442213,
+        "lon": 28.2215389,
+        "code": "69079-24",
+        "type": "ktel"
+    },
+    {
+        "name": "7 RODINI PARK E",
+        "lat": 36.4266812,
+        "lon": 28.2214727,
+        "code": "69079-25",
+        "type": "ktel"
+    },
+    {
+        "name": "F3 LAIKI  E",
+        "lat": 36.4276214,
+        "lon": 28.2291517,
+        "code": "69079-26",
+        "type": "ktel"
+    },
+    {
+        "name": "4 SAN FRANCISCO",
+        "lat": 36.4384064,
+        "lon": 28.2242837,
+        "code": "69079-3",
+        "type": "ktel"
+    },
+    {
+        "name": "5 ANNIS MARIAS PARK",
+        "lat": 36.4334876,
+        "lon": 28.2242584,
+        "code": "69079-4",
+        "type": "ktel"
+    },
+    {
+        "name": "6 TZENESIS",
+        "lat": 36.4310989,
+        "lon": 28.2251619,
+        "code": "69079-5",
+        "type": "ktel"
+    },
+    {
+        "name": "7 RODINI PARK",
+        "lat": 36.4266704,
+        "lon": 28.2210587,
+        "code": "69079-6",
+        "type": "ktel"
+    },
+    {
+        "name": "8 IKA",
+        "lat": 36.4143343,
+        "lon": 28.2098526,
+        "code": "69079-7",
+        "type": "ktel"
+    },
+    {
+        "name": "9 VASILOPOULOS",
+        "lat": 36.403139,
+        "lon": 28.20454,
+        "code": "69079-8",
+        "type": "ktel"
+    },
+    {
+        "name": "9 VASILOPOULOS E",
+        "lat": 36.4029041,
+        "lon": 28.2045803,
+        "code": "69079-9",
+        "type": "ktel"
+    },
+    {
+        "name": "60 PEFKOI BELMARE",
+        "lat": 36.0792381,
+        "lon": 28.0237262,
+        "code": "6908-27",
+        "type": "ktel"
+    },
+    {
+        "name": "86 APOLAKKIA",
+        "lat": 36.0667373,
+        "lon": 27.787828,
+        "code": "69119",
+        "type": "ktel"
+    },
+    {
+        "name": "87 ARNITHA",
+        "lat": 36.0618039,
+        "lon": 27.8137476,
+        "code": "69120",
+        "type": "ktel"
+    },
+    {
+        "name": "36 ARCHANGELOS TILA E",
+        "lat": 36.2211873,
+        "lon": 28.1174764,
+        "code": "69121",
+        "type": "ktel"
+    },
+    {
+        "name": "35 ARCHANGELOS HOSPITAL E",
+        "lat": 36.2216852,
+        "lon": 28.1250935,
+        "code": "69121-1",
+        "type": "ktel"
+    },
+    {
+        "name": "R5 ARCHANGELOS CHALIA",
+        "lat": 36.2141275,
+        "lon": 28.109566,
+        "code": "69121-10",
+        "type": "ktel"
+    },
+    {
+        "name": "R4 ARCHANGELOS NTAKAS E",
+        "lat": 36.2132503,
+        "lon": 28.1124671,
+        "code": "69121-11",
+        "type": "ktel"
+    },
+    {
+        "name": "R1 ARCHANGELOS ANAGROS E",
+        "lat": 36.220677,
+        "lon": 28.1214212,
+        "code": "69121-2",
+        "type": "ktel"
+    },
+    {
+        "name": "R2 ARCHANGELOS SCHOOL",
+        "lat": 36.2155421,
+        "lon": 28.1176689,
+        "code": "69121-3",
+        "type": "ktel"
+    },
+    {
+        "name": "R3 ARCHANGELOS CENTER E",
+        "lat": 36.2149696,
+        "lon": 28.1170349,
+        "code": "69121-4",
+        "type": "ktel"
+    },
+    {
+        "name": "R4 ARCHANGELOS NTAKAS",
+        "lat": 36.2133749,
+        "lon": 28.1123839,
+        "code": "69121-5",
+        "type": "ktel"
+    },
+    {
+        "name": "R5 ARCHANGELOS CHALIA E",
+        "lat": 36.2140688,
+        "lon": 28.1095509,
+        "code": "69121-6",
+        "type": "ktel"
+    },
+    {
+        "name": "37 ARCHANGELOS KATSELI",
+        "lat": 36.2152809,
+        "lon": 28.104534,
+        "code": "69121-7",
+        "type": "ktel"
+    },
+    {
+        "name": "37 ARCHANGELOS KATSELIS E",
+        "lat": 36.2151857,
+        "lon": 28.1046304,
+        "code": "69121-8",
+        "type": "ktel"
+    },
+    {
+        "name": "R1 ARCHANGELOS ANAGROS",
+        "lat": 36.2207713,
+        "lon": 28.1213932,
+        "code": "69121-9",
+        "type": "ktel"
+    },
+    {
+        "name": "ASKLIPIEIO",
+        "lat": 36.0722984,
+        "lon": 27.9304472,
+        "code": "69122",
+        "type": "ktel"
+    },
+    {
+        "name": "24 OASIS",
+        "lat": 36.2954174,
+        "lon": 28.1730316,
+        "code": "69123",
+        "type": "ktel"
+    },
+    {
+        "name": "24 OASIS E",
+        "lat": 36.2958834,
+        "lon": 28.1737458,
+        "code": "69123-1",
+        "type": "ktel"
+    },
+    {
+        "name": "25 OASIS IRIDA",
+        "lat": 36.2914624,
+        "lon": 28.1691703,
+        "code": "69123-2",
+        "type": "ktel"
+    },
+    {
+        "name": "26 OASIS BRIDGE",
+        "lat": 36.2881389,
+        "lon": 28.1638205,
+        "code": "69123-3",
+        "type": "ktel"
+    },
+    {
+        "name": "26 OASIS BRIDGE E",
+        "lat": 36.2887809,
+        "lon": 28.165777,
+        "code": "69123-4",
+        "type": "ktel"
+    },
+    {
+        "name": "23 OASIS ARGYRO",
+        "lat": 36.2989154,
+        "lon": 28.1754039,
+        "code": "69123-5",
+        "type": "ktel"
+    },
+    {
+        "name": "172 OASIS AFANTOU BAY",
+        "lat": 36.2837302,
+        "lon": 28.1750763,
+        "code": "69123-6",
+        "type": "ktel"
+    },
+    {
+        "name": "25 OASIS IRIDA E",
+        "lat": 36.2913687,
+        "lon": 28.1694108,
+        "code": "69124",
+        "type": "ktel"
+    },
+    {
+        "name": "44 KALATHOS APOSTOLIS E",
+        "lat": 36.1068892,
+        "lon": 28.0612099,
+        "code": "69125",
+        "type": "ktel"
+    },
+    {
+        "name": "F10 FYTORIO",
+        "lat": 36.4001197,
+        "lon": 28.2252418,
+        "code": "69126",
+        "type": "ktel"
+    },
+    {
+        "name": "F9 EDEN ROCK",
+        "lat": 36.4019156,
+        "lon": 28.2249095,
+        "code": "69127",
+        "type": "ktel"
+    },
+    {
+        "name": "F9 EDEN ROCK E",
+        "lat": 36.401923,
+        "lon": 28.2250231,
+        "code": "69127-1",
+        "type": "ktel"
+    },
+    {
+        "name": "E1 SEVEN SPRINGS",
+        "lat": 36.2568566,
+        "lon": 28.114384,
+        "code": "69128",
+        "type": "ktel"
+    },
+    {
+        "name": "F5 ERT",
+        "lat": 36.4149352,
+        "lon": 28.2275841,
+        "code": "69129",
+        "type": "ktel"
+    },
+    {
+        "name": "F5 ERT E",
+        "lat": 36.4148754,
+        "lon": 28.2276947,
+        "code": "69129-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F4 ANASA ",
+        "lat": 36.4202258,
+        "lon": 28.2292342,
+        "code": "69129-4",
+        "type": "ktel"
+    },
+    {
+        "name": "F4 ANASA E",
+        "lat": 36.4203933,
+        "lon": 28.2294121,
+        "code": "69129-5",
+        "type": "ktel"
+    },
+    {
+        "name": "F22 ESPERIDES",
+        "lat": 36.3609773,
+        "lon": 28.2121311969242,
+        "code": "69130",
+        "type": "ktel"
+    },
+    {
+        "name": "F22 ESPERIDES E",
+        "lat": 36.3615952246916,
+        "lon": 28.2130870471867,
+        "code": "69130-1",
+        "type": "ktel"
+    },
+    {
+        "name": "ISTRIOS",
+        "lat": 36.1114706,
+        "lon": 27.8294197,
+        "code": "69131",
+        "type": "ktel"
+    },
+    {
+        "name": "F15 KALITHEA MARE",
+        "lat": 36.3871581,
+        "lon": 28.2390071,
+        "code": "69132",
+        "type": "ktel"
+    },
+    {
+        "name": "F15 KALITHEA MARE E",
+        "lat": 36.3871243,
+        "lon": 28.2393082,
+        "code": "69132-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F25 CALYPSO",
+        "lat": 36.3526543,
+        "lon": 28.2069331,
+        "code": "69133",
+        "type": "ktel"
+    },
+    {
+        "name": "F25 CALYPSO E",
+        "lat": 36.3534441,
+        "lon": 28.2073657,
+        "code": "69133-1",
+        "type": "ktel"
+    },
+    {
+        "name": "K4 KOLYMPIA IRENE PALLAS E",
+        "lat": 36.2551283,
+        "lon": 28.1640093,
+        "code": "69134",
+        "type": "ktel"
+    },
+    {
+        "name": "K11 KOLYMPIA ATLANTICA IMPERIAL",
+        "lat": 36.2497911,
+        "lon": 28.1649473,
+        "code": "69134-10",
+        "type": "ktel"
+    },
+    {
+        "name": "K13 KOLYMPIA ALFA BEACH",
+        "lat": 36.2479659,
+        "lon": 28.1620651,
+        "code": "69134-11",
+        "type": "ktel"
+    },
+    {
+        "name": "K14 KOLYMPIA KOLYMPIA BAY",
+        "lat": 36.2463483,
+        "lon": 28.1615007,
+        "code": "69134-12",
+        "type": "ktel"
+    },
+    {
+        "name": "K15 KOLYMPIA ATLANTICA AEGEAN",
+        "lat": 36.2449332,
+        "lon": 28.1592406,
+        "code": "69134-13",
+        "type": "ktel"
+    },
+    {
+        "name": "K16 KOLYMPIA STAR",
+        "lat": 36.2434641,
+        "lon": 28.1570067,
+        "code": "69134-14",
+        "type": "ktel"
+    },
+    {
+        "name": "K17 KOLYMPIA MARIANNA",
+        "lat": 36.2470814,
+        "lon": 28.1559605,
+        "code": "69134-15",
+        "type": "ktel"
+    },
+    {
+        "name": "K18 KOLYMPIA GOLDEN ODYSSEY",
+        "lat": 36.2520945,
+        "lon": 28.1515107,
+        "code": "69134-16",
+        "type": "ktel"
+    },
+    {
+        "name": "K5 KOLYMPIA MIKRI POLI E",
+        "lat": 36.2594706,
+        "lon": 28.164389,
+        "code": "69134-19",
+        "type": "ktel"
+    },
+    {
+        "name": "K2 KOLYMPIA FANTASY",
+        "lat": 36.2554302,
+        "lon": 28.1534983,
+        "code": "69134-2",
+        "type": "ktel"
+    },
+    {
+        "name": "K3 KOLYMPIA LOUTANIS",
+        "lat": 36.2546229,
+        "lon": 28.1576501,
+        "code": "69134-3",
+        "type": "ktel"
+    },
+    {
+        "name": "K7 KOLYMPIA CENTER",
+        "lat": 36.2535381,
+        "lon": 28.1638581,
+        "code": "69134-4",
+        "type": "ktel"
+    },
+    {
+        "name": "K4 KOLYMPIA IRENE PALLAS",
+        "lat": 36.2551236,
+        "lon": 28.164071,
+        "code": "69134-5",
+        "type": "ktel"
+    },
+    {
+        "name": "K5 KOLYMPIA MIKRI POLI",
+        "lat": 36.2594468,
+        "lon": 28.1645298,
+        "code": "69134-6",
+        "type": "ktel"
+    },
+    {
+        "name": "K6 KOLYMPIA MYTHOS",
+        "lat": 36.2647731,
+        "lon": 28.1620576,
+        "code": "69134-7",
+        "type": "ktel"
+    },
+    {
+        "name": "K8 KOLYMPIA PORT ROYAL",
+        "lat": 36.2529733,
+        "lon": 28.1668162,
+        "code": "69134-8",
+        "type": "ktel"
+    },
+    {
+        "name": "K9 KOLYMPIA RELAX",
+        "lat": 36.2520363,
+        "lon": 28.1685471,
+        "code": "69134-9",
+        "type": "ktel"
+    },
+    {
+        "name": "F20 COLOSSOS",
+        "lat": 36.3653257,
+        "lon": 28.2169062,
+        "code": "69135",
+        "type": "ktel"
+    },
+    {
+        "name": "F20 COLOSSOS E",
+        "lat": 36.3655998,
+        "lon": 28.2173689,
+        "code": "69135-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F14 KRESTEN",
+        "lat": 36.3908057,
+        "lon": 28.2336781,
+        "code": "69136",
+        "type": "ktel"
+    },
+    {
+        "name": "F14 KRESTEN E ",
+        "lat": 36.3911846,
+        "lon": 28.2335036,
+        "code": "69136-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F18 PALLADIUM",
+        "lat": 36.3689852,
+        "lon": 28.2203898,
+        "code": "69137",
+        "type": "ktel"
+    },
+    {
+        "name": "F18 PALLADIUM E",
+        "lat": 36.3691401,
+        "lon": 28.2207665,
+        "code": "69137-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F12 PARADISE",
+        "lat": 36.3966937,
+        "lon": 28.2285086,
+        "code": "69138",
+        "type": "ktel"
+    },
+    {
+        "name": "F12 PARADISE E",
+        "lat": 36.3969181,
+        "lon": 28.2284099,
+        "code": "69138-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F16 KALLITHEAS SPRINGS",
+        "lat": 36.3781459,
+        "lon": 28.235596,
+        "code": "69139",
+        "type": "ktel"
+    },
+    {
+        "name": "F16 KALLITHEAS SPRINGS E",
+        "lat": 36.3780997,
+        "lon": 28.2357299,
+        "code": "69139-1",
+        "type": "ktel"
+    },
+    {
+        "name": "82 PLYMMYRI ATRIUM PRESTIGE",
+        "lat": 35.9407049,
+        "lon": 27.8658264,
+        "code": "69140",
+        "type": "ktel"
+    },
+    {
+        "name": "83 PLYMMYRI MAGIC LIFE",
+        "lat": 35.9323174,
+        "lon": 27.8541242,
+        "code": "69140-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F27 SUN PALLAS",
+        "lat": 36.3474632,
+        "lon": 28.2021994,
+        "code": "69141",
+        "type": "ktel"
+    },
+    {
+        "name": "F27 SUN PALLAS E",
+        "lat": 36.3483781,
+        "lon": 28.2031337,
+        "code": "69141-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F8 SUNWING",
+        "lat": 36.406851,
+        "lon": 28.2253021,
+        "code": "69142",
+        "type": "ktel"
+    },
+    {
+        "name": "F8 SUNWING E",
+        "lat": 36.4069049,
+        "lon": 28.2254546,
+        "code": "69142-1",
+        "type": "ktel"
+    },
+    {
+        "name": "T1 TSAMPIKA BEACH",
+        "lat": 36.2309496,
+        "lon": 28.1490723,
+        "code": "69143",
+        "type": "ktel"
+    },
+    {
+        "name": "33 TSAMPIKA CROSSROAD",
+        "lat": 36.2388843,
+        "lon": 28.1391484,
+        "code": "69144",
+        "type": "ktel"
+    },
+    {
+        "name": "32 TSAMPIKA MONASTERY E",
+        "lat": 36.2429676,
+        "lon": 28.1430583,
+        "code": "69144-1",
+        "type": "ktel"
+    },
+    {
+        "name": "34 TSAMPIKA CHURCH E",
+        "lat": 36.2296878,
+        "lon": 28.1355735,
+        "code": "69144-2",
+        "type": "ktel"
+    },
+    {
+        "name": "32 TSAMPIKA MONASTERY",
+        "lat": 36.2429052,
+        "lon": 28.1428523,
+        "code": "69144-3",
+        "type": "ktel"
+    },
+    {
+        "name": "33 TSAMPIKA CROSSROAD E",
+        "lat": 36.2386792,
+        "lon": 28.1391414,
+        "code": "69144-4",
+        "type": "ktel"
+    },
+    {
+        "name": "34 TSAMPIKA CHURCH",
+        "lat": 36.2297484,
+        "lon": 28.1349905,
+        "code": "69144-5",
+        "type": "ktel"
+    },
+    {
+        "name": "35 ARCHANGELOS HOSPITAL",
+        "lat": 36.2218147,
+        "lon": 28.125063,
+        "code": "69144-6",
+        "type": "ktel"
+    },
+    {
+        "name": "18 FALIRAKI PLATANOS E",
+        "lat": 36.3367882,
+        "lon": 28.1981467,
+        "code": "69145",
+        "type": "ktel"
+    },
+    {
+        "name": "14 FALIRAKI TIVOLI",
+        "lat": 36.3542709,
+        "lon": 28.1935933,
+        "code": "69145-1",
+        "type": "ktel"
+    },
+    {
+        "name": "18 FALIRAKI PLATANOS",
+        "lat": 36.3368482,
+        "lon": 28.1979431,
+        "code": "69145-10",
+        "type": "ktel"
+    },
+    {
+        "name": "M1 MANTOMATA EVI",
+        "lat": 36.3343097,
+        "lon": 28.1992026,
+        "code": "69145-11",
+        "type": "ktel"
+    },
+    {
+        "name": "M2 MANTOMATA LYMBERIA",
+        "lat": 36.3316541,
+        "lon": 28.2017111,
+        "code": "69145-12",
+        "type": "ktel"
+    },
+    {
+        "name": "M5 MANTOMATA GYMNISTES",
+        "lat": 36.3303698,
+        "lon": 28.2088195,
+        "code": "69145-13",
+        "type": "ktel"
+    },
+    {
+        "name": "M8 MANTOMATA EVITA",
+        "lat": 36.3331276,
+        "lon": 28.2053567,
+        "code": "69145-14",
+        "type": "ktel"
+    },
+    {
+        "name": "M9 MANTOMATA LIDO",
+        "lat": 36.335428,
+        "lon": 28.2031291,
+        "code": "69145-15",
+        "type": "ktel"
+    },
+    {
+        "name": "M3 MANTOMATA KRIAMOS",
+        "lat": 36.3278856,
+        "lon": 28.2040386,
+        "code": "69145-16",
+        "type": "ktel"
+    },
+    {
+        "name": "M4 MANTOMATA EVITA BEACH",
+        "lat": 36.3269208,
+        "lon": 28.2060509,
+        "code": "69145-17",
+        "type": "ktel"
+    },
+    {
+        "name": "M6 MANTOMATA VICTORIA\n",
+        "lat": 36.332012,
+        "lon": 28.2066593,
+        "code": "69145-18",
+        "type": "ktel"
+    },
+    {
+        "name": "19 FALIRAKI ACHOUSA E",
+        "lat": 36.3294126,
+        "lon": 28.1962661,
+        "code": "69145-19",
+        "type": "ktel"
+    },
+    {
+        "name": "14 FALIRAKI TIVOLI E",
+        "lat": 36.3545335,
+        "lon": 28.1937589,
+        "code": "69145-2",
+        "type": "ktel"
+    },
+    {
+        "name": "17 FALIRAKI PAGONAKI E",
+        "lat": 36.3406608,
+        "lon": 28.1991331,
+        "code": "69145-20",
+        "type": "ktel"
+    },
+    {
+        "name": "15 FALIRAKI DEKATRIA",
+        "lat": 36.3490694,
+        "lon": 28.1956114,
+        "code": "69145-3",
+        "type": "ktel"
+    },
+    {
+        "name": "15 FALIRAKI DEKATRIA E",
+        "lat": 36.3481618,
+        "lon": 28.1962422,
+        "code": "69145-4",
+        "type": "ktel"
+    },
+    {
+        "name": "16 FALIRAKI POLYKATIKIES",
+        "lat": 36.3447661,
+        "lon": 28.1972844,
+        "code": "69145-5",
+        "type": "ktel"
+    },
+    {
+        "name": "16 FALIRAKI POLYKATIKIES E",
+        "lat": 36.3448472,
+        "lon": 28.1975355,
+        "code": "69145-6",
+        "type": "ktel"
+    },
+    {
+        "name": "17 FALIRAKI PAGONAKI",
+        "lat": 36.3403689,
+        "lon": 28.1990196,
+        "code": "69145-7",
+        "type": "ktel"
+    },
+    {
+        "name": "19 FALIRAKI ACHOUSA",
+        "lat": 36.3295079,
+        "lon": 28.1960549,
+        "code": "69145-8",
+        "type": "ktel"
+    },
+    {
+        "name": "20 FALIRAKI LADIKO",
+        "lat": 36.32685,
+        "lon": 28.1948225,
+        "code": "69145-9",
+        "type": "ktel"
+    },
+    {
+        "name": "10 KTEO",
+        "lat": 36.3953253,
+        "lon": 28.1995992,
+        "code": "69147",
+        "type": "ktel"
+    },
+    {
+        "name": "10 KTEO E.",
+        "lat": 36.3951876,
+        "lon": 28.1998871,
+        "code": "69147-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F11 KOSKINOU CROSSROAD E",
+        "lat": 36.3982153,
+        "lon": 28.2272848,
+        "code": "69149",
+        "type": "ktel"
+    },
+    {
+        "name": "L3 LADIKO BEACH",
+        "lat": 36.320964,
+        "lon": 28.2034572,
+        "code": "69151",
+        "type": "ktel"
+    },
+    {
+        "name": "L2 LADIKO CATHRIN",
+        "lat": 36.319719,
+        "lon": 28.2011846,
+        "code": "69151-1",
+        "type": "ktel"
+    },
+    {
+        "name": "L1 LADIKO ANO KAMPOS",
+        "lat": 36.3242609,
+        "lon": 28.1968287,
+        "code": "69151-2",
+        "type": "ktel"
+    },
+    {
+        "name": "L4 LADIKO ZOES",
+        "lat": 36.3209648,
+        "lon": 28.1940893,
+        "code": "69151-3",
+        "type": "ktel"
+    },
+    {
+        "name": "L1 LADIKO ANO KAMPOS E",
+        "lat": 36.3243192,
+        "lon": 28.1969017,
+        "code": "69151-4",
+        "type": "ktel"
+    },
+    {
+        "name": "WATER PARK",
+        "lat": 36.365482,
+        "lon": 28.2120726,
+        "code": "69152",
+        "type": "ktel"
+    },
+    {
+        "name": "12 TSAIRI CROSSROAD",
+        "lat": 36.3742452,
+        "lon": 28.1977367,
+        "code": "69153",
+        "type": "ktel"
+    },
+    {
+        "name": "12 TSAIRI CROSSROAD E",
+        "lat": 36.374097,
+        "lon": 28.1978583,
+        "code": "69153-1",
+        "type": "ktel"
+    },
+    {
+        "name": "13 TSAIRI RODOS GOLD",
+        "lat": 36.3645219,
+        "lon": 28.1938361,
+        "code": "69153-2",
+        "type": "ktel"
+    },
+    {
+        "name": "13 TSAIRI RODOS GOLD E",
+        "lat": 36.364301,
+        "lon": 28.1940698,
+        "code": "69153-3",
+        "type": "ktel"
+    },
+    {
+        "name": "TSAIRI KYNOKOMIO E",
+        "lat": 36.3795382,
+        "lon": 28.2002,
+        "code": "69153-4",
+        "type": "ktel"
+    },
+    {
+        "name": "21 TRAGANOU BEACH",
+        "lat": 36.3152898,
+        "lon": 28.1884112,
+        "code": "69154",
+        "type": "ktel"
+    },
+    {
+        "name": "21 TRAGANOU BEACH E",
+        "lat": 36.314053,
+        "lon": 28.1876881,
+        "code": "69154-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F6 SKLAVENITIS",
+        "lat": 36.4116409,
+        "lon": 28.2263542,
+        "code": "69155",
+        "type": "ktel"
+    },
+    {
+        "name": "F6 SKLAVENITIS E",
+        "lat": 36.4116476,
+        "lon": 28.2264651,
+        "code": "69155-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F7 PRINCESS FLORA",
+        "lat": 36.4098256,
+        "lon": 28.2255958,
+        "code": "69156",
+        "type": "ktel"
+    },
+    {
+        "name": "F7 PRINCESS FLORA E",
+        "lat": 36.4098282,
+        "lon": 28.2257314,
+        "code": "69156-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F13 KAVOURAKIA E",
+        "lat": 36.3949015,
+        "lon": 28.2316003,
+        "code": "69157",
+        "type": "ktel"
+    },
+    {
+        "name": "F17 ELYSIUM ALILA",
+        "lat": 36.3727744,
+        "lon": 28.2243483,
+        "code": "69158",
+        "type": "ktel"
+    },
+    {
+        "name": "F17 ELYSIUM ALILA E",
+        "lat": 36.3728911,
+        "lon": 28.224677,
+        "code": "69158-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F19 LA MARQUISE",
+        "lat": 36.3669642,
+        "lon": 28.2182368,
+        "code": "69159",
+        "type": "ktel"
+    },
+    {
+        "name": "F19 LA MARQUISE E",
+        "lat": 36.3668887,
+        "lon": 28.2184215,
+        "code": "69159-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F21 ESPEROS PALACE",
+        "lat": 36.3626659,
+        "lon": 28.214546,
+        "code": "69160",
+        "type": "ktel"
+    },
+    {
+        "name": "F21 ESPEROS PALACE E",
+        "lat": 36.3631321,
+        "lon": 28.2153659,
+        "code": "69160-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F23 EPSILON",
+        "lat": 36.3580209,
+        "lon": 28.2103113,
+        "code": "69161",
+        "type": "ktel"
+    },
+    {
+        "name": "F23 EPSILON E",
+        "lat": 36.3586775,
+        "lon": 28.2107322,
+        "code": "69161-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F24 BLUE SEA PEGASOS",
+        "lat": 36.3556245,
+        "lon": 28.2084841,
+        "code": "69162",
+        "type": "ktel"
+    },
+    {
+        "name": "F24 BLUE SEA PEGASOS E",
+        "lat": 36.3556742,
+        "lon": 28.2086736,
+        "code": "69162-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F26 GALAZIO",
+        "lat": 36.3503285,
+        "lon": 28.2056882,
+        "code": "69163",
+        "type": "ktel"
+    },
+    {
+        "name": "F26 GALAZIO E",
+        "lat": 36.3508517,
+        "lon": 28.2066924,
+        "code": "69163-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F28 APOLLON",
+        "lat": 36.3439304,
+        "lon": 28.2001487,
+        "code": "69164",
+        "type": "ktel"
+    },
+    {
+        "name": "F28 APOLLON E",
+        "lat": 36.3437633,
+        "lon": 28.200277,
+        "code": "69164-1",
+        "type": "ktel"
+    },
+    {
+        "name": "F29 FARMACY MINI GOLF",
+        "lat": 36.3409402,
+        "lon": 28.2003541,
+        "code": "69165",
+        "type": "ktel"
+    },
+    {
+        "name": "F29 FARMACY MINI GOLF E",
+        "lat": 36.341332,
+        "lon": 28.2009387,
+        "code": "69165-1",
+        "type": "ktel"
+    },
+    {
+        "name": "CENTRAL BUS STATION",
+        "lat": 36.448111,
+        "lon": 28.225815,
+        "code": "10",
+        "type": "roda"
+    },
+    {
+        "name": "TOWN HALL",
+        "lat": 36.451276,
+        "lon": 28.224821,
+        "code": "11",
+        "type": "roda"
+    },
+    {
+        "name": "CAZINO",
+        "lat": 36.453624,
+        "lon": 28.221579,
+        "code": "12",
+        "type": "roda"
+    },
+    {
+        "name": "AQUARIUM",
+        "lat": 36.455685,
+        "lon": 28.221286,
+        "code": "13",
+        "type": "roda"
+    },
+    {
+        "name": "GRAND HOTEL",
+        "lat": 36.453274,
+        "lon": 28.217906,
+        "code": "14",
+        "type": "roda"
+    },
+    {
+        "name": "TULIPA",
+        "lat": 36.44963,
+        "lon": 28.218395,
+        "code": "15",
+        "type": "roda"
+    },
+    {
+        "name": "THERME",
+        "lat": 36.447913,
+        "lon": 28.221552,
+        "code": "16",
+        "type": "roda"
+    },
+    {
+        "name": "KASIOTON PARK",
+        "lat": 36.446253,
+        "lon": 28.218271,
+        "code": "17",
+        "type": "roda"
+    },
+    {
+        "name": "TH. SOFOULI",
+        "lat": 36.443369,
+        "lon": 28.217608,
+        "code": "18",
+        "type": "roda"
+    },
+    {
+        "name": "ANCIENT STADIUM - ACROPOLIS OF RHODES",
+        "lat": 36.440395,
+        "lon": 28.217391,
+        "code": "19",
+        "type": "roda"
+    },
+    {
+        "name": "ARAPAKI",
+        "lat": 36.438751,
+        "lon": 28.21726,
+        "code": "20",
+        "type": "roda"
+    },
+    {
+        "name": "ORFEAS",
+        "lat": 36.43757,
+        "lon": 28.217204,
+        "code": "21",
+        "type": "roda"
+    },
+    {
+        "name": "TH. SOFULI - KAMIROU",
+        "lat": 36.434581,
+        "lon": 28.216925,
+        "code": "22",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS 7th HIGH SCHOOL",
+        "lat": 36.432194,
+        "lon": 28.213507,
+        "code": "23",
+        "type": "roda"
+    },
+    {
+        "name": "M. PETRIDI",
+        "lat": 36.430854,
+        "lon": 28.212185,
+        "code": "24",
+        "type": "roda"
+    },
+    {
+        "name": "M. PETRIDI 2",
+        "lat": 36.4285,
+        "lon": 28.21037,
+        "code": "25",
+        "type": "roda"
+    },
+    {
+        "name": "MIDIA",
+        "lat": 36.425536,
+        "lon": 28.206714,
+        "code": "26",
+        "type": "roda"
+    },
+    {
+        "name": "PANAGOU MALL",
+        "lat": 36.418536,
+        "lon": 28.200275,
+        "code": "27",
+        "type": "roda"
+    },
+    {
+        "name": "ST. APOSTOLI - HOSPITAL",
+        "lat": 36.416913,
+        "lon": 28.193352,
+        "code": "28",
+        "type": "roda"
+    },
+    {
+        "name": "ST. APOSTOLI",
+        "lat": 36.413287,
+        "lon": 28.192028,
+        "code": "29",
+        "type": "roda"
+    },
+    {
+        "name": "GIANNI RITSOU",
+        "lat": 36.41002,
+        "lon": 28.190675,
+        "code": "30",
+        "type": "roda"
+    },
+    {
+        "name": "ANO ILIOUPOLI",
+        "lat": 36.412157,
+        "lon": 28.194446,
+        "code": "31",
+        "type": "roda"
+    },
+    {
+        "name": "KATO ILIOUPOLI",
+        "lat": 36.413579,
+        "lon": 28.197533,
+        "code": "32",
+        "type": "roda"
+    },
+    {
+        "name": "PANAGOU MALL",
+        "lat": 36.418432,
+        "lon": 28.200372,
+        "code": "33",
+        "type": "roda"
+    },
+    {
+        "name": "RODION PEDIA SCHOOL",
+        "lat": 36.420584,
+        "lon": 28.206233,
+        "code": "34",
+        "type": "roda"
+    },
+    {
+        "name": "4TH RODOS HIGH SCHOOL",
+        "lat": 36.421248,
+        "lon": 28.208374,
+        "code": "35",
+        "type": "roda"
+    },
+    {
+        "name": "APOSTOLOU PAVLOU",
+        "lat": 36.423171,
+        "lon": 28.211041,
+        "code": "36",
+        "type": "roda"
+    },
+    {
+        "name": "APOSTOLOU PAVLOU 2",
+        "lat": 36.425679,
+        "lon": 28.212218,
+        "code": "37",
+        "type": "roda"
+    },
+    {
+        "name": "ANALIPSI CHURCH",
+        "lat": 36.427718,
+        "lon": 28.2139,
+        "code": "38",
+        "type": "roda"
+    },
+    {
+        "name": "KON. IDREOU",
+        "lat": 36.429609,
+        "lon": 28.216899,
+        "code": "39",
+        "type": "roda"
+    },
+    {
+        "name": "ST. KOTIADI",
+        "lat": 36.429507,
+        "lon": 28.219198,
+        "code": "40",
+        "type": "roda"
+    },
+    {
+        "name": "ST. KOTIADI 2",
+        "lat": 36.431379,
+        "lon": 28.219411,
+        "code": "41",
+        "type": "roda"
+    },
+    {
+        "name": "ETHN. ANTISTASEOS",
+        "lat": 36.434969,
+        "lon": 28.218991,
+        "code": "42",
+        "type": "roda"
+    },
+    {
+        "name": "ORFEAS PARK",
+        "lat": 36.43648,
+        "lon": 28.217774,
+        "code": "43",
+        "type": "roda"
+    },
+    {
+        "name": "ST. IOANNIS",
+        "lat": 36.436502,
+        "lon": 28.218947,
+        "code": "44",
+        "type": "roda"
+    },
+    {
+        "name": "VENETOKLIO",
+        "lat": 36.436081,
+        "lon": 28.222948,
+        "code": "45",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ANASTASIA",
+        "lat": 36.436159,
+        "lon": 28.226558,
+        "code": "46",
+        "type": "roda"
+    },
+    {
+        "name": "MITROPOLI",
+        "lat": 36.435385,
+        "lon": 28.228254,
+        "code": "47",
+        "type": "roda"
+    },
+    {
+        "name": "KORDIKTONOS STREET",
+        "lat": 36.43497,
+        "lon": 28.230732,
+        "code": "48",
+        "type": "roda"
+    },
+    {
+        "name": "1ST RODOS ELEMENTARY SCHOOL",
+        "lat": 36.431246,
+        "lon": 28.230192,
+        "code": "49",
+        "type": "roda"
+    },
+    {
+        "name": "ST. DIMITRIOS CEMETERY RODOS",
+        "lat": 36.429999,
+        "lon": 28.229348,
+        "code": "50",
+        "type": "roda"
+    },
+    {
+        "name": "TAXIARHIS",
+        "lat": 36.429417,
+        "lon": 28.230839,
+        "code": "51",
+        "type": "roda"
+    },
+    {
+        "name": "TAX OFFICE",
+        "lat": 36.431143,
+        "lon": 28.236123,
+        "code": "52",
+        "type": "roda"
+    },
+    {
+        "name": "NEW MARINA",
+        "lat": 36.433524,
+        "lon": 28.237119,
+        "code": "53",
+        "type": "roda"
+    },
+    {
+        "name": "AUSTRALIAS",
+        "lat": 36.436588,
+        "lon": 28.237856,
+        "code": "54",
+        "type": "roda"
+    },
+    {
+        "name": "AKANTIA PORT",
+        "lat": 36.440507,
+        "lon": 28.237224,
+        "code": "55",
+        "type": "roda"
+    },
+    {
+        "name": "PORT",
+        "lat": 36.444148,
+        "lon": 28.232251,
+        "code": "56",
+        "type": "roda"
+    },
+    {
+        "name": "KOLONA - OLD TOWN",
+        "lat": 36.444545,
+        "lon": 28.228329,
+        "code": "57",
+        "type": "roda"
+    },
+    {
+        "name": "CITY BUSSES TERMINAL STATION",
+        "lat": 36.447661,
+        "lon": 28.226345,
+        "code": "58",
+        "type": "roda"
+    },
+    {
+        "name": "TSALDARI 1",
+        "lat": 36.43169,
+        "lon": 28.217026,
+        "code": "59",
+        "type": "roda"
+    },
+    {
+        "name": "TSALDARI 2",
+        "lat": 36.429952,
+        "lon": 28.216526,
+        "code": "60",
+        "type": "roda"
+    },
+    {
+        "name": "ANALIPSI",
+        "lat": 36.427863,
+        "lon": 28.213982,
+        "code": "61",
+        "type": "roda"
+    },
+    {
+        "name": "G. PAPANDREOU",
+        "lat": 36.426433,
+        "lon": 28.211409,
+        "code": "62",
+        "type": "roda"
+    },
+    {
+        "name": "THESSALONIKHS",
+        "lat": 36.424088,
+        "lon": 28.209595,
+        "code": "63",
+        "type": "roda"
+    },
+    {
+        "name": "KATO ILIOUPOLI 1",
+        "lat": 36.413099,
+        "lon": 28.200059,
+        "code": "64",
+        "type": "roda"
+    },
+    {
+        "name": "ANO ILIOUPOLI",
+        "lat": 36.412239,
+        "lon": 28.194526,
+        "code": "65",
+        "type": "roda"
+    },
+    {
+        "name": "AG. APOSTOLI",
+        "lat": 36.414699,
+        "lon": 28.194386,
+        "code": "66",
+        "type": "roda"
+    },
+    {
+        "name": "DAMASKINOU",
+        "lat": 36.435184,
+        "lon": 28.231488,
+        "code": "67",
+        "type": "roda"
+    },
+    {
+        "name": "ST. NIKOLAOS SQUARE",
+        "lat": 36.43531,
+        "lon": 28.23361,
+        "code": "68",
+        "type": "roda"
+    },
+    {
+        "name": "KANADA",
+        "lat": 36.438464,
+        "lon": 28.233641,
+        "code": "69",
+        "type": "roda"
+    },
+    {
+        "name": "KOVA",
+        "lat": 36.440301,
+        "lon": 28.23373,
+        "code": "70",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANAKIA",
+        "lat": 36.445115,
+        "lon": 28.221337,
+        "code": "75",
+        "type": "roda"
+    },
+    {
+        "name": "AEGEAN UNIVERCITY",
+        "lat": 36.442509,
+        "lon": 28.22126,
+        "code": "76",
+        "type": "roda"
+    },
+    {
+        "name": "AEGEAN UNIVERCITY 5*5",
+        "lat": 36.440695,
+        "lon": 28.222552,
+        "code": "77",
+        "type": "roda"
+    },
+    {
+        "name": "ST. FRANCIS",
+        "lat": 36.438879,
+        "lon": 28.22434,
+        "code": "78",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS KTEL",
+        "lat": 36.438386,
+        "lon": 28.224345,
+        "code": "79",
+        "type": "roda"
+    },
+    {
+        "name": "MEGALOU KONSTANTINOU",
+        "lat": 36.434781,
+        "lon": 28.224258,
+        "code": "80",
+        "type": "roda"
+    },
+    {
+        "name": "GORGOPOTAMOS PARK",
+        "lat": 36.433501,
+        "lon": 28.224256,
+        "code": "81",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS 1 AVE.",
+        "lat": 36.431107,
+        "lon": 28.225188,
+        "code": "82",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS 2 AVE.",
+        "lat": 36.430008,
+        "lon": 28.224668,
+        "code": "83",
+        "type": "roda"
+    },
+    {
+        "name": "RODINI PARK",
+        "lat": 36.426683,
+        "lon": 28.221067,
+        "code": "84",
+        "type": "roda"
+    },
+    {
+        "name": "WATER COMPANY",
+        "lat": 36.421218,
+        "lon": 28.216301,
+        "code": "85",
+        "type": "roda"
+    },
+    {
+        "name": "IKA",
+        "lat": 36.414571,
+        "lon": 28.210028,
+        "code": "86",
+        "type": "roda"
+    },
+    {
+        "name": "KARPATHOS SETTLEMENT",
+        "lat": 36.410895,
+        "lon": 28.208868,
+        "code": "87",
+        "type": "roda"
+    },
+    {
+        "name": "ASGOUROU 1",
+        "lat": 36.4041,
+        "lon": 28.202375,
+        "code": "88",
+        "type": "roda"
+    },
+    {
+        "name": "ASGOUROU 2",
+        "lat": 36.401262,
+        "lon": 28.199748,
+        "code": "89",
+        "type": "roda"
+    },
+    {
+        "name": "ASGOUROU 3",
+        "lat": 36.398846,
+        "lon": 28.19939,
+        "code": "90",
+        "type": "roda"
+    },
+    {
+        "name": "M.O.T  OFFICE",
+        "lat": 36.395245,
+        "lon": 28.199655,
+        "code": "91",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS 3 AVE.",
+        "lat": 36.391977,
+        "lon": 28.200246,
+        "code": "92",
+        "type": "roda"
+    },
+    {
+        "name": "ADTE",
+        "lat": 36.388321,
+        "lon": 28.200197,
+        "code": "93",
+        "type": "roda"
+    },
+    {
+        "name": "MUSICAL HIGH SCHOOL",
+        "lat": 36.386684,
+        "lon": 28.200344,
+        "code": "94",
+        "type": "roda"
+    },
+    {
+        "name": "EUROMEDICA",
+        "lat": 36.385239,
+        "lon": 28.201433,
+        "code": "95",
+        "type": "roda"
+    },
+    {
+        "name": "EUROMEDICA 1",
+        "lat": 36.385409,
+        "lon": 28.201392,
+        "code": "96",
+        "type": "roda"
+    },
+    {
+        "name": "MUSICAL HIGH SCHOOL",
+        "lat": 36.386683,
+        "lon": 28.200526,
+        "code": "97",
+        "type": "roda"
+    },
+    {
+        "name": "ADTE",
+        "lat": 36.388567,
+        "lon": 28.200351,
+        "code": "98",
+        "type": "roda"
+    },
+    {
+        "name": "KTEO",
+        "lat": 36.395433,
+        "lon": 28.199806,
+        "code": "99",
+        "type": "roda"
+    },
+    {
+        "name": "CHRISOVERIS MALL",
+        "lat": 36.402706,
+        "lon": 28.204423,
+        "code": "100",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS 4 AVE.",
+        "lat": 36.40598,
+        "lon": 28.206622,
+        "code": "101",
+        "type": "roda"
+    },
+    {
+        "name": "IKA RODOS",
+        "lat": 36.413297,
+        "lon": 28.209697,
+        "code": "102",
+        "type": "roda"
+    },
+    {
+        "name": "WATER COMPANY",
+        "lat": 36.421325,
+        "lon": 28.216631,
+        "code": "103",
+        "type": "roda"
+    },
+    {
+        "name": "LONDON STREET",
+        "lat": 36.421607,
+        "lon": 28.217413,
+        "code": "104",
+        "type": "roda"
+    },
+    {
+        "name": "5TH RODOS HIGH SCHOOL",
+        "lat": 36.421831,
+        "lon": 28.219586,
+        "code": "105",
+        "type": "roda"
+    },
+    {
+        "name": "KIRA TIS RO",
+        "lat": 36.422812,
+        "lon": 28.222792,
+        "code": "106",
+        "type": "roda"
+    },
+    {
+        "name": "KONSTANTINOUPOLEOS",
+        "lat": 36.421472,
+        "lon": 28.228494,
+        "code": "107",
+        "type": "roda"
+    },
+    {
+        "name": "DELFON",
+        "lat": 36.422037,
+        "lon": 28.228112,
+        "code": "108",
+        "type": "roda"
+    },
+    {
+        "name": "VERGINAS",
+        "lat": 36.422841,
+        "lon": 28.226848,
+        "code": "109",
+        "type": "roda"
+    },
+    {
+        "name": "MARATHONOS",
+        "lat": 36.423753,
+        "lon": 28.225031,
+        "code": "110",
+        "type": "roda"
+    },
+    {
+        "name": "MARATHONOS 3",
+        "lat": 36.424025,
+        "lon": 28.223917,
+        "code": "111",
+        "type": "roda"
+    },
+    {
+        "name": "ST. DIMITIOS",
+        "lat": 36.424729,
+        "lon": 28.221272,
+        "code": "112",
+        "type": "roda"
+    },
+    {
+        "name": "RODINI PARK",
+        "lat": 36.426642,
+        "lon": 28.22129,
+        "code": "113",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS 2 AVE.",
+        "lat": 36.429824,
+        "lon": 28.224734,
+        "code": "114",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS LINDOS AVE.",
+        "lat": 36.431445,
+        "lon": 28.225379,
+        "code": "115",
+        "type": "roda"
+    },
+    {
+        "name": "7 PALMS",
+        "lat": 36.434072,
+        "lon": 28.226026,
+        "code": "116",
+        "type": "roda"
+    },
+    {
+        "name": "FOKIALI SQ.",
+        "lat": 36.435875,
+        "lon": 28.225436,
+        "code": "117",
+        "type": "roda"
+    },
+    {
+        "name": "ATHINON",
+        "lat": 36.423223,
+        "lon": 28.209032,
+        "code": "118",
+        "type": "roda"
+    },
+    {
+        "name": "PAPADIAMANTI",
+        "lat": 36.423349,
+        "lon": 28.20735,
+        "code": "119",
+        "type": "roda"
+    },
+    {
+        "name": "ST. APOSTOLOI",
+        "lat": 36.414679,
+        "lon": 28.19427,
+        "code": "120",
+        "type": "roda"
+    },
+    {
+        "name": "KARPATHII SETTLEMENT",
+        "lat": 36.408321,
+        "lon": 28.207904,
+        "code": "121",
+        "type": "roda"
+    },
+    {
+        "name": "MARATHONOS 2",
+        "lat": 36.423894,
+        "lon": 28.22356,
+        "code": "122",
+        "type": "roda"
+    },
+    {
+        "name": "KLAVDIOU PEPPER",
+        "lat": 36.42952,
+        "lon": 28.232421,
+        "code": "123",
+        "type": "roda"
+    },
+    {
+        "name": "SAHTOURI COAST",
+        "lat": 36.444306,
+        "lon": 28.228437,
+        "code": "125",
+        "type": "roda"
+    },
+    {
+        "name": "TOURISTIC PORT",
+        "lat": 36.444015,
+        "lon": 28.232259,
+        "code": "126",
+        "type": "roda"
+    },
+    {
+        "name": "KAPODISTRIOU",
+        "lat": 36.435405,
+        "lon": 28.236158,
+        "code": "127",
+        "type": "roda"
+    },
+    {
+        "name": "POST OFFICE",
+        "lat": 36.431394,
+        "lon": 28.232993,
+        "code": "128",
+        "type": "roda"
+    },
+    {
+        "name": "DENDRINOU",
+        "lat": 36.432188,
+        "lon": 28.23159,
+        "code": "129",
+        "type": "roda"
+    },
+    {
+        "name": "XATZIAGGELOU",
+        "lat": 36.432321,
+        "lon": 28.230623,
+        "code": "130",
+        "type": "roda"
+    },
+    {
+        "name": "GRIGORIOU",
+        "lat": 36.432106,
+        "lon": 28.227107,
+        "code": "131",
+        "type": "roda"
+    },
+    {
+        "name": "FILERIMOU",
+        "lat": 36.424324,
+        "lon": 28.228624,
+        "code": "132",
+        "type": "roda"
+    },
+    {
+        "name": "STOKCHOLMIS",
+        "lat": 36.423331,
+        "lon": 28.219566,
+        "code": "133",
+        "type": "roda"
+    },
+    {
+        "name": "VRIXELON",
+        "lat": 36.421445,
+        "lon": 28.217701,
+        "code": "134",
+        "type": "roda"
+    },
+    {
+        "name": "AMSTERDAM",
+        "lat": 36.421878,
+        "lon": 28.224813,
+        "code": "135",
+        "type": "roda"
+    },
+    {
+        "name": "MOSHAS",
+        "lat": 36.420899,
+        "lon": 28.224681,
+        "code": "136",
+        "type": "roda"
+    },
+    {
+        "name": "KALLIPATIRAS",
+        "lat": 36.419019,
+        "lon": 28.226981,
+        "code": "137",
+        "type": "roda"
+    },
+    {
+        "name": "ACANDIA PORT",
+        "lat": 36.443633,
+        "lon": 28.237662,
+        "code": "138",
+        "type": "roda"
+    },
+    {
+        "name": "TILIAKOU",
+        "lat": 36.432013,
+        "lon": 28.234459,
+        "code": "139",
+        "type": "roda"
+    },
+    {
+        "name": "SIMI'S SQUARE",
+        "lat": 36.446224,
+        "lon": 28.227334,
+        "code": "140",
+        "type": "roda"
+    },
+    {
+        "name": "WEST COAST BUS STATION END",
+        "lat": 36.447494,
+        "lon": 28.222778,
+        "code": "199",
+        "type": "roda"
+    },
+    {
+        "name": "WEST COAST BUS STATION",
+        "lat": 36.447398,
+        "lon": 28.224829,
+        "code": "200",
+        "type": "roda"
+    },
+    {
+        "name": "BUS DEPOT",
+        "lat": 36.439964,
+        "lon": 28.218799,
+        "code": "201",
+        "type": "roda"
+    },
+    {
+        "name": "AKADIMIA",
+        "lat": 36.450137,
+        "lon": 28.220697,
+        "code": "205",
+        "type": "roda"
+    },
+    {
+        "name": "28TH OCTOMBER",
+        "lat": 36.450227,
+        "lon": 28.217265,
+        "code": "206",
+        "type": "roda"
+    },
+    {
+        "name": "PSAROPOULA",
+        "lat": 36.449677,
+        "lon": 28.215602,
+        "code": "207",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS HORIZON RESORT",
+        "lat": 36.44774,
+        "lon": 28.213957,
+        "code": "208",
+        "type": "roda"
+    },
+    {
+        "name": "KRITIKA 1",
+        "lat": 36.438897,
+        "lon": 28.205817,
+        "code": "209",
+        "type": "roda"
+    },
+    {
+        "name": "KRITIKA 2",
+        "lat": 36.435193,
+        "lon": 28.203696,
+        "code": "210",
+        "type": "roda"
+    },
+    {
+        "name": "SIRENE",
+        "lat": 36.431125,
+        "lon": 28.201136,
+        "code": "211",
+        "type": "roda"
+    },
+    {
+        "name": "20 MAGAZIA",
+        "lat": 36.428538,
+        "lon": 28.19893,
+        "code": "212",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL CAPSIS",
+        "lat": 36.425975,
+        "lon": 28.196575,
+        "code": "213",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL LITO",
+        "lat": 36.423024,
+        "lon": 28.192382,
+        "code": "214",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL RODIAN AMATHUS",
+        "lat": 36.421259,
+        "lon": 28.188604,
+        "code": "215",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL OLYMPIC",
+        "lat": 36.420209,
+        "lon": 28.186199,
+        "code": "216",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL MIRA MARE",
+        "lat": 36.418799,
+        "lon": 28.181317,
+        "code": "217",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL AVRA BEACH",
+        "lat": 36.418127,
+        "lon": 28.176862,
+        "code": "218",
+        "type": "roda"
+    },
+    {
+        "name": "PAPPOY - IXIA GRAND",
+        "lat": 36.417351,
+        "lon": 28.173703,
+        "code": "219",
+        "type": "roda"
+    },
+    {
+        "name": "ANIXIS",
+        "lat": 36.417024,
+        "lon": 28.166659,
+        "code": "220",
+        "type": "roda"
+    },
+    {
+        "name": "PARASKEVA",
+        "lat": 36.416615,
+        "lon": 28.16264,
+        "code": "221",
+        "type": "roda"
+    },
+    {
+        "name": "THERENOU",
+        "lat": 36.416403,
+        "lon": 28.159528,
+        "code": "222",
+        "type": "roda"
+    },
+    {
+        "name": "IALYSOS",
+        "lat": 36.416684,
+        "lon": 28.155107,
+        "code": "223",
+        "type": "roda"
+    },
+    {
+        "name": "IALYSOS 2",
+        "lat": 36.417,
+        "lon": 28.151983,
+        "code": "224",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ELECTRA",
+        "lat": 36.41699,
+        "lon": 28.14812,
+        "code": "225",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PALEOS",
+        "lat": 36.416717,
+        "lon": 28.146166,
+        "code": "226",
+        "type": "roda"
+    },
+    {
+        "name": "IALISOS HIGH SCHOOL",
+        "lat": 36.416517,
+        "lon": 28.143433,
+        "code": "227",
+        "type": "roda"
+    },
+    {
+        "name": "FILERIMOS HOTEL",
+        "lat": 36.41603,
+        "lon": 28.139557,
+        "code": "228",
+        "type": "roda"
+    },
+    {
+        "name": "BLUE BAY HOTEL",
+        "lat": 36.415392,
+        "lon": 28.1357,
+        "code": "229",
+        "type": "roda"
+    },
+    {
+        "name": "CASTELLO ROSSO",
+        "lat": 36.415038,
+        "lon": 28.132639,
+        "code": "230",
+        "type": "roda"
+    },
+    {
+        "name": "MARITIME HOTEL",
+        "lat": 36.414695,
+        "lon": 28.128827,
+        "code": "231",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESMERALDA",
+        "lat": 36.413116,
+        "lon": 28.124254,
+        "code": "232",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CHURCH",
+        "lat": 36.411736,
+        "lon": 28.120465,
+        "code": "233",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CENTER",
+        "lat": 36.410965,
+        "lon": 28.118647,
+        "code": "234",
+        "type": "roda"
+    },
+    {
+        "name": "MONASTIRAKI",
+        "lat": 36.410254,
+        "lon": 28.115766,
+        "code": "235",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI END",
+        "lat": 36.409402,
+        "lon": 28.11279,
+        "code": "236",
+        "type": "roda"
+    },
+    {
+        "name": "ASOMATI",
+        "lat": 36.408698,
+        "lon": 28.110244,
+        "code": "237",
+        "type": "roda"
+    },
+    {
+        "name": "ASOMATI 2",
+        "lat": 36.408411,
+        "lon": 28.107982,
+        "code": "238",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ANDREAS",
+        "lat": 36.407196,
+        "lon": 28.10065,
+        "code": "239",
+        "type": "roda"
+    },
+    {
+        "name": "DIAGORAS AIRPORT",
+        "lat": 36.402489,
+        "lon": 28.092228,
+        "code": "240",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI 1",
+        "lat": 36.400826,
+        "lon": 28.088473,
+        "code": "241",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI 2",
+        "lat": 36.400403,
+        "lon": 28.085412,
+        "code": "242",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI CENTER",
+        "lat": 36.400312,
+        "lon": 28.083791,
+        "code": "243",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI NASOS",
+        "lat": 36.399582,
+        "lon": 28.078689,
+        "code": "244",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI TERMINAL",
+        "lat": 36.397719,
+        "lon": 28.070569,
+        "code": "245",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL VALLIAN",
+        "lat": 36.395262,
+        "lon": 28.066285,
+        "code": "246",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA CROSSCECTION",
+        "lat": 36.392192,
+        "lon": 28.057398,
+        "code": "247",
+        "type": "roda"
+    },
+    {
+        "name": "NATURIST ANGEL HOTEL",
+        "lat": 36.390949,
+        "lon": 28.05255,
+        "code": "248",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL FILOXENIA",
+        "lat": 36.386362,
+        "lon": 28.040531,
+        "code": "249",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL DORETA",
+        "lat": 36.385081,
+        "lon": 28.035756,
+        "code": "250",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SEA VIEW",
+        "lat": 36.382486,
+        "lon": 28.033011,
+        "code": "251",
+        "type": "roda"
+    },
+    {
+        "name": "LEMON TREE",
+        "lat": 36.380232,
+        "lon": 28.030319,
+        "code": "252",
+        "type": "roda"
+    },
+    {
+        "name": "THEOLOGOS",
+        "lat": 36.378606,
+        "lon": 28.027058,
+        "code": "253",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI POWER STATION",
+        "lat": 36.376117,
+        "lon": 28.021831,
+        "code": "254",
+        "type": "roda"
+    },
+    {
+        "name": "PANTANASA MONASTERY",
+        "lat": 36.369694,
+        "lon": 28.014045,
+        "code": "255",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI HIGH SCHOOL",
+        "lat": 36.364156,
+        "lon": 28.004142,
+        "code": "256",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI CENTER",
+        "lat": 36.362798,
+        "lon": 28.001652,
+        "code": "257",
+        "type": "roda"
+    },
+    {
+        "name": "FANES BRIDGE",
+        "lat": 36.359638,
+        "lon": 27.992867,
+        "code": "258",
+        "type": "roda"
+    },
+    {
+        "name": "FANES 1",
+        "lat": 36.355124,
+        "lon": 27.985717,
+        "code": "259",
+        "type": "roda"
+    },
+    {
+        "name": "FANES SQ.",
+        "lat": 36.353325,
+        "lon": 27.983436,
+        "code": "260",
+        "type": "roda"
+    },
+    {
+        "name": "FANES STADIOUM",
+        "lat": 36.350169,
+        "lon": 27.979381,
+        "code": "261",
+        "type": "roda"
+    },
+    {
+        "name": "SOTIRAS MONASTERY",
+        "lat": 36.347661,
+        "lon": 27.965713,
+        "code": "262",
+        "type": "roda"
+    },
+    {
+        "name": "ENOSI KALAVARDA",
+        "lat": 36.344641,
+        "lon": 27.954747,
+        "code": "263",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA BEACH",
+        "lat": 36.344126,
+        "lon": 27.951453,
+        "code": "264",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA ELEMENTARY SCHOOL",
+        "lat": 36.342645,
+        "lon": 27.948159,
+        "code": "265",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA SQ.",
+        "lat": 36.340778,
+        "lon": 27.946634,
+        "code": "266",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA SQ. RODOS",
+        "lat": 36.340704,
+        "lon": 27.946718,
+        "code": "300",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA ELEMENTARY SCHOOL RODOS",
+        "lat": 36.342502,
+        "lon": 27.948198,
+        "code": "301",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA BEACH RODOS",
+        "lat": 36.343989,
+        "lon": 27.951146,
+        "code": "302",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA ENOSI RODOS",
+        "lat": 36.344622,
+        "lon": 27.954999,
+        "code": "303",
+        "type": "roda"
+    },
+    {
+        "name": "SOTIRAS MONASTERY RODOS",
+        "lat": 36.347622,
+        "lon": 27.965862,
+        "code": "304",
+        "type": "roda"
+    },
+    {
+        "name": "FANES STADIUM RODOS",
+        "lat": 36.349982,
+        "lon": 27.979121,
+        "code": "305",
+        "type": "roda"
+    },
+    {
+        "name": "FANES SQ. RODOS",
+        "lat": 36.353244,
+        "lon": 27.983478,
+        "code": "306",
+        "type": "roda"
+    },
+    {
+        "name": "ENOSI FANON RODOS",
+        "lat": 36.354868,
+        "lon": 27.985604,
+        "code": "307",
+        "type": "roda"
+    },
+    {
+        "name": "FANES BRIDGE RODOS",
+        "lat": 36.359152,
+        "lon": 27.992333,
+        "code": "308",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI DIMILIA JUNCTION",
+        "lat": 36.361734,
+        "lon": 27.998276,
+        "code": "309",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI SQ. RODOS",
+        "lat": 36.36265,
+        "lon": 28.001612,
+        "code": "310",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI HIGH SCHOOL RODOS",
+        "lat": 36.364146,
+        "lon": 28.004328,
+        "code": "311",
+        "type": "roda"
+    },
+    {
+        "name": "PANTANASA MONASTERY RODOS",
+        "lat": 36.369578,
+        "lon": 28.01394,
+        "code": "312",
+        "type": "roda"
+    },
+    {
+        "name": "SORONI POWER STATION RODOS",
+        "lat": 36.376089,
+        "lon": 28.02197,
+        "code": "313",
+        "type": "roda"
+    },
+    {
+        "name": "THEOLOGOS CENTER RODOS",
+        "lat": 36.37454,
+        "lon": 28.03395,
+        "code": "314",
+        "type": "roda"
+    },
+    {
+        "name": "THEOLOGOS RODOS",
+        "lat": 36.374606,
+        "lon": 28.033929,
+        "code": "315",
+        "type": "roda"
+    },
+    {
+        "name": "THEOLOGOS RODOS",
+        "lat": 36.378527,
+        "lon": 28.027235,
+        "code": "316",
+        "type": "roda"
+    },
+    {
+        "name": "LEMON TREE RODOS",
+        "lat": 36.380183,
+        "lon": 28.030382,
+        "code": "317",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SEA VIEW RODOS",
+        "lat": 36.38244,
+        "lon": 28.033062,
+        "code": "318",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL DORETA RODOS",
+        "lat": 36.384871,
+        "lon": 28.035617,
+        "code": "319",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL FILOXENIA RODOS",
+        "lat": 36.386264,
+        "lon": 28.04057,
+        "code": "320",
+        "type": "roda"
+    },
+    {
+        "name": "NATURIST ANGEL RODOS",
+        "lat": 36.390872,
+        "lon": 28.05271,
+        "code": "321",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA JUNCTION",
+        "lat": 36.392062,
+        "lon": 28.057374,
+        "code": "322",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL VALLIAN RODOS",
+        "lat": 36.395219,
+        "lon": 28.066391,
+        "code": "323",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI RODOS",
+        "lat": 36.397706,
+        "lon": 28.070815,
+        "code": "324",
+        "type": "roda"
+    },
+    {
+        "name": "NASSOS RODOS",
+        "lat": 36.399522,
+        "lon": 28.078729,
+        "code": "325",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI CENTER RODOS",
+        "lat": 36.400265,
+        "lon": 28.083924,
+        "code": "326",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI RODOS",
+        "lat": 36.400359,
+        "lon": 28.085232,
+        "code": "327",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI 1 RODOS",
+        "lat": 36.400814,
+        "lon": 28.088768,
+        "code": "328",
+        "type": "roda"
+    },
+    {
+        "name": "AIRPORT DIAGORAS RODOS",
+        "lat": 36.402675,
+        "lon": 28.094034,
+        "code": "329",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ANDREAS RODOS",
+        "lat": 36.407079,
+        "lon": 28.100707,
+        "code": "330",
+        "type": "roda"
+    },
+    {
+        "name": "ASOMATI 2",
+        "lat": 36.408335,
+        "lon": 28.108226,
+        "code": "331",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI",
+        "lat": 36.409311,
+        "lon": 28.112765,
+        "code": "332",
+        "type": "roda"
+    },
+    {
+        "name": "MONASTIRAKI RODOS",
+        "lat": 36.410178,
+        "lon": 28.115765,
+        "code": "333",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI RODOS",
+        "lat": 36.410809,
+        "lon": 28.118519,
+        "code": "334",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CHURCH RODOS",
+        "lat": 36.411633,
+        "lon": 28.120493,
+        "code": "335",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESMERALDA RODOS",
+        "lat": 36.412973,
+        "lon": 28.124218,
+        "code": "336",
+        "type": "roda"
+    },
+    {
+        "name": "MARITIME HOTEL",
+        "lat": 36.414591,
+        "lon": 28.128818,
+        "code": "337",
+        "type": "roda"
+    },
+    {
+        "name": "CASTELLO ROSSO RODOS",
+        "lat": 36.414962,
+        "lon": 28.133147,
+        "code": "338",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL BLUE BAY RODOS",
+        "lat": 36.415317,
+        "lon": 28.135705,
+        "code": "339",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL FILERIMOS RODOS",
+        "lat": 36.415889,
+        "lon": 28.13944,
+        "code": "340",
+        "type": "roda"
+    },
+    {
+        "name": "IALISOS HIGH SCHOOL RODOS",
+        "lat": 36.416397,
+        "lon": 28.142815,
+        "code": "341",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PALEOS RODOS",
+        "lat": 36.416661,
+        "lon": 28.146337,
+        "code": "342",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ELECTRA RODOS",
+        "lat": 36.416963,
+        "lon": 28.148939,
+        "code": "343",
+        "type": "roda"
+    },
+    {
+        "name": "LANCELOT RODOS",
+        "lat": 36.416899,
+        "lon": 28.152593,
+        "code": "344",
+        "type": "roda"
+    },
+    {
+        "name": "IALYSOS - RODOS",
+        "lat": 36.416221,
+        "lon": 28.1573,
+        "code": "345",
+        "type": "roda"
+    },
+    {
+        "name": "THARENOU RODOS",
+        "lat": 36.416327,
+        "lon": 28.159712,
+        "code": "346",
+        "type": "roda"
+    },
+    {
+        "name": "PARASKEVA RODOS",
+        "lat": 36.416403,
+        "lon": 28.161649,
+        "code": "347",
+        "type": "roda"
+    },
+    {
+        "name": "ANIXIS RODOS",
+        "lat": 36.416957,
+        "lon": 28.167184,
+        "code": "348",
+        "type": "roda"
+    },
+    {
+        "name": "PAPPOY - IXIA GRAND RODOS",
+        "lat": 36.417306,
+        "lon": 28.173762,
+        "code": "349",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL AVRA BEACH RODOS",
+        "lat": 36.41806,
+        "lon": 28.177227,
+        "code": "350",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL MIRA MARE RODOS",
+        "lat": 36.418715,
+        "lon": 28.181447,
+        "code": "351",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL OLYMPIC RODOS",
+        "lat": 36.420243,
+        "lon": 28.18654,
+        "code": "352",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL RODIAN AMATHUS RODOS",
+        "lat": 36.421155,
+        "lon": 28.188683,
+        "code": "353",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SHERATON RODOS",
+        "lat": 36.422251,
+        "lon": 28.191095,
+        "code": "354",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL LITO RODOS",
+        "lat": 36.422745,
+        "lon": 28.192065,
+        "code": "355",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL RODOS PALACE RODOS",
+        "lat": 36.425259,
+        "lon": 28.195778,
+        "code": "356",
+        "type": "roda"
+    },
+    {
+        "name": "20 MAGAZIA RODOS",
+        "lat": 36.428267,
+        "lon": 28.198854,
+        "code": "357",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SIRENE RODOS",
+        "lat": 36.431023,
+        "lon": 28.201178,
+        "code": "358",
+        "type": "roda"
+    },
+    {
+        "name": "KRITIKA 2 RODOS",
+        "lat": 36.436108,
+        "lon": 28.204386,
+        "code": "359",
+        "type": "roda"
+    },
+    {
+        "name": "KRITIKA 1 RODOS",
+        "lat": 36.439027,
+        "lon": 28.206062,
+        "code": "360",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS HORIZON RODOS",
+        "lat": 36.447897,
+        "lon": 28.214271,
+        "code": "361",
+        "type": "roda"
+    },
+    {
+        "name": "PSAROPOULA RODOS",
+        "lat": 36.449549,
+        "lon": 28.21575,
+        "code": "362",
+        "type": "roda"
+    },
+    {
+        "name": "DIAGORAS AIRPORT RODOS",
+        "lat": 36.402206,
+        "lon": 28.091287,
+        "code": "363",
+        "type": "roda"
+    },
+    {
+        "name": "DENDRINOY 1",
+        "lat": 36.432262,
+        "lon": 28.226904,
+        "code": "401",
+        "type": "roda"
+    },
+    {
+        "name": "1ST RODOS ELEMENTARY SCHOOL",
+        "lat": 36.431774,
+        "lon": 28.229501,
+        "code": "402",
+        "type": "roda"
+    },
+    {
+        "name": "ENGLIGH CEMETERY",
+        "lat": 36.428484,
+        "lon": 28.229094,
+        "code": "403",
+        "type": "roda"
+    },
+    {
+        "name": "KALLIPATIRA STADIUM",
+        "lat": 36.423923,
+        "lon": 28.229257,
+        "code": "404",
+        "type": "roda"
+    },
+    {
+        "name": "KORAKONERO (ANASA)",
+        "lat": 36.420197,
+        "lon": 28.229239,
+        "code": "405",
+        "type": "roda"
+    },
+    {
+        "name": "LIDL - MY MARKET",
+        "lat": 36.414963,
+        "lon": 28.227588,
+        "code": "406",
+        "type": "roda"
+    },
+    {
+        "name": "SKLAVENITIS",
+        "lat": 36.411901,
+        "lon": 28.22643,
+        "code": "407",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PRINCESS FLORA",
+        "lat": 36.409338,
+        "lon": 28.225443,
+        "code": "408",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SUN WING",
+        "lat": 36.406886,
+        "lon": 28.225254,
+        "code": "409",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ENTEN ROC",
+        "lat": 36.40194,
+        "lon": 28.224917,
+        "code": "410",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL CASTELLOO DI RODI",
+        "lat": 36.400147,
+        "lon": 28.225229,
+        "code": "411",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PARADISE",
+        "lat": 36.396728,
+        "lon": 28.228478,
+        "code": "412",
+        "type": "roda"
+    },
+    {
+        "name": "KAVOURAKIA",
+        "lat": 36.394587,
+        "lon": 28.231584,
+        "code": "413",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL KRESTEN PALACE",
+        "lat": 36.390793,
+        "lon": 28.233717,
+        "code": "414",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL KALITHEA MARE",
+        "lat": 36.386963,
+        "lon": 28.239377,
+        "code": "415",
+        "type": "roda"
+    },
+    {
+        "name": "KALITHEA SPRINGS",
+        "lat": 36.378136,
+        "lon": 28.235582,
+        "code": "416",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ELYSIUM",
+        "lat": 36.372761,
+        "lon": 28.224338,
+        "code": "417",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PALLADIUM",
+        "lat": 36.368961,
+        "lon": 28.220386,
+        "code": "418",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL LA MARQUISE",
+        "lat": 36.366941,
+        "lon": 28.218224,
+        "code": "419",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL COLOSSOS",
+        "lat": 36.36554,
+        "lon": 28.217096,
+        "code": "420",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESPEROS",
+        "lat": 36.362647,
+        "lon": 28.214519,
+        "code": "421",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESPERIDES",
+        "lat": 36.361212,
+        "lon": 28.21243,
+        "code": "422",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL EPSILON",
+        "lat": 36.358026,
+        "lon": 28.210326,
+        "code": "423",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL BLUE SEA",
+        "lat": 36.355617,
+        "lon": 28.208447,
+        "code": "424",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL CALYPSO",
+        "lat": 36.353505,
+        "lon": 28.207259,
+        "code": "425",
+        "type": "roda"
+    },
+    {
+        "name": "KASTRI",
+        "lat": 36.352365,
+        "lon": 28.206898,
+        "code": "426",
+        "type": "roda"
+    },
+    {
+        "name": "GALAZIO",
+        "lat": 36.350349,
+        "lon": 28.205756,
+        "code": "427",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SUN PALACE",
+        "lat": 36.347931,
+        "lon": 28.202537,
+        "code": "428",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL APOLLON BEACH",
+        "lat": 36.344539,
+        "lon": 28.20042,
+        "code": "429",
+        "type": "roda"
+    },
+    {
+        "name": "BAR STREET",
+        "lat": 36.34008,
+        "lon": 28.200465,
+        "code": "430",
+        "type": "roda"
+    },
+    {
+        "name": "WATER PARK",
+        "lat": 36.36558,
+        "lon": 28.212056,
+        "code": "431",
+        "type": "roda"
+    },
+    {
+        "name": "FALIRAKI CENTER",
+        "lat": 36.340756,
+        "lon": 28.203867,
+        "code": "435",
+        "type": "roda"
+    },
+    {
+        "name": "FALIRAKI CENTER RODOS",
+        "lat": 36.341342,
+        "lon": 28.200806,
+        "code": "436",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL APOLLON BEACH RODOS",
+        "lat": 36.344407,
+        "lon": 28.20046,
+        "code": "437",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SUN PALACE RODOS",
+        "lat": 36.347689,
+        "lon": 28.202513,
+        "code": "438",
+        "type": "roda"
+    },
+    {
+        "name": "GALAZIO RODOS",
+        "lat": 36.350495,
+        "lon": 28.2062,
+        "code": "439",
+        "type": "roda"
+    },
+    {
+        "name": "KASTRI RODOS",
+        "lat": 36.352297,
+        "lon": 28.207046,
+        "code": "440",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL EPSILON RODOS",
+        "lat": 36.358685,
+        "lon": 28.210734,
+        "code": "441",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESPERIDES RODOS",
+        "lat": 36.361112,
+        "lon": 28.212503,
+        "code": "442",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ESPEROS RODOS",
+        "lat": 36.362933,
+        "lon": 28.215101,
+        "code": "443",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL COLOSSOS RODOS",
+        "lat": 36.365604,
+        "lon": 28.21726,
+        "code": "444",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL LA MARQUISE RODOS",
+        "lat": 36.36691,
+        "lon": 28.218426,
+        "code": "445",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PALLADIUM RODOS",
+        "lat": 36.369147,
+        "lon": 28.220765,
+        "code": "446",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ELYSIUM RODOS",
+        "lat": 36.372889,
+        "lon": 28.224644,
+        "code": "447",
+        "type": "roda"
+    },
+    {
+        "name": "KALITHEA SPRINGS RODOS",
+        "lat": 36.378079,
+        "lon": 28.235698,
+        "code": "448",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL KALITHEA MARE RODOS",
+        "lat": 36.387137,
+        "lon": 28.239302,
+        "code": "449",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL KRESTEN RODOS",
+        "lat": 36.391163,
+        "lon": 28.233485,
+        "code": "450",
+        "type": "roda"
+    },
+    {
+        "name": "KAVOURAKIA RODOS",
+        "lat": 36.395,
+        "lon": 28.231489,
+        "code": "451",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL PARADISE RODOS",
+        "lat": 36.396908,
+        "lon": 28.228418,
+        "code": "452",
+        "type": "roda"
+    },
+    {
+        "name": "KALITHEA RODOS",
+        "lat": 36.398214,
+        "lon": 28.227282,
+        "code": "453",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL ENTEN ROC RODOS",
+        "lat": 36.401925,
+        "lon": 28.225015,
+        "code": "454",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SUN WING RODOS",
+        "lat": 36.406875,
+        "lon": 28.225428,
+        "code": "455",
+        "type": "roda"
+    },
+    {
+        "name": "PRINCESS FLORA RODOS",
+        "lat": 36.409825,
+        "lon": 28.225714,
+        "code": "456",
+        "type": "roda"
+    },
+    {
+        "name": "SKLAVENITIS RODOS",
+        "lat": 36.41208,
+        "lon": 28.226648,
+        "code": "457",
+        "type": "roda"
+    },
+    {
+        "name": "LIDL RODOS",
+        "lat": 36.414872,
+        "lon": 28.227684,
+        "code": "458",
+        "type": "roda"
+    },
+    {
+        "name": "AMAZONES RODOS",
+        "lat": 36.42055,
+        "lon": 28.229404,
+        "code": "459",
+        "type": "roda"
+    },
+    {
+        "name": "KALLIPATIRA STADIUM RODOS",
+        "lat": 36.423894,
+        "lon": 28.229413,
+        "code": "460",
+        "type": "roda"
+    },
+    {
+        "name": "ENGLIGH CEMETERY RODOS",
+        "lat": 36.428669,
+        "lon": 28.229218,
+        "code": "461",
+        "type": "roda"
+    },
+    {
+        "name": "ST. DIMITRIOS CEMETERY RODOS",
+        "lat": 36.42996,
+        "lon": 28.228987,
+        "code": "462",
+        "type": "roda"
+    },
+    {
+        "name": "SAN FRANCIS RODOS",
+        "lat": 36.439545,
+        "lon": 28.224075,
+        "code": "463",
+        "type": "roda"
+    },
+    {
+        "name": "AEGEAN UNIVERCITY STADIUM",
+        "lat": 36.440885,
+        "lon": 28.222504,
+        "code": "464",
+        "type": "roda"
+    },
+    {
+        "name": "AEGEAN UNIVERCITY",
+        "lat": 36.44266,
+        "lon": 28.221265,
+        "code": "465",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANAKIA RODOS",
+        "lat": 36.445563,
+        "lon": 28.22163,
+        "code": "466",
+        "type": "roda"
+    },
+    {
+        "name": "BLUE SEA RODOS",
+        "lat": 36.355614,
+        "lon": 28.208622,
+        "code": "467",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL CALYPSO RODOS",
+        "lat": 36.353507,
+        "lon": 28.207389,
+        "code": "468",
+        "type": "roda"
+    },
+    {
+        "name": "EDEN ROC RODOS",
+        "lat": 36.400222,
+        "lon": 28.232427,
+        "code": "469",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS KOSKINOU AVE.",
+        "lat": 36.384494,
+        "lon": 28.203245,
+        "code": "470",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU 1",
+        "lat": 36.383223,
+        "lon": 28.213494,
+        "code": "471",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU",
+        "lat": 36.383807,
+        "lon": 28.215347,
+        "code": "472",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU 3",
+        "lat": 36.386408,
+        "lon": 28.2167,
+        "code": "473",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU 4",
+        "lat": 36.389144,
+        "lon": 28.215992,
+        "code": "474",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU CENTER RODOS",
+        "lat": 36.388254,
+        "lon": 28.213295,
+        "code": "475",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU PANORAMA RODOS",
+        "lat": 36.393772,
+        "lon": 28.224412,
+        "code": "476",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU PANORAMA",
+        "lat": 36.39384,
+        "lon": 28.224323,
+        "code": "477",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOY 4 RODOS",
+        "lat": 36.389131,
+        "lon": 28.215883,
+        "code": "478",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU 3 RODOS",
+        "lat": 36.386389,
+        "lon": 28.216604,
+        "code": "479",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU 2 RODOS",
+        "lat": 36.383998,
+        "lon": 28.215585,
+        "code": "480",
+        "type": "roda"
+    },
+    {
+        "name": "KOSKINOU1 RODOS",
+        "lat": 36.383265,
+        "lon": 28.213423,
+        "code": "481",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS KOSKINOU AVE.",
+        "lat": 36.383986,
+        "lon": 28.209396,
+        "code": "482",
+        "type": "roda"
+    },
+    {
+        "name": "I. RAPTI SQ.",
+        "lat": 36.422671,
+        "lon": 28.159284,
+        "code": "500",
+        "type": "roda"
+    },
+    {
+        "name": "HOTEL SUN BEACH RODOS",
+        "lat": 36.422771,
+        "lon": 28.15281,
+        "code": "501",
+        "type": "roda"
+    },
+    {
+        "name": "IALISOS SQ. RODOS",
+        "lat": 36.411375,
+        "lon": 28.154185,
+        "code": "502",
+        "type": "roda"
+    },
+    {
+        "name": "TENNIS CLUB IALYSOS",
+        "lat": 36.405554,
+        "lon": 28.150612,
+        "code": "503",
+        "type": "roda"
+    },
+    {
+        "name": "FILERIMOS",
+        "lat": 36.399412,
+        "lon": 28.143233,
+        "code": "504",
+        "type": "roda"
+    },
+    {
+        "name": "FILERIMOS RODOS",
+        "lat": 36.399712,
+        "lon": 28.14302,
+        "code": "505",
+        "type": "roda"
+    },
+    {
+        "name": "TENNIS CLUB IALYSOS RODOS",
+        "lat": 36.405263,
+        "lon": 28.150567,
+        "code": "506",
+        "type": "roda"
+    },
+    {
+        "name": "MY MARKET IALYSOS RODOS",
+        "lat": 36.411876,
+        "lon": 28.155647,
+        "code": "507",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CENTER",
+        "lat": 36.411521,
+        "lon": 28.121024,
+        "code": "515",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI ATHLETIC CENTER",
+        "lat": 36.408588,
+        "lon": 28.120685,
+        "code": "516",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI HIGH SCHOOL",
+        "lat": 36.405616,
+        "lon": 28.119781,
+        "code": "517",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI PASTIDA JUNCTION",
+        "lat": 36.397647,
+        "lon": 28.121995,
+        "code": "518",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA",
+        "lat": 36.392497,
+        "lon": 28.126873,
+        "code": "519",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 1",
+        "lat": 36.388556,
+        "lon": 28.135079,
+        "code": "520",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA SQ.",
+        "lat": 36.386824,
+        "lon": 28.136929,
+        "code": "521",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA STADIUM",
+        "lat": 36.390627,
+        "lon": 28.140932,
+        "code": "522",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 2",
+        "lat": 36.386874,
+        "lon": 28.136909,
+        "code": "523",
+        "type": "roda"
+    },
+    {
+        "name": "GARDEN HOTEL PASTIDA",
+        "lat": 36.385311,
+        "lon": 28.131144,
+        "code": "524",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 3",
+        "lat": 36.381363,
+        "lon": 28.126062,
+        "code": "525",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA AIRPORT",
+        "lat": 36.37931,
+        "lon": 28.117137,
+        "code": "526",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA GAS STATION",
+        "lat": 36.375466,
+        "lon": 28.115931,
+        "code": "527",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA ENTERANCE",
+        "lat": 36.360896,
+        "lon": 28.117121,
+        "code": "528",
+        "type": "roda"
+    },
+    {
+        "name": "MARISTA SQ.",
+        "lat": 36.359596,
+        "lon": 28.116256,
+        "code": "529",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA 3",
+        "lat": 36.358666,
+        "lon": 28.116005,
+        "code": "530",
+        "type": "roda"
+    },
+    {
+        "name": "MARISTA STADIUM",
+        "lat": 36.357622,
+        "lon": 28.115209,
+        "code": "531",
+        "type": "roda"
+    },
+    {
+        "name": "MARISTA STADIUM 1",
+        "lat": 36.357532,
+        "lon": 28.115886,
+        "code": "532",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA",
+        "lat": 36.35874,
+        "lon": 28.116315,
+        "code": "533",
+        "type": "roda"
+    },
+    {
+        "name": "MARISTA RODOS",
+        "lat": 36.360705,
+        "lon": 28.117313,
+        "code": "534",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA 1",
+        "lat": 36.361695,
+        "lon": 28.118542,
+        "code": "535",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA CEMETERY RODOS",
+        "lat": 36.363894,
+        "lon": 28.117419,
+        "code": "536",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA AIRPORT RODOS",
+        "lat": 36.379278,
+        "lon": 28.11759,
+        "code": "537",
+        "type": "roda"
+    },
+    {
+        "name": "KRITIKOS RODOS",
+        "lat": 36.378477,
+        "lon": 28.121269,
+        "code": "538",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI HIGH SCHOOL RODOS",
+        "lat": 36.405497,
+        "lon": 28.119938,
+        "code": "539",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI ATHLETIC CENTER RODOS",
+        "lat": 36.40833,
+        "lon": 28.120832,
+        "code": "540",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CENTER",
+        "lat": 36.411573,
+        "lon": 28.12114,
+        "code": "541",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA JUNCTION",
+        "lat": 36.373153,
+        "lon": 28.115528,
+        "code": "542",
+        "type": "roda"
+    },
+    {
+        "name": "MARITSA CEMETERY",
+        "lat": 36.364052,
+        "lon": 28.117302,
+        "code": "543",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 4",
+        "lat": 36.381198,
+        "lon": 28.125963,
+        "code": "544",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 5",
+        "lat": 36.385547,
+        "lon": 28.131466,
+        "code": "545",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA 6",
+        "lat": 36.387346,
+        "lon": 28.137715,
+        "code": "546",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA RODOS",
+        "lat": 36.38828,
+        "lon": 28.135063,
+        "code": "547",
+        "type": "roda"
+    },
+    {
+        "name": "PASTIDA BRIDGE RODOS",
+        "lat": 36.392306,
+        "lon": 28.127192,
+        "code": "548",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI PASTIDA JUNCTION RODOS",
+        "lat": 36.397493,
+        "lon": 28.122212,
+        "code": "549",
+        "type": "roda"
+    },
+    {
+        "name": "KATO KALAMONAS",
+        "lat": 36.383181,
+        "lon": 28.060909,
+        "code": "550",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA 2",
+        "lat": 36.381219,
+        "lon": 28.078149,
+        "code": "551",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA",
+        "lat": 36.380218,
+        "lon": 28.083167,
+        "code": "552",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA 1 RODOS",
+        "lat": 36.380503,
+        "lon": 28.08061,
+        "code": "553",
+        "type": "roda"
+    },
+    {
+        "name": "DAMATRIA JUNCTION RODOS",
+        "lat": 36.383159,
+        "lon": 28.061399,
+        "code": "554",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS FARM",
+        "lat": 36.355508,
+        "lon": 28.055091,
+        "code": "555",
+        "type": "roda"
+    },
+    {
+        "name": "ANO KALAMONAS",
+        "lat": 36.348632,
+        "lon": 28.056898,
+        "code": "556",
+        "type": "roda"
+    },
+    {
+        "name": "BUTTERFLIES VALLEY",
+        "lat": 36.337769,
+        "lon": 28.061829,
+        "code": "557",
+        "type": "roda"
+    },
+    {
+        "name": "KATO KALAMONAS RODOS",
+        "lat": 36.383381,
+        "lon": 28.06102,
+        "code": "558",
+        "type": "roda"
+    },
+    {
+        "name": "ANO KALAMONAS RODOS",
+        "lat": 36.348758,
+        "lon": 28.056987,
+        "code": "559",
+        "type": "roda"
+    },
+    {
+        "name": "RODOS FARM RODOS",
+        "lat": 36.355518000000004,
+        "lon": 28.055219,
+        "code": "560",
+        "type": "roda"
+    },
+    {
+        "name": "KREMASTI CENTER",
+        "lat": 36.405615,
+        "lon": 28.11978,
+        "code": "561",
+        "type": "roda"
+    },
+    {
+        "name": "ST. SILLAS",
+        "lat": 36.335624,
+        "lon": 28.010745,
+        "code": "570",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA 1",
+        "lat": 36.284516,
+        "lon": 28.008214,
+        "code": "571",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA SQ. RODOS",
+        "lat": 36.281987,
+        "lon": 28.008567,
+        "code": "572",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA 3",
+        "lat": 36.28157,
+        "lon": 28.010115,
+        "code": "573",
+        "type": "roda"
+    },
+    {
+        "name": "ELEOUSA SQ. RODOS",
+        "lat": 36.275269,
+        "lon": 28.027839,
+        "code": "574",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANIA 2",
+        "lat": 36.258345,
+        "lon": 28.018224,
+        "code": "575",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANIA SQ.",
+        "lat": 36.258015,
+        "lon": 28.017612,
+        "code": "576",
+        "type": "roda"
+    },
+    {
+        "name": "APOLLONA",
+        "lat": 36.259956,
+        "lon": 27.966993,
+        "code": "577",
+        "type": "roda"
+    },
+    {
+        "name": "APOLLONA RODOS",
+        "lat": 36.259891,
+        "lon": 27.967266,
+        "code": "580",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANIA SQ. RODOS",
+        "lat": 36.257973,
+        "lon": 28.017535,
+        "code": "581",
+        "type": "roda"
+    },
+    {
+        "name": "PLATANIA RODOS",
+        "lat": 36.258331,
+        "lon": 28.018364,
+        "code": "582",
+        "type": "roda"
+    },
+    {
+        "name": "ELEOUSA SQ.",
+        "lat": 36.275704,
+        "lon": 28.027928,
+        "code": "583",
+        "type": "roda"
+    },
+    {
+        "name": "ELEOUSA RODOS",
+        "lat": 36.2741,
+        "lon": 28.025184,
+        "code": "584",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA RODOS",
+        "lat": 36.281684,
+        "lon": 28.010073,
+        "code": "585",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA SQ. RODOS",
+        "lat": 36.281783,
+        "lon": 28.008746,
+        "code": "586",
+        "type": "roda"
+    },
+    {
+        "name": "DIMILIA BRIGE RODOS",
+        "lat": 36.284908,
+        "lon": 28.008332,
+        "code": "587",
+        "type": "roda"
+    },
+    {
+        "name": "ST. SILLAS STADIUM RODOS",
+        "lat": 36.330675,
+        "lon": 28.007558,
+        "code": "588",
+        "type": "roda"
+    },
+    {
+        "name": "ST. SILLAS RODOS",
+        "lat": 36.3354,
+        "lon": 28.01085,
+        "code": "589",
+        "type": "roda"
+    },
+    {
+        "name": "PARADISI HIGH SCHOOL",
+        "lat": 36.40162,
+        "lon": 28.081444,
+        "code": "595",
+        "type": "roda"
+    },
+    {
+        "name": "FANES PORT",
+        "lat": 36.360799,
+        "lon": 27.978358,
+        "code": "596",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ANNA",
+        "lat": 36.330647,
+        "lon": 27.941395,
+        "code": "700",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ANNA RODOS",
+        "lat": 36.330498,
+        "lon": 27.941369,
+        "code": "701",
+        "type": "roda"
+    },
+    {
+        "name": "NIMFI",
+        "lat": 36.298173,
+        "lon": 27.953466,
+        "code": "702",
+        "type": "roda"
+    },
+    {
+        "name": "NIMFI RODOS",
+        "lat": 36.298398,
+        "lon": 27.95349,
+        "code": "703",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS ELEMENTARY SCHOOL",
+        "lat": 36.291006,
+        "lon": 27.944579,
+        "code": "704",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS ELEMENTARY SCHOOL RODOS",
+        "lat": 36.290944,
+        "lon": 27.944811,
+        "code": "705",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS",
+        "lat": 36.290651,
+        "lon": 27.942807,
+        "code": "706",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS RODOS",
+        "lat": 36.290495,
+        "lon": 27.942724,
+        "code": "707",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS SQ.",
+        "lat": 36.289768,
+        "lon": 27.943489,
+        "code": "708",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS SQ. RODOS",
+        "lat": 36.289827,
+        "lon": 27.943503,
+        "code": "709",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS",
+        "lat": 36.288564,
+        "lon": 27.944737,
+        "code": "710",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS 1 RODOS",
+        "lat": 36.288459,
+        "lon": 27.944823,
+        "code": "711",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS CAVE",
+        "lat": 36.286,
+        "lon": 27.94422,
+        "code": "712",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS CAVE RODOS",
+        "lat": 36.285872,
+        "lon": 27.944173,
+        "code": "713",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS",
+        "lat": 36.285783,
+        "lon": 27.939676,
+        "code": "714",
+        "type": "roda"
+    },
+    {
+        "name": "SALAKOS TERMINAL",
+        "lat": 36.285873,
+        "lon": 27.940064,
+        "code": "715",
+        "type": "roda"
+    },
+    {
+        "name": "KAPI",
+        "lat": 36.282103,
+        "lon": 27.917496,
+        "code": "716",
+        "type": "roda"
+    },
+    {
+        "name": "KAPI SALAKOS RODOS",
+        "lat": 36.282303,
+        "lon": 27.918084,
+        "code": "717",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA RODOS",
+        "lat": 36.228638,
+        "lon": 27.858926,
+        "code": "718",
+        "type": "roda"
+    },
+    {
+        "name": "EMERY RODOS",
+        "lat": 36.230091,
+        "lon": 27.860497,
+        "code": "719",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA RODOS 1",
+        "lat": 36.228519,
+        "lon": 27.856408,
+        "code": "720",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA RODOS 2",
+        "lat": 36.22864,
+        "lon": 27.859216,
+        "code": "721",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA SQ. RODOS",
+        "lat": 36.227477,
+        "lon": 27.85476,
+        "code": "722",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA HIGH SCHOOL RODOS",
+        "lat": 36.228437,
+        "lon": 27.856804,
+        "code": "723",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA SQ. RODOS 2",
+        "lat": 36.227559,
+        "lon": 27.854884,
+        "code": "725",
+        "type": "roda"
+    },
+    {
+        "name": "KALAVARDA",
+        "lat": 36.34368,
+        "lon": 27.947659,
+        "code": "800",
+        "type": "roda"
+    },
+    {
+        "name": "AKROGIALI",
+        "lat": 36.344137,
+        "lon": 27.926848,
+        "code": "801",
+        "type": "roda"
+    },
+    {
+        "name": "ANCIENT KAMIROS BEACH",
+        "lat": 36.341719,
+        "lon": 27.91703,
+        "code": "802",
+        "type": "roda"
+    },
+    {
+        "name": "ANCIENT KAMIROS RODOS",
+        "lat": 36.337062,
+        "lon": 27.919495,
+        "code": "803",
+        "type": "roda"
+    },
+    {
+        "name": "HOLY TRINITY MANDRIKO",
+        "lat": 36.290543,
+        "lon": 27.858034,
+        "code": "804",
+        "type": "roda"
+    },
+    {
+        "name": "MANDRIKO SQ.",
+        "lat": 36.289447,
+        "lon": 27.857129,
+        "code": "805",
+        "type": "roda"
+    },
+    {
+        "name": "MANDRIKO",
+        "lat": 36.28842,
+        "lon": 27.854612,
+        "code": "806",
+        "type": "roda"
+    },
+    {
+        "name": "LIROS",
+        "lat": 36.273048,
+        "lon": 27.835476,
+        "code": "807",
+        "type": "roda"
+    },
+    {
+        "name": "KAMIROS SCALA",
+        "lat": 36.271224,
+        "lon": 27.825439,
+        "code": "808",
+        "type": "roda"
+    },
+    {
+        "name": "AMITHITA",
+        "lat": 36.271873,
+        "lon": 27.821238,
+        "code": "809",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA",
+        "lat": 36.250468,
+        "lon": 27.834798,
+        "code": "810",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA SQ.",
+        "lat": 36.249446,
+        "lon": 27.831177,
+        "code": "811",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA 1",
+        "lat": 36.247639,
+        "lon": 27.829199,
+        "code": "812",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA 2",
+        "lat": 36.246483,
+        "lon": 27.829218,
+        "code": "813",
+        "type": "roda"
+    },
+    {
+        "name": "ST. GEORGE",
+        "lat": 36.214955,
+        "lon": 27.831115,
+        "code": "814",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA RODOS 3",
+        "lat": 36.224068,
+        "lon": 27.855814,
+        "code": "815",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA CITY HALL",
+        "lat": 36.225388,
+        "lon": 27.855638,
+        "code": "816",
+        "type": "roda"
+    },
+    {
+        "name": "ARTAMITIS",
+        "lat": 36.202333,
+        "lon": 27.898269,
+        "code": "817",
+        "type": "roda"
+    },
+    {
+        "name": "LAERMA JUNCRION",
+        "lat": 36.169821,
+        "lon": 27.853399,
+        "code": "818",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ISIDOROS",
+        "lat": 36.167403,
+        "lon": 27.850806,
+        "code": "819",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ISIDOROS SQ.",
+        "lat": 36.166658,
+        "lon": 27.849946,
+        "code": "820",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ISIDOROS",
+        "lat": 36.164238,
+        "lon": 27.848393,
+        "code": "821",
+        "type": "roda"
+    },
+    {
+        "name": "AGROS RODOS",
+        "lat": 36.170313,
+        "lon": 27.796818,
+        "code": "822",
+        "type": "roda"
+    },
+    {
+        "name": "ZOODOHOU PIGIS",
+        "lat": 36.168106,
+        "lon": 27.783274,
+        "code": "823",
+        "type": "roda"
+    },
+    {
+        "name": "SAINNA RODOS",
+        "lat": 36.155664,
+        "lon": 27.781608,
+        "code": "850",
+        "type": "roda"
+    },
+    {
+        "name": "SIANNA SQ.",
+        "lat": 36.153455,
+        "lon": 27.778023,
+        "code": "851",
+        "type": "roda"
+    },
+    {
+        "name": "SIANNA RODOS",
+        "lat": 36.151723,
+        "lon": 27.773673,
+        "code": "852",
+        "type": "roda"
+    },
+    {
+        "name": "MONOLITHOS SQ.",
+        "lat": 36.131576,
+        "lon": 27.740973,
+        "code": "853",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ISIDOROS SQ. RODOS",
+        "lat": 36.166455,
+        "lon": 27.849971,
+        "code": "854",
+        "type": "roda"
+    },
+    {
+        "name": "ST. ISIDOROS EXIT TO RODOS",
+        "lat": 36.167411,
+        "lon": 27.850988,
+        "code": "855",
+        "type": "roda"
+    },
+    {
+        "name": "ARTAMITHS RODOS",
+        "lat": 36.202645,
+        "lon": 27.898507,
+        "code": "856",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA CITY HALL RODOS",
+        "lat": 36.225246,
+        "lon": 27.855616,
+        "code": "857",
+        "type": "roda"
+    },
+    {
+        "name": "EMPONA RODOS 4",
+        "lat": 36.224253,
+        "lon": 27.855593,
+        "code": "858",
+        "type": "roda"
+    },
+    {
+        "name": "ST. GEORGE RODOS",
+        "lat": 36.214947,
+        "lon": 27.830486,
+        "code": "859",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA ELEMENTARY SCHOOL RODOS",
+        "lat": 36.246311,
+        "lon": 27.82932,
+        "code": "860",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA RODOS",
+        "lat": 36.247784,
+        "lon": 27.829222,
+        "code": "861",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA RODOS 1",
+        "lat": 36.249408,
+        "lon": 27.831305,
+        "code": "862",
+        "type": "roda"
+    },
+    {
+        "name": "KRITINIA RODOS 2",
+        "lat": 36.250675,
+        "lon": 27.835029,
+        "code": "863",
+        "type": "roda"
+    },
+    {
+        "name": "KAMIROS SCALA RODOS",
+        "lat": 36.271099,
+        "lon": 27.825695,
+        "code": "864",
+        "type": "roda"
+    },
+    {
+        "name": "MANDRIKO RODOS",
+        "lat": 36.288264,
+        "lon": 27.854303,
+        "code": "865",
+        "type": "roda"
+    },
+    {
+        "name": "MANDRIKO SQ. RODOS",
+        "lat": 36.289326,
+        "lon": 27.85707,
+        "code": "866",
+        "type": "roda"
+    },
+    {
+        "name": "MANDRIKO RODOS 1",
+        "lat": 36.290527,
+        "lon": 27.858131,
+        "code": "867",
+        "type": "roda"
+    },
+    {
+        "name": "ANCIENT KAMIROS RODOS",
+        "lat": 36.341699,
+        "lon": 27.917257,
+        "code": "868",
+        "type": "roda"
+    },
+    {
+        "name": "KAMIROS KALAVARDA JUNCTION RODOS",
+        "lat": 36.343483,
+        "lon": 27.948097,
+        "code": "869",
+        "type": "roda"
+    },
+    {
+        "name": "AGROS",
+        "lat": 36.170462,
+        "lon": 27.796793,
+        "code": "870",
+        "type": "roda"
+    },
+    {
+        "name": "ZOODOHOU PIGIS",
+        "lat": 36.167919,
+        "lon": 27.782838,
+        "code": "871",
+        "type": "roda"
+    },
+    {
+        "name": "SIANNA",
+        "lat": 36.155678,
+        "lon": 27.781502,
+        "code": "872",
+        "type": "roda"
+    },
+    {
+        "name": "SIANNA 1",
+        "lat": 36.153578,
+        "lon": 27.778242,
+        "code": "873",
+        "type": "roda"
+    },
+    {
+        "name": "SIANNA 2",
+        "lat": 36.151982,
+        "lon": 27.774018,
+        "code": "874",
+        "type": "roda"
+    },
+    {
+        "name": "TRAIN START",
+        "lat": 36.449146,
+        "lon": 28.225069,
+        "code": "900",
+        "type": "roda"
+    },
+    {
+        "name": "TRAIN END",
+        "lat": 36.451879,
+        "lon": 28.224496,
+        "code": "901",
+        "type": "roda"
+    }
+]
