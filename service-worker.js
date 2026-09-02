@@ -1,5 +1,5 @@
-const APP_CACHE = 'standalone-bus-app-v3';
-const DATA_CACHE = 'standalone-bus-data-v3';
+const APP_CACHE = 'standalone-bus-app-c8c8f092';
+const DATA_CACHE = 'standalone-bus-data-638b1669';
 
 const APP_SHELL = [
   './',
@@ -16,9 +16,7 @@ const APP_SHELL = [
   './src/js/views/viewRegistry.js',
   './src/js/views/tableView.js',
   './src/js/clockTimePicker.js',
-  './src/js/app.js',
-  './src/data/bus_schedule.json',
-  './src/data/bus_stations.json'
+  './src/js/app.js'
 ];
 
 self.addEventListener('install', (event) => {

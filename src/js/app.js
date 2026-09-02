@@ -8684,7 +8684,8 @@ function closeModalEngine(event) { if (event.target.id === 'lightbox') document.
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        const swUrl = window.__STANDALONE_BUS__ ? './service-worker.js' : './service-worker.js?v=8';
+        const appVer = document.querySelector('meta[name="app-version"]')?.content || '1';
+        const swUrl = `./service-worker.js?app=${encodeURIComponent(appVer)}`;
         navigator.serviceWorker.register(swUrl).catch((err) => {
             console.error('Service worker registration failed:', err);
         });
