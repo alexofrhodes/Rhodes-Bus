@@ -4210,8 +4210,9 @@ async function renderDashboardMapFull(dataset, target, scopeConfig) {
         : window.L.map(host, { preferCanvas: true, zoomControl: true }).setView([36.4349, 28.2175], 11);
 
     if (!target.__dashboardLeafletMap || target.__dashboardLeafletMap !== map) {
-        window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+        window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         target.__dashboardLeafletMap = map;
     }
@@ -4434,8 +4435,9 @@ const DASHBOARD_VIEW_RENDERERS = {
                 : window.L.map(mapHost, { preferCanvas: true, zoomControl: true }).setView([36.4349, 28.2175], 11);
 
             if (!target.__dashboardLeafletMap || target.__dashboardLeafletMap !== map) {
-                window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+                window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
                 target.__dashboardLeafletMap = map;
             }
@@ -7376,8 +7378,9 @@ async function mountMapCoordinates(dataset = null, options = {}) {
 
     if (!leafletMap) {
         leafletMap = L.map('map-container', { preferCanvas: true }).setView([36.4349, 28.2175], 11);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(leafletMap);
         if (typeof ResizeObserver !== 'undefined' && mapContainer && !mapContainer._leafletResizeObs) {
             const obs = new ResizeObserver(() => {
