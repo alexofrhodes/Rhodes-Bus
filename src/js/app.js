@@ -43,7 +43,7 @@ let viewEnhancementState = {
     tableFitMode: 'page',
     calendarViewMode: 'dayGridMonth',
     posterSize: 'md',
-    mapAutoFit: true,
+    mapAutoFit: false,
     tablePageSizeByScope: {},
     cardsPageSizeByScope: {}
 };
@@ -1037,11 +1037,73 @@ let SCOPE_DEFINITIONS = {};
 let rawScopeDataCache = {};
 let augmentedScopeDataCache = {};
 
+function hasBusRouteMinutes(value) {
+    if (value == null || value === '') return false;
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0;
+}
+
+function hasBusRouteKm(value) {
+    if (value == null || value === '') return false;
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0;
+}
+
+function buildBusRouteMetaFooterHtml(row) {
+    const stops = Array.isArray(row.routeStops) ? row.routeStops.filter((s) => s && s.name) : [];
+    const metaParts = [];
+    if (hasBusRouteMinutes(row.minutes)) {
+        metaParts.push(`~${escapeHtml(String(row.minutes))} min`);
+    }
+    // When per-stop km exist, skip the averaged km chip (avoids Pastida ~15 + ~13/~17 clutter)
+    if (!stops.length && hasBusRouteKm(row.km)) {
+        metaParts.push(`~${escapeHtml(String(row.km))} km`);
+    }
+    const distChip = metaParts.length
+        ? `<div class="bus-meta-chip">${metaParts.join(' · ')}</div>`
+        : '';
+    const stopsLine = stops.length
+        ? `<div class="bus-route-stops">${stops.map((s) => {
+            const kmBit = hasBusRouteKm(s.km) ? ` (~${escapeHtml(String(s.km))} km)` : '';
+            return `${escapeHtml(String(s.name))}${kmBit}`;
+        }).join(' · ')}</div>`
+        : '';
+    if (!distChip && !stopsLine) return '';
+    return `<div class="bus-meta-footer">${distChip}${stopsLine}</div>`;
+}
+
 function formatBusDayLabel(day, region) {
     const value = String(day || '').trim();
     if (!value) return '';
     if (value.toLowerCase() === 'all') return 'Every day';
     return value;
+}
+
+function formatBusScheduleTimesCell(times, { inbound = false } = {}) {
+    let list = normalizeTimeList(times || []);
+    if (fieldVisibility['btn-rem']) {
+        list = list.filter((time) => !isTimePassed(time));
+    }
+    if (!list.length) return '—';
+    return list.map((time) => {
+        const grey = fieldVisibility['btn-grey'] && isTimePassed(time);
+        const cls = [
+            'bus-table-time',
+            inbound ? 'is-inbound' : '',
+            grey ? 'passed-grey' : ''
+        ].filter(Boolean).join(' ');
+        return `<span class="${cls}">${escapeHtml(time)}</span>`;
+    }).join(' ');
+}
+
+function rowHasVisibleBusTimes(row) {
+    let out = normalizeTimeList(row.timesOut || row.outbound || row.times || []);
+    let back = normalizeTimeList(row.timesBack || row.inbound || row.returns || []);
+    if (fieldVisibility['btn-rem']) {
+        out = out.filter((time) => !isTimePassed(time));
+        back = back.filter((time) => !isTimePassed(time));
+    }
+    return out.length > 0 || back.length > 0;
 }
 
 function initializeScopeDefinitions() {
@@ -1053,6 +1115,7 @@ function initializeScopeDefinitions() {
         escapeHtml,
         escapeAttr,
         formatBusDayLabel,
+        formatBusScheduleTimesCell,
         getImageFallback,
         getDisplayName,
         normalizeTimeList,
@@ -1635,12 +1698,14 @@ function renderPassedControlGroup() {
     const greyOn = !!fieldVisibility['btn-grey'];
     const hideOn = !!fieldVisibility['btn-rem'];
     const sparseOn = !!fieldVisibility['btn-hide-sparse-west'];
+    const emptyOn = !!fieldVisibility['btn-hide-empty-dest'];
     return `<div class="passed-control-group" role="group" aria-label="Schedule display">
         <span class="control-group-label">Passed:</span>
         <button type="button" id="btn-grey" class="compact-chip${greyOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-grey')" aria-pressed="${greyOn ? 'true' : 'false'}">Gray</button>
         <button type="button" id="btn-rem" class="compact-chip${hideOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-rem')" aria-pressed="${hideOn ? 'true' : 'false'}">Hide</button>
         <span class="control-group-divider" aria-hidden="true"></span>
         <button type="button" id="btn-hide-sparse-west" class="compact-chip${sparseOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-hide-sparse-west')" aria-pressed="${sparseOn ? 'true' : 'false'}" title="Hide West routes with only 1–2 departures in either direction">Sparse West</button>
+        <button type="button" id="btn-hide-empty-dest" class="compact-chip${emptyOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-hide-empty-dest')" aria-pressed="${emptyOn ? 'true' : 'false'}" title="Hide destinations with no departure times">Hide empty</button>
     </div>`;
 }
 
@@ -1651,7 +1716,7 @@ function injectCompactControlsHeaderBar() {
 
     const headerControls = activeScopeConfig.headerControls || [];
     const standalone = Boolean(window.__STANDALONE_BUS__);
-    const passedToggleIds = new Set(['btn-rem', 'btn-grey', 'btn-hide-sparse-west']);
+    const passedToggleIds = new Set(['btn-rem', 'btn-grey', 'btn-hide-sparse-west', 'btn-hide-empty-dest']);
     let html = '';
     let timePairOpen = false;
 
@@ -2258,7 +2323,7 @@ function toggleFieldVisibility(controlId) {
     const control = (activeScopeConfig.headerControls || []).find((c) => c.id === controlId);
     if (btn && control) {
         btn.classList.toggle('active', fieldVisibility[controlId]);
-        if (window.__STANDALONE_BUS__ && (controlId === 'btn-rem' || controlId === 'btn-grey' || controlId === 'btn-hide-sparse-west')) {
+        if (window.__STANDALONE_BUS__ && (controlId === 'btn-rem' || controlId === 'btn-grey' || controlId === 'btn-hide-sparse-west' || controlId === 'btn-hide-empty-dest')) {
             btn.setAttribute('aria-pressed', fieldVisibility[controlId] ? 'true' : 'false');
         } else {
             btn.innerText = `${control.label}: ${fieldVisibility[controlId] ? 'ON' : 'OFF'}`;
@@ -2430,6 +2495,8 @@ function nukeViewContainers() {
         leafletMap.remove();
         leafletMap = null;
     }
+    busClusterGroup = null;
+    mapClusterGroup = null;
 
     if (timelineInstance) {
         try { timelineInstance.destroy(); } catch (e) {}
@@ -2455,7 +2522,10 @@ function nukeViewContainers() {
         ganttInstance = null;
     }
     const mapHost = document.getElementById('map-container');
-    if (mapHost) mapHost.innerHTML = '';
+    if (mapHost) {
+        mapHost.dataset.stationsMounted = '';
+        mapHost.innerHTML = '';
+    }
 
     if (busClusterGroup) {
         busClusterGroup = null;
@@ -2738,7 +2808,105 @@ async function augmentScopeData(scopeKey, dataset) {
         });
     }
 
+    if (scopeKey === 'bus_schedule') {
+        return await augmentBusScheduleWithAdditionalInfo(dataset);
+    }
+
     return dataset;
+}
+
+const ROUTE_ADDITIONAL_INFO_URL = 'src/data/route_additional_info.json';
+const ROUTE_TO_ALIASES = {
+    malona: 'Malona-Massari',
+    massari: 'Malona-Massari',
+    ixia: 'Ixia Ialysos'
+};
+
+function routePairKey(from, to) {
+    return `${String(from || '').trim().toLowerCase()}|${String(to || '').trim().toLowerCase()}`;
+}
+
+function resolveAdditionalRouteInfo(infoByKey, from, to) {
+    const direct = infoByKey.get(routePairKey(from, to));
+    if (direct) return direct;
+    const aliasTo = ROUTE_TO_ALIASES[String(to || '').trim().toLowerCase()];
+    if (aliasTo) return infoByKey.get(routePairKey(from, aliasTo)) || null;
+    return null;
+}
+
+function applyRouteAdditionalInfo(row, info) {
+    if (!info) return row;
+    const next = { ...row };
+    if (info.km != null && info.km !== '') next.km = info.km;
+    if (info.minutes != null && info.minutes !== '') next.minutes = info.minutes;
+    if (Array.isArray(info.stops)) next.routeStops = info.stops;
+    const overridePrice = String(info.price ?? '').trim();
+    if (overridePrice) next.price = overridePrice;
+    const extraNotes = String(info.notes || '').trim();
+    if (extraNotes) {
+        const existing = String(next.comments || '').trim();
+        next.comments = existing ? `${existing}\n${extraNotes}` : extraNotes;
+    }
+    return next;
+}
+
+async function loadRouteAdditionalInfo() {
+    try {
+        const response = await fetch(ROUTE_ADDITIONAL_INFO_URL, { cache: 'no-store' });
+        if (!response.ok) return { routes: [] };
+        const payload = await response.json();
+        return payload && typeof payload === 'object' ? payload : { routes: [] };
+    } catch (error) {
+        console.warn('Failed to load route_additional_info.json', error);
+        return { routes: [] };
+    }
+}
+
+async function augmentBusScheduleWithAdditionalInfo(dataset) {
+    const payload = await loadRouteAdditionalInfo();
+    const routes = Array.isArray(payload.routes) ? payload.routes : [];
+    const infoByKey = new Map();
+    routes.forEach((route) => {
+        if (!route || !route.to) return;
+        infoByKey.set(routePairKey(route.from || 'Rodos', route.to), route);
+    });
+
+    const coveredKeys = new Set();
+    const enriched = dataset.map((row) => {
+        const info = resolveAdditionalRouteInfo(infoByKey, row.from || 'Rodos', row.to);
+        if (info) {
+            coveredKeys.add(routePairKey(info.from || 'Rodos', info.to));
+            const aliasKey = routePairKey(row.from || 'Rodos', row.to);
+            coveredKeys.add(aliasKey);
+        }
+        return applyRouteAdditionalInfo(row, info);
+    });
+
+    routes.forEach((route) => {
+        const key = routePairKey(route.from || 'Rodos', route.to);
+        if (coveredKeys.has(key)) return;
+        // Skip combined catalog title when split schedule cards already cover it
+        if (String(route.to).toLowerCase() === 'malona-massari') {
+            const hasSplit = dataset.some((row) => {
+                const t = String(row.to || '').trim().toLowerCase();
+                return t === 'malona' || t === 'massari';
+            });
+            if (hasSplit) return;
+        }
+        enriched.push(applyRouteAdditionalInfo({
+            from: route.from || 'Rodos',
+            to: route.to,
+            price: '',
+            region: route.region || 'East',
+            day: route.day || 'All',
+            timesOut: [],
+            timesBack: [],
+            comments: '',
+            _emptyCatalog: true
+        }, route));
+    });
+
+    return enriched;
 }
 
 function renderArtistLinks(row) {
@@ -3072,6 +3240,12 @@ function rowMatchesSearchTerms(row, terms) {
     return terms.some((term) => haystack.includes(term));
 }
 
+function rowHasAnyBusTimes(row) {
+    const out = normalizeTimeList(resolveFieldValue(row, ['timesOut', 'outbound', 'times']));
+    const back = normalizeTimeList(resolveFieldValue(row, ['timesBack', 'inbound', 'returns']));
+    return out.length > 0 || back.length > 0;
+}
+
 function rowMatchesBusTimeWindow(row) {
     if (activeScope !== 'bus_schedule') return true;
     const timeStart = document.getElementById('time-filter-start')?.value || '';
@@ -3079,7 +3253,11 @@ function rowMatchesBusTimeWindow(row) {
     if (!timeStart && !timeEnd) return true;
     const timesOutbound = normalizeTimeList(resolveFieldValue(row, ['timesOut', 'outbound', 'times']));
     const timesInbound = normalizeTimeList(resolveFieldValue(row, ['timesBack', 'inbound', 'returns']));
-    return timesOutbound.concat(timesInbound).some((time) => isTimeInWindow(time, timeStart, timeEnd));
+    const all = timesOutbound.concat(timesInbound);
+    if (!all.length) {
+        return !fieldVisibility['btn-hide-empty-dest'];
+    }
+    return all.some((time) => isTimeInWindow(time, timeStart, timeEnd));
 }
 
 function matchesRowFilters(row, { includeSearch = true, includeDestinations = true, skipDay = false } = {}) {
@@ -3101,6 +3279,10 @@ function matchesRowFilters(row, { includeSearch = true, includeDestinations = tr
     if (!rowMatchesBusTimeWindow(row)) return false;
 
     if (fieldVisibility['btn-hide-sparse-west'] && isSparseWestRoute(row)) return false;
+
+    if (activeScope === 'bus_schedule' && fieldVisibility['btn-hide-empty-dest'] && !rowHasAnyBusTimes(row)) {
+        return false;
+    }
 
     if (includeDestinations && selectedDestinations.size > 0) {
         if (!selectedDestinations.has(getRowDestination(row))) return false;
@@ -3268,7 +3450,10 @@ function getFilteredRecords() {
 function getBusScheduleTableRecords() {
     if (activeDataLoadError) return [];
     const rows = activeDataset.filter((row) => matchesRowFilters(row, { skipDay: true }));
-    return sortBusScheduleRows(rows);
+    const visible = fieldVisibility['btn-rem']
+        ? rows.filter((row) => rowHasVisibleBusTimes(row))
+        : rows;
+    return sortBusScheduleRows(visible);
 }
 
 function getTimetablePrintRecords() {
@@ -4194,7 +4379,6 @@ async function renderDashboardMapFull(dataset, target, scopeConfig) {
     toolbar.innerHTML = `
         <button type="button" class="compact-btn" data-map-action="fit">Fit Markers</button>
         <button type="button" class="compact-btn" data-map-action="reset">Reset Area</button>
-        <button type="button" class="compact-btn ${viewEnhancementState.mapAutoFit ? 'active' : ''}" data-map-action="autofit">Auto Fit</button>
     `;
     const host = document.createElement('div');
     host.className = 'dashboard-map-host';
@@ -4247,7 +4431,7 @@ async function renderDashboardMapFull(dataset, target, scopeConfig) {
             color: '#ffffff',
             weight: 2,
             opacity: 1,
-            fillOpacity: 0.9
+            fillOpacity: 0.92
         }).bindPopup(`<strong>${escapeHtml(point.title)}</strong>`);
         marker.addTo(group);
         bounds.extend([point.lat, point.lng]);
@@ -4261,19 +4445,8 @@ async function renderDashboardMapFull(dataset, target, scopeConfig) {
     toolbar.querySelector('[data-map-action="reset"]')?.addEventListener('click', () => {
         map.setView([36.4349, 28.2175], 11, { animate: true });
     });
-    toolbar.querySelector('[data-map-action="autofit"]')?.addEventListener('click', (event) => {
-        viewEnhancementState.mapAutoFit = !viewEnhancementState.mapAutoFit;
-        saveViewEnhancementStateToStorage();
-        event.currentTarget.classList.toggle('active', viewEnhancementState.mapAutoFit);
-        if (viewEnhancementState.mapAutoFit && bounds.isValid()) {
-            map.fitBounds(bounds, { padding: [20, 20], maxZoom: 13 });
-        }
-    });
 
     map.invalidateSize();
-    if (viewEnhancementState.mapAutoFit && bounds.isValid()) {
-        map.fitBounds(bounds, { padding: [20, 20], maxZoom: 13 });
-    }
     return true;
 }
 
@@ -4473,7 +4646,7 @@ const DASHBOARD_VIEW_RENDERERS = {
                     color: '#ffffff',
                     weight: 2,
                     opacity: 1,
-                    fillOpacity: 0.9
+                    fillOpacity: 0.92
                 }).bindPopup(`<strong>${escapeHtml(point.title)}</strong>`);
                 marker.addTo(group);
                 bounds.extend([point.lat, point.lng]);
@@ -5270,7 +5443,8 @@ function renderCardsView(dataset, options = {}) {
                 finalOutTimes = finalOutTimes.filter((time) => !isTimePassed(time));
                 finalBackTimes = finalBackTimes.filter((time) => !isTimePassed(time));
             }
-            if (!finalOutTimes.length && !finalBackTimes.length) return;
+            const isEmptyCard = !finalOutTimes.length && !finalBackTimes.length;
+            if (isEmptyCard && fieldVisibility['btn-hide-empty-dest']) return;
 
             const card = document.createElement('div');
             const regionKey = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-');
@@ -5280,10 +5454,13 @@ function renderCardsView(dataset, options = {}) {
                 'profile-card',
                 regionKey ? `region-${regionKey}` : '',
                 splitFaliraki ? 'region-split-faliraki' : '',
-                isBusRouteStarred(row) ? 'is-starred' : ''
+                isBusRouteStarred(row) ? 'is-starred' : '',
+                isEmptyCard ? 'is-empty-route' : ''
             ].filter(Boolean).join(' ');
             const outPills = finalOutTimes.map((time) => `<span class="bus-pill ${fieldVisibility['btn-grey'] && isTimePassed(time) ? 'passed-grey' : ''}">${time}</span>`).join('');
             const backPills = finalBackTimes.map((time) => `<span class="bus-pill inbound ${fieldVisibility['btn-grey'] && isTimePassed(time) ? 'passed-grey' : ''}">${time}</span>`).join('');
+            const metaFooter = buildBusRouteMetaFooterHtml(row);
+            const emptyHint = isEmptyCard ? '<div class="bus-empty-hint">No times in current schedule</div>' : '';
             card.innerHTML = `
                 ${renderBusFavButtonHtml(row, { floating: true })}
                 <div style="width:100%;">
@@ -5294,8 +5471,9 @@ function renderCardsView(dataset, options = {}) {
                                 <span>${escapeHtml(formatBusDayLabel(row.day, row.region))}</span>
                             </div>
                         </div>
-                        <div><div class="bus-price-tag">€${escapeHtml(row.price || '0.00')}</div></div>
+                        <div class="bus-price-tag">€${escapeHtml(row.price || '0.00')}</div>
                     </div>
+                    ${emptyHint}
                     ${finalOutTimes.length ? `
                     <div class="bus-schedule-block">
                         <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
@@ -5306,7 +5484,8 @@ function renderCardsView(dataset, options = {}) {
                             <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
                             <div class="schedule-pills">${backPills}</div>
                         </div>` : ''}
-                    ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments)}</div>` : ''}
+                    ${metaFooter}
+                    ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments).replace(/\n/g, '<br>')}</div>` : ''}
                 </div>`;
             card.querySelector('.bus-fav-btn')?.addEventListener('click', (event) => {
                 toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
@@ -7353,7 +7532,6 @@ async function mountMapCoordinates(dataset = null, options = {}) {
         toolbar.innerHTML = `
             <button type="button" class="compact-btn" data-map-action="fit">Fit Markers</button>
             <button type="button" class="compact-btn" data-map-action="reset">Reset Area</button>
-            <button type="button" class="compact-btn ${viewEnhancementState.mapAutoFit ? 'active' : ''}" data-map-action="autofit">Auto Fit</button>
         `;
         mapView.prepend(toolbar);
 
@@ -7368,13 +7546,21 @@ async function mountMapCoordinates(dataset = null, options = {}) {
                 leafletMap.setView([36.4349, 28.2175], 11, { animate: true });
             }
         });
-
-        toolbar.querySelector('[data-map-action="autofit"]')?.addEventListener('click', (event) => {
-            viewEnhancementState.mapAutoFit = !viewEnhancementState.mapAutoFit;
-            saveViewEnhancementStateToStorage();
-            event.currentTarget.classList.toggle('active', viewEnhancementState.mapAutoFit);
-        });
     }
+
+    // Bus stations ignore schedule filters — keep pan/zoom stable when toggles re-render
+    if (
+        activeScope === 'bus_schedule'
+        && leafletMap
+        && mapContainer.dataset.stationsMounted === '1'
+        && (busClusterGroup || mapClusterGroup)
+    ) {
+        return;
+    }
+
+    const isFirstMap = !leafletMap;
+    const savedCenter = leafletMap ? leafletMap.getCenter() : null;
+    const savedZoom = leafletMap ? leafletMap.getZoom() : null;
 
     if (!leafletMap) {
         leafletMap = L.map('map-container', { preferCanvas: true }).setView([36.4349, 28.2175], 11);
@@ -7389,13 +7575,10 @@ async function mountMapCoordinates(dataset = null, options = {}) {
             obs.observe(mapContainer);
             mapContainer._leafletResizeObs = obs;
         }
-    }
-    requestAnimationFrame(() => {
-        if (leafletMap) leafletMap.invalidateSize({ animate: false });
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             if (leafletMap) leafletMap.invalidateSize({ animate: false });
-        }, 120);
-    });
+        });
+    }
 
     if (mapClusterGroup) {
         leafletMap.removeLayer(mapClusterGroup);
@@ -7436,7 +7619,7 @@ async function mountMapCoordinates(dataset = null, options = {}) {
                         color: '#ffffff',
                         weight: 2,
                         opacity: 1,
-                        fillOpacity: 0.9
+                        fillOpacity: 0.92
                     }).bindPopup(popupHTML);
                     if (busClusterGroup) {
                         busClusterGroup.addLayer(circleMarker);
@@ -7449,10 +7632,12 @@ async function mountMapCoordinates(dataset = null, options = {}) {
             if (busClusterGroup) {
                 leafletMap.addLayer(busClusterGroup);
             }
+            mapContainer.dataset.stationsMounted = '1';
         } catch (e) {
             console.error('Cluster generation failed:', e);
         }
     } else {
+        mapContainer.dataset.stationsMounted = '';
         const points = dataset || activeDataset;
         points.forEach((point) => {
             const lat = parseFloat(getCoordinateValue(point, ['Latitude', 'latitude', 'lat'], null));
@@ -7478,7 +7663,7 @@ async function mountMapCoordinates(dataset = null, options = {}) {
                     color: '#ffffff',
                     weight: 2,
                     opacity: 1,
-                    fillOpacity: 0.9
+                    fillOpacity: 0.92
                 }).bindPopup(`<strong>${escapeHtml(title)}</strong><br>${escapeHtml(desc)}`);
 
                 if (scopeClusterGroup) {
@@ -7495,10 +7680,9 @@ async function mountMapCoordinates(dataset = null, options = {}) {
         }
     }
     latestMapBounds = markerBounds;
-    if (viewEnhancementState.mapAutoFit && markerBounds.isValid()) {
-        leafletMap.fitBounds(markerBounds, { padding: [24, 24], maxZoom: 13 });
+    if (!isFirstMap && savedCenter) {
+        leafletMap.setView(savedCenter, savedZoom, { animate: false });
     }
-    leafletMap.invalidateSize();
 }
 
 
@@ -7527,7 +7711,7 @@ function getMapMarkerStyle(scopeKey) {
         case 'events':
             return { radius: 7, fillColor: '#be123c' };
         case 'bus_schedule':
-            return { radius: 6, fillColor: '#2563eb' };
+            return { radius: 7, fillColor: '#2563eb' };
         case 'hotels':
             return { radius: 7, fillColor: '#0891b2' };
         default:
@@ -7536,19 +7720,36 @@ function getMapMarkerStyle(scopeKey) {
 }
 
 function getMapClusterOptions(scopeKey) {
+    const iconCreateFunction = (cluster) => {
+        const count = cluster.getChildCount();
+        const size = count < 10 ? 'small' : count < 40 ? 'medium' : 'large';
+        const px = size === 'small' ? 30 : size === 'medium' ? 34 : 38;
+        return L.divIcon({
+            html: `<div><span>${count}</span></div>`,
+            className: `marker-cluster marker-cluster-${size}`,
+            iconSize: L.point(px, px)
+        });
+    };
+    const base = {
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        spiderfyOnMaxZoom: true,
+        spiderfyDistanceMultiplier: 1.5,
+        iconCreateFunction
+    };
     switch (scopeKey) {
         case 'contacts':
-            return { maxClusterRadius: 48, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 56 };
         case 'locations':
-            return { maxClusterRadius: 52, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 58 };
         case 'events':
-            return { maxClusterRadius: 44, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 52 };
         case 'bus_schedule':
-            return { maxClusterRadius: 42, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 55 };
         case 'hotels':
-            return { maxClusterRadius: 46, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 54 };
         default:
-            return { maxClusterRadius: 46, showCoverageOnHover: false, spiderfyOnMaxZoom: true };
+            return { ...base, maxClusterRadius: 54 };
     }
 }
 
@@ -8312,13 +8513,16 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
         outTimes = outTimes.filter((time) => !isTimePassed(time));
         backTimes = backTimes.filter((time) => !isTimePassed(time));
     }
-    if (!outTimes.length && !backTimes.length) return '';
+    if (!outTimes.length && !backTimes.length) {
+        if (fieldVisibility['btn-hide-empty-dest']) return '';
+    }
 
     const comments = String(row.comments || '').trim();
-    const note = comments ? `<div class="bus-comments">${escapeHtml(comments)}</div>` : '';
+    const note = comments ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>` : '';
     const price = row.price != null && String(row.price).trim() !== ''
-        ? `<div class="bus-price-tag">${escapeHtml(String(row.price))}</div>`
+        ? `<div class="bus-price-tag">${escapeHtml(String(row.price).startsWith('€') ? String(row.price) : `€${row.price}`)}</div>`
         : '';
+    const metaFooter = buildBusRouteMetaFooterHtml(row);
 
     const regionSlug = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-') || 'unknown';
     const splitFaliraki = String(row.to || '').trim().toLowerCase() === 'kalithea-faliraki';
@@ -8346,6 +8550,7 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
         <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
         <div class="schedule-pills">${renderTimetablePills(backTimes, true)}</div>
       </div>` : ''}
+      ${metaFooter}
       ${note}
     </article>`;
 }

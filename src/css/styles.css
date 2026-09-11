@@ -1143,6 +1143,60 @@ body.header-condensed .cards-layout-switches {
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.bus-header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.bus-meta-chip {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    background: #f1f5f9;
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+}
+
+.bus-meta-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0 6px;
+    text-align: center;
+}
+
+.bus-table-time {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+    white-space: nowrap;
+}
+
+.bus-table-time.passed-grey {
+    opacity: 0.4;
+}
+
+.bus-route-stops {
+    font-size: 0.68rem;
+    color: var(--text-sub);
+}
+
+.bus-empty-hint {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin: 4px 0 6px;
+    font-style: italic;
+}
+
+.profile-card.is-empty-route {
+    opacity: 0.92;
 }
 
 .bus-schedule-block {
@@ -2075,6 +2129,51 @@ body.header-condensed .cards-layout-switches {
 .leaflet-container {
     transform: translateZ(0);
     backface-visibility: hidden;
+}
+
+/* MarkerCluster: no halo/aura; number centered */
+.marker-cluster {
+    background: transparent !important;
+    background-clip: padding-box;
+}
+.marker-cluster div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    border-radius: 50% !important;
+}
+.marker-cluster span {
+    line-height: 1 !important;
+}
+.marker-cluster-small {
+    width: 30px !important;
+    height: 30px !important;
+}
+.marker-cluster-medium {
+    width: 34px !important;
+    height: 34px !important;
+}
+.marker-cluster-large {
+    width: 38px !important;
+    height: 38px !important;
+}
+.marker-cluster-small div {
+    background-color: rgba(37, 99, 235, 0.92) !important;
+    color: #fff !important;
+}
+.marker-cluster-medium div {
+    background-color: rgba(234, 88, 12, 0.92) !important;
+    color: #fff !important;
+}
+.marker-cluster-large div {
+    background-color: rgba(220, 38, 38, 0.92) !important;
+    color: #fff !important;
 }
 
 #calendar-container {

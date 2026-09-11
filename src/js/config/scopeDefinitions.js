@@ -3,7 +3,8 @@
         const {
             escapeHtml,
             normalizeTimeList,
-            formatBusDayLabel
+            formatBusDayLabel,
+            formatBusScheduleTimesCell
         } = deps;
 
         return {
@@ -46,6 +47,7 @@
                     { id: 'btn-rem', label: 'Hide Passed', type: 'toggle', defaultOn: false },
                     { id: 'btn-grey', label: 'Grey Passed', type: 'toggle', defaultOn: true },
                     { id: 'btn-hide-sparse-west', label: 'Hide sparse West', type: 'toggle', defaultOn: false },
+                    { id: 'btn-hide-empty-dest', label: 'Hide empty', type: 'toggle', defaultOn: true },
                     { id: 'time-filter-start', label: 'Window Start', type: 'time', operator: 'window' },
                     { id: 'time-filter-end', label: 'Window End', type: 'time', operator: 'window' },
                     { id: 'clear-bus-times', label: '×', type: 'clearBtn', onClick: 'clearBusTimeFilters' }
@@ -54,8 +56,16 @@
                 tableColumns: [
                     { label: 'Destination', render: (row) => `<strong>${escapeHtml(row.to || 'Route')}</strong>` },
                     { label: 'Day', render: (row) => escapeHtml(formatBusDayLabel(row.day, row.region)) },
-                    { label: 'Outbound', render: (row) => escapeHtml(normalizeTimeList(row.timesOut || row.outbound || row.times || []).join(' ')) },
-                    { label: 'Return', render: (row) => escapeHtml(normalizeTimeList(row.timesBack || row.inbound || row.returns || []).join(' ')) },
+                    {
+                        label: 'Outbound',
+                        render: (row) => formatBusScheduleTimesCell(row.timesOut || row.outbound || row.times || [])
+                    },
+                    {
+                        label: 'Return',
+                        render: (row) => formatBusScheduleTimesCell(row.timesBack || row.inbound || row.returns || [], { inbound: true })
+                    },
+                    { label: 'Distance', render: (row) => (row.km != null && row.km !== '' && Number(row.km) > 0 ? escapeHtml(`~${row.km} km`) : '') },
+                    { label: 'Est. time', render: (row) => (row.minutes != null && row.minutes !== '' && Number(row.minutes) > 0 ? escapeHtml(`~${row.minutes} min`) : '') },
                     { label: 'Price', render: (row) => escapeHtml(`€${row.price || '0.00'}`) },
                     { label: 'Notes', render: (row) => escapeHtml(row.comments || '').replace(/\n/g, '<br>') },
                 ],

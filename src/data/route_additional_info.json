@@ -1,0 +1,374 @@
+{
+  "version": 1,
+  "speedKmh": 40,
+  "routes": [
+    {
+      "from": "Rodos",
+      "to": "Kalithea-Faliraki",
+      "km": 12,
+      "minutes": 18,
+      "price": "",
+      "notes": "",
+      "region": "East"
+    },
+    {
+      "from": "Airport",
+      "to": "Faliraki",
+      "km": 14,
+      "minutes": 21,
+      "price": "",
+      "notes": "",
+      "region": "East"
+    },
+    {
+      "from": "Rodos",
+      "to": "Kalithies",
+      "km": 15,
+      "minutes": 23,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Mantomata Beach",
+      "km": 17,
+      "minutes": 26,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Ladiko-Anthony Quinn",
+      "km": 18,
+      "minutes": 27,
+      "price": "",
+      "notes": "",
+      "region": "East"
+    },
+    {
+      "from": "Rodos",
+      "to": "Afantou",
+      "km": 20,
+      "minutes": 30,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Oasis,Lippia,Iris",
+      "km": 22,
+      "minutes": 33,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Psinthos",
+      "km": 23,
+      "minutes": 35,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kolimbia Beach",
+      "km": 25,
+      "minutes": 38,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Seven Springs",
+      "km": 27,
+      "minutes": 41,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Tsampika Beach",
+      "km": 28,
+      "minutes": 42,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Archangelos",
+      "km": 30,
+      "minutes": 45,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Stegna Beach",
+      "km": 32,
+      "minutes": 48,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Malona-Massari",
+      "km": 35,
+      "minutes": 53,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Charaki Beach",
+      "km": 38,
+      "minutes": 57,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kalathos",
+      "km": 48,
+      "minutes": 72,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Lindos",
+      "km": 50,
+      "minutes": 75,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Pefkos",
+      "km": 52,
+      "minutes": 78,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Lardos",
+      "km": 55,
+      "minutes": 83,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Laerma",
+      "km": 55,
+      "minutes": 83,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kiotari",
+      "km": 60,
+      "minutes": 90,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Gennadi",
+      "km": 65,
+      "minutes": 98,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Vati-Profilia-Istrio-Arnitha-Apolakia",
+      "km": 70,
+      "minutes": 105,
+      "price": "",
+      "notes": "",
+      "region": "East"
+    },
+    {
+      "from": "Rodos",
+      "to": "Asklipio-Lachania-Katavia",
+      "km": 75,
+      "minutes": 113,
+      "price": "",
+      "notes": "",
+      "region": "East"
+    },
+    {
+      "from": "Rodos",
+      "to": "Ixia Ialysos",
+      "km": 5,
+      "minutes": 8,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Pastida - Maritsa",
+      "km": 15,
+      "minutes": 23,
+      "price": "",
+      "notes": "",
+      "stops": [
+        { "name": "Pastida", "km": 13 },
+        { "name": "Maritsa", "km": 17 }
+      ]
+    },
+    {
+      "from": "Rodos",
+      "to": "Damatria",
+      "km": 21,
+      "minutes": 32,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Theologos Tholos",
+      "km": 20,
+      "minutes": 30,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Soroni",
+      "km": 24,
+      "minutes": 36,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Fanes",
+      "km": 28,
+      "minutes": 42,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kalavarda",
+      "km": 31,
+      "minutes": 47,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Butterflies Valley",
+      "km": 26,
+      "minutes": 39,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Empona",
+      "km": 52,
+      "minutes": 78,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kritinia KAM.SKALA",
+      "km": 50,
+      "minutes": 75,
+      "price": "",
+      "notes": "",
+      "stops": [
+        { "name": "Kritinia", "km": 53 },
+        { "name": "Kamiros Skala", "km": 46 }
+      ]
+    },
+    {
+      "from": "Rodos",
+      "to": "Siana",
+      "km": 68,
+      "minutes": 102,
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Agios Isidoros",
+      "km": 65,
+      "minutes": 98,
+      "price": "",
+      "notes": "",
+      "region": "West"
+    },
+    {
+      "from": "Rodos",
+      "to": "Mandriko",
+      "km": 41,
+      "minutes": 62,
+      "price": "",
+      "notes": "",
+      "region": "West"
+    },
+    {
+      "from": "Rodos",
+      "to": "Monolithos",
+      "km": 73,
+      "minutes": 110,
+      "price": "",
+      "notes": "",
+      "region": "West"
+    },
+    {
+      "from": "Rodos",
+      "to": "Prasonisi",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Airport",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Kremasti",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Paradisi",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Salakos",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    },
+    {
+      "from": "Rodos",
+      "to": "Apollona Dimilia Eleousa Platania",
+      "km": "",
+      "minutes": "",
+      "price": "",
+      "notes": ""
+    }
+  ]
+}
