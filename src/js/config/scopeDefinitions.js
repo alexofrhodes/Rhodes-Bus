@@ -54,20 +54,22 @@
                 ],
                 searchFields: ['from', 'to', 'comments'],
                 tableColumns: [
-                    { label: 'Destination', render: (row) => `<strong>${escapeHtml(row.to || 'Route')}</strong>` },
-                    { label: 'Day', render: (row) => escapeHtml(formatBusDayLabel(row.day, row.region)) },
+                    { id: 'destination', label: 'Destination', render: (row) => `<strong>${escapeHtml(row.to || 'Route')}</strong>` },
+                    { id: 'day', label: 'Day', render: (row) => escapeHtml(formatBusDayLabel(row.day, row.region)) },
                     {
+                        id: 'outbound',
                         label: 'Outbound',
                         render: (row) => formatBusScheduleTimesCell(row.timesOut || row.outbound || row.times || [])
                     },
                     {
+                        id: 'return',
                         label: 'Return',
                         render: (row) => formatBusScheduleTimesCell(row.timesBack || row.inbound || row.returns || [], { inbound: true })
                     },
-                    { label: 'Distance', render: (row) => (row.km != null && row.km !== '' && Number(row.km) > 0 ? escapeHtml(`~${row.km} km`) : '') },
-                    { label: 'Est. time', render: (row) => (row.minutes != null && row.minutes !== '' && Number(row.minutes) > 0 ? escapeHtml(`~${row.minutes} min`) : '') },
-                    { label: 'Price', render: (row) => escapeHtml(`€${row.price || '0.00'}`) },
-                    { label: 'Notes', render: (row) => escapeHtml(row.comments || '').replace(/\n/g, '<br>') },
+                    { id: 'distance', label: 'Distance', render: (row) => (row.km != null && row.km !== '' && Number(row.km) > 0 ? escapeHtml(`~${row.km} km`) : '') },
+                    { id: 'est_time', label: 'Est. time', render: (row) => (row.minutes != null && row.minutes !== '' && Number(row.minutes) > 0 ? escapeHtml(`~${row.minutes} min`) : '') },
+                    { id: 'price', label: 'Price', render: (row) => escapeHtml(`€${row.price || '0.00'}`) },
+                    { id: 'notes', label: 'Notes', render: (row) => escapeHtml(row.comments || '').replace(/\n/g, '<br>') },
                 ],
                 locationFields: []
             }

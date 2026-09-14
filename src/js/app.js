@@ -1892,6 +1892,13 @@ function loadStandaloneBusState() {
 function saveStandaloneBusState() {
     if (!window.__STANDALONE_BUS__ || suppressStandalonePersist) return;
     try {
+        let existing = {};
+        try {
+            existing = JSON.parse(window.localStorage.getItem(STANDALONE_BUS_STATE_KEY) || '{}') || {};
+        } catch (error) {
+            existing = {};
+        }
+        const colIds = getPrintTableColumnIds();
         const payload = {
             search: document.getElementById('app-search')?.value || '',
             destinations: Array.from(selectedDestinations),
@@ -1900,7 +1907,12 @@ function saveStandaloneBusState() {
             filters: { ...activeFilterState },
             toggles: { ...fieldVisibility },
             timeStart: document.getElementById('time-filter-start')?.value || '',
-            timeEnd: document.getElementById('time-filter-end')?.value || ''
+            timeEnd: document.getElementById('time-filter-end')?.value || '',
+            printOrientation: getPrintOrientation(),
+            printMode: getPrintMode(),
+            printPages: getPrintPages(),
+            printSectionLayout: getPrintSectionLayout(),
+            printTableColumns: colIds.length ? colIds : (existing.printTableColumns || [])
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -1961,6 +1973,24 @@ function getLogoUrl(fileName) {
 function getPrintLogoHtml(fileName, className = 'print-logo') {
     const src = escapeHtml(getLogoUrl(fileName));
     return `<img class="${escapeHtml(className)}" src="${src}" alt="" width="36" height="36" />`;
+}
+
+function getPrintQrHtml() {
+    return getPrintLogoHtml('site-qr.png', 'print-qr');
+}
+
+function buildPrintMastheadHtml(sections) {
+    const list = Array.isArray(sections) ? sections.filter(Boolean) : [];
+    const keys = [...new Set(list.map((s) => s.regionKey).filter(Boolean))];
+    let logoHtml;
+    if (keys.length === 1 && keys[0] === 'east') {
+        logoHtml = getPrintLogoHtml('EAST.png');
+    } else if (keys.length === 1 && keys[0] === 'west') {
+        logoHtml = getPrintLogoHtml('WEST.png');
+    } else {
+        logoHtml = getPrintLogoHtml('LOGO.png');
+    }
+    return `<div class="tt-page-masthead">${logoHtml}${getPrintQrHtml()}</div>`;
 }
 
 function isStandaloneAppDisplay() {
@@ -2055,6 +2085,9 @@ function openStandaloneAboutInfo() {
                     <span class="standalone-about-link-label">GitHub</span>
                     <span class="standalone-about-link-value">github.com/alexofrhodes</span>
                 </a>
+            </div>
+            <div class="standalone-about-qr-wrap">
+                <img class="about-qr" src="${escapeHtml(getLogoUrl('site-qr.png'))}" alt="Site QR code" width="120" height="120" />
             </div>
             <div class="standalone-about-divider" role="separator"></div>
             <div class="standalone-about-links">
@@ -2840,6 +2873,12 @@ function applyRouteAdditionalInfo(row, info) {
     if (info.km != null && info.km !== '') next.km = info.km;
     if (info.minutes != null && info.minutes !== '') next.minutes = info.minutes;
     if (Array.isArray(info.stops)) next.routeStops = info.stops;
+    if (Array.isArray(info.timesOut) && info.timesOut.length) {
+        next.timesOut = info.timesOut.slice();
+    }
+    if (Array.isArray(info.timesBack) && info.timesBack.length) {
+        next.timesBack = info.timesBack.slice();
+    }
     const overridePrice = String(info.price ?? '').trim();
     if (overridePrice) next.price = overridePrice;
     const extraNotes = String(info.notes || '').trim();
@@ -7895,6 +7934,84 @@ function setPrintOrientation(orientation) {
     return next;
 }
 
+function getPrintMode() {
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (parsed?.printMode === 'table' || parsed?.printMode === 'cards') {
+            return parsed.printMode;
+        }
+    } catch (error) {
+        /* ignore */
+    }
+    return 'cards';
+}
+
+function setPrintMode(mode) {
+    const next = mode === 'table' ? 'table' : 'cards';
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        parsed.printMode = next;
+        window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(parsed));
+    } catch (error) {
+        /* ignore */
+    }
+    syncPrintModeButtons();
+    return next;
+}
+
+function getPrintPages() {
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (typeof parsed?.printPages === 'string') return parsed.printPages;
+    } catch (error) {
+        /* ignore */
+    }
+    return '';
+}
+
+function setPrintPages(spec) {
+    const next = String(spec || '').trim();
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        parsed.printPages = next;
+        window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(parsed));
+    } catch (error) {
+        /* ignore */
+    }
+    return next;
+}
+
+function getPrintSectionLayout() {
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (parsed?.printSectionLayout === 'horizontal' || parsed?.printSectionLayout === 'vertical') {
+            return parsed.printSectionLayout;
+        }
+    } catch (error) {
+        /* ignore */
+    }
+    return 'vertical';
+}
+
+function setPrintSectionLayout(layout) {
+    const next = layout === 'horizontal' ? 'horizontal' : 'vertical';
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        parsed.printSectionLayout = next;
+        window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(parsed));
+    } catch (error) {
+        /* ignore */
+    }
+    syncPrintSectionLayoutButtons();
+    return next;
+}
+
 function syncPrintOrientationButtons() {
     const current = getPrintOrientation();
     document.querySelectorAll('[data-print-orient]').forEach((btn) => {
@@ -7903,6 +8020,221 @@ function syncPrintOrientationButtons() {
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
         btn.setAttribute('aria-checked', active ? 'true' : 'false');
     });
+}
+
+function syncPrintModeButtons() {
+    const current = getPrintMode();
+    document.querySelectorAll('[data-print-mode]').forEach((btn) => {
+        const active = btn.getAttribute('data-print-mode') === current;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+}
+
+function syncPrintSectionLayoutButtons() {
+    const current = getPrintSectionLayout();
+    document.querySelectorAll('[data-print-section-layout]').forEach((btn) => {
+        const active = btn.getAttribute('data-print-section-layout') === current;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+}
+
+function allPrintTableColumnIds() {
+    return (activeScopeConfig?.tableColumns || [])
+        .map((col) => String(col.id || col.label || '').trim())
+        .filter(Boolean);
+}
+
+function getPrintTableColumnIds() {
+    const all = allPrintTableColumnIds();
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (Array.isArray(parsed?.printTableColumns) && parsed.printTableColumns.length) {
+            if (!all.length) {
+                return parsed.printTableColumns.map((id) => String(id || '').trim()).filter(Boolean);
+            }
+            const allowed = new Set(all);
+            const picked = parsed.printTableColumns
+                .map((id) => String(id || '').trim())
+                .filter((id) => allowed.has(id));
+            if (picked.length) return picked;
+        }
+    } catch (error) {
+        /* ignore */
+    }
+    return all.slice();
+}
+
+function setPrintTableColumnIds(ids) {
+    const allowed = new Set(allPrintTableColumnIds());
+    const next = (Array.isArray(ids) ? ids : [])
+        .map((id) => String(id || '').trim())
+        .filter((id) => allowed.has(id));
+    const payloadIds = next.length ? next : allPrintTableColumnIds();
+    try {
+        const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        parsed.printTableColumns = payloadIds;
+        window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(parsed));
+    } catch (error) {
+        /* ignore */
+    }
+    return payloadIds;
+}
+
+function isPrintTableColumnEnabled(column) {
+    const id = String(column?.id || column?.label || '').trim();
+    if (!id) return true;
+    return getPrintTableColumnIds().includes(id);
+}
+
+function defaultPrintPagesSpec(sectionCount) {
+    const n = Math.max(0, Number(sectionCount) || 0);
+    return Array.from({ length: n }, (_, i) => String(i + 1)).join(',');
+}
+
+function parsePrintPageGroups(spec, sectionCount) {
+    const count = Math.max(0, Number(sectionCount) || 0);
+    const defaults = Array.from({ length: count }, (_, i) => [i + 1]);
+    if (!count) return [];
+    const raw = String(spec || '').trim();
+    if (!raw) return defaults;
+
+    const groups = [];
+    const used = new Set();
+    raw.split(',').forEach((token) => {
+        const t = String(token || '').trim();
+        if (!t) return;
+        const m = t.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if (!m) return;
+        let a = Number.parseInt(m[1], 10);
+        let b = m[2] ? Number.parseInt(m[2], 10) : a;
+        if (!Number.isFinite(a) || !Number.isFinite(b)) return;
+        if (a > b) {
+            const tmp = a;
+            a = b;
+            b = tmp;
+        }
+        const group = [];
+        for (let n = a; n <= b; n += 1) {
+            if (n < 1 || n > count || used.has(n)) continue;
+            used.add(n);
+            group.push(n);
+        }
+        if (group.length) groups.push(group);
+    });
+    return groups.length ? groups : defaults;
+}
+
+function assertPrintPageGroupsSelfCheck() {
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    console.assert(same(parsePrintPageGroups('1,2,3-4', 5), [[1], [2], [3, 4]]), 'pages 1,2,3-4');
+    console.assert(same(parsePrintPageGroups('1-2,3-4,5', 5), [[1, 2], [3, 4], [5]]), 'pages 1-2,3-4,5');
+    console.assert(same(parsePrintPageGroups('1-3,4,5', 5), [[1, 2, 3], [4], [5]]), 'pages 1-3,4,5');
+    console.assert(same(parsePrintPageGroups('', 3), [[1], [2], [3]]), 'pages default');
+}
+assertPrintPageGroupsSelfCheck();
+
+function getBusPrintSections(dataset) {
+    const rows = Array.isArray(dataset) ? dataset : [];
+    const sections = [];
+
+    const east = rows.filter((row) => normalizeText(row.region) === 'east');
+    if (east.length) {
+        sections.push({
+            title: 'East · Every day',
+            bandClass: 'east',
+            regionKey: 'east',
+            rows: sortBusScheduleRowsWithinBand(east)
+        });
+    }
+
+    const west = rows.filter((row) => normalizeText(row.region) === 'west');
+    [
+        { label: 'Mon–Fri', key: 'Weekdays' },
+        { label: 'Saturday', key: 'Saturday' },
+        { label: 'Sunday', key: 'Sunday' }
+    ].forEach(({ label, key }) => {
+        const dayRows = west.filter((row) => rowMatchesWestPrintDay(row.day, key));
+        if (!dayRows.length) return;
+        sections.push({
+            title: `West · ${label}`,
+            bandClass: 'west',
+            regionKey: 'west',
+            rows: sortBusScheduleRowsWithinBand(dayRows)
+        });
+    });
+
+    const other = rows.filter((row) => {
+        const region = normalizeText(row.region);
+        return region && region !== 'east' && region !== 'west';
+    });
+    if (other.length) {
+        sections.push({
+            title: 'Other',
+            bandClass: '',
+            regionKey: 'other',
+            rows: sortBusScheduleRowsWithinBand(other)
+        });
+    }
+
+    return sections;
+}
+
+function renderPrintCardsSectionBody(section) {
+    const showDayTag = section.regionKey === 'east';
+    const cards = (section.rows || [])
+        .map((row) => renderTimetableMiniCard(row, { showDayTag }))
+        .filter(Boolean)
+        .join('');
+    const bandClass = section.regionKey === 'east' ? ' tt-band-east' : '';
+    return `<div class="tt-section">
+<div class="tt-band-title${bandClass}">${escapeHtml(section.title)}</div>
+<div class="tt-pack">${cards || '<div class="tt-empty">No routes</div>'}</div>
+</div>`;
+}
+
+function renderPrintTableSectionBody(section, { leanColumns = false } = {}) {
+    return buildBusScheduleRegionTableSection(
+        section.title,
+        section.rows || [],
+        section.bandClass || '',
+        { forPrint: true, leanColumns }
+    );
+}
+
+function buildGroupedPrintPagesHtml(sections, pagesSpec, renderSectionBody, sectionLayout = getPrintSectionLayout()) {
+    const layout = sectionLayout === 'horizontal' ? 'horizontal' : 'vertical';
+    const groups = parsePrintPageGroups(pagesSpec, sections.length);
+    return groups.map((group, index) => {
+        const secs = group.map((n) => sections[n - 1]).filter(Boolean);
+        const leanColumns = layout === 'horizontal' && secs.length > 1;
+        const bodies = secs.map((section) => renderSectionBody(section, { leanColumns })).join('');
+        const masthead = buildPrintMastheadHtml(secs);
+        const cols = Math.min(4, Math.max(1, secs.length));
+        const inner = leanColumns
+            ? `<div class="tt-sections-row" data-cols="${cols}">${bodies}</div>`
+            : bodies;
+        return buildPrintPageHtml(`group-${index + 1}`, masthead, inner);
+    }).join('');
+}
+
+function splitPrintHtmlDocument(html) {
+    const styleMatch = String(html).match(/<style>([\s\S]*?)<\/style>/i);
+    const bodyMatch = String(html).match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    return {
+        style: styleMatch ? styleMatch[1] : '',
+        body: bodyMatch ? bodyMatch[1] : html
+    };
+}
+
+function buildPrintDocumentHtml(mode = getPrintMode(), orientation = getPrintOrientation(), pagesSpec = getPrintPages()) {
+    const nextMode = mode === 'table' ? 'table' : 'cards';
+    const rows = nextMode === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+    if (nextMode === 'cards') return buildTimetablePrintHtml(rows, orientation, pagesSpec);
+    return buildBusTablePrintHtml(rows, orientation, pagesSpec);
 }
 
 function getPrintPageMetrics(orientation = getPrintOrientation()) {
@@ -7950,7 +8282,8 @@ html, body {
 .tt-page-masthead {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 8px;
   margin: 0 0 4px;
 }
 .tt-page-masthead .print-logo {
@@ -7959,8 +8292,48 @@ html, body {
   height: 40px;
   object-fit: contain;
 }
+.tt-page-masthead .print-qr {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-left: auto;
+}
 .print-brand { display: none; }
-.bus-print-table-section { margin: 0; page-break-inside: avoid; }
+.bus-print-table-section { margin: 0 0 6px; page-break-inside: avoid; }
+.tt-section + .tt-section,
+.bus-print-table-section + .bus-print-table-section { margin-top: 8px; }
+.tt-sections-row {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  align-items: start;
+}
+.tt-sections-row[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tt-sections-row[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tt-sections-row[data-cols="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tt-sections-row > .tt-section,
+.tt-sections-row > .bus-print-table-section {
+  min-width: 0;
+  margin-top: 0 !important;
+}
+.tt-sections-row .tt-pack {
+  column-count: 1;
+}
+.bus-meta-footer {
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  text-align: center;
+}
+.bus-meta-chip,
+.bus-route-stops {
+  font-size: 5pt;
+  line-height: 1.25;
+  color: #64748b;
+}
 .bus-print-table-band {
   margin: 0 0 4px;
   padding: 3px 8px;
@@ -7976,15 +8349,44 @@ html, body {
 .bus-print-table-band.east { background: #ea580c; }
 .bus-print-table-band.west { background: #2563eb; }
 .table-responsive-wrapper { overflow: visible; width: 100%; }
-.flat-data-table.bus-print-table { width: 100%; border-collapse: collapse; table-layout: auto; }
+.flat-data-table.bus-print-table { width: 100%; max-width: 100%; border-collapse: collapse; table-layout: fixed; }
 .bus-print-table th.col-fit-cell,
-.bus-print-table td.col-fit-cell { white-space: nowrap; width: 1%; }
+.bus-print-table td.col-fit-cell { white-space: nowrap; width: 6%; }
+.bus-print-table th.col-destination,
+.bus-print-table td.col-destination {
+  width: 12%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+.tt-sections-row .bus-print-table th.col-destination,
+.tt-sections-row .bus-print-table td.col-destination { width: 22%; }
+.bus-print-table th.col-day,
+.bus-print-table td.col-day { width: 9%; white-space: nowrap; }
+.bus-print-table th.col-distance,
+.bus-print-table td.col-distance,
+.bus-print-table th.col-est,
+.bus-print-table td.col-est,
+.bus-print-table th.col-price,
+.bus-print-table td.col-price { width: 6%; white-space: nowrap; }
+.bus-print-table th.col-notes,
+.bus-print-table td.col-notes {
+  width: 8%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
 .bus-print-table th.col-outbound,
 .bus-print-table th.col-return { white-space: nowrap; }
+/* Times flex into leftover width after fixed meta columns. */
 .bus-print-table th.col-outbound,
 .bus-print-table td.col-outbound,
 .bus-print-table th.col-return,
-.bus-print-table td.col-return { width: 50%; word-break: break-word; }
+.bus-print-table td.col-return {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
 .flat-data-table th {
   background: #f1f5f9; color: #0f172a; font-weight: 700;
   padding: 3px 4px; border: 1px solid #cbd5e1; text-align: left;
@@ -7993,7 +8395,7 @@ html, body {
 .flat-data-table th.col-return { color: #5b21b6; }
 .flat-data-table td {
   padding: 3px 4px; border: 1px solid #e2e8f0; vertical-align: top;
-  word-break: break-word; line-height: 1.25;
+  word-break: normal; overflow-wrap: break-word; line-height: 1.25;
 }
 .flat-data-table tr:nth-child(even) td { background: #fafafa; }
 .flat-data-table tr.bus-table-row td:first-child { border-left-width: 3px; border-left-style: solid; }
@@ -8008,18 +8410,63 @@ html, body {
 .tt-empty { color: #94a3b8; font-size: 7pt; text-align: center; padding: 6px; }`;
 }
 
-function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeStar = false } = {}) {
-    const columns = (activeScopeConfig?.tableColumns || []).filter(
+function printColClass(column) {
+    const id = column.id || '';
+    if (id === 'outbound' || column.label === 'Outbound') return 'col-outbound';
+    if (id === 'return' || column.label === 'Return') return 'col-return';
+    if (id === 'destination') return 'col-destination';
+    if (id === 'day') return 'col-day';
+    if (id === 'distance') return 'col-distance';
+    if (id === 'est_time') return 'col-est';
+    if (id === 'price') return 'col-price';
+    if (id === 'notes') return 'col-notes';
+    return 'col-fit-cell';
+}
+
+function printColumnCellText(column, row) {
+    const content = column.render ? column.render(row) : escapeHtml(String(row[column.field] || ''));
+    return String(content || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function printColumnHasContent(column, rows) {
+    const id = column.id || '';
+    if (id === 'destination' || id === 'outbound' || id === 'return') return true;
+    if (id === 'day') {
+        const labels = new Set((rows || []).map((row) => printColumnCellText(column, row)).filter(Boolean));
+        // Section band already names the day when every row shares one label.
+        return labels.size > 1;
+    }
+    return (rows || []).some((row) => {
+        const text = printColumnCellText(column, row);
+        if (!text || text === '—' || text === '-') return false;
+        if (id === 'price' && /^€?0([.,]0+)?$/.test(text.replace(/\s/g, ''))) return false;
+        return true;
+    });
+}
+
+function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeStar = false, forPrint = false, leanColumns = false } = {}) {
+    let columns = (activeScopeConfig?.tableColumns || []).filter(
         (col) => !col.visibilityToggleId || !!fieldVisibility[col.visibilityToggleId]
     );
+    if (forPrint) {
+        columns = columns.filter((col) => isPrintTableColumnEnabled(col));
+        columns = columns.filter((col) => printColumnHasContent(col, rows));
+        // Side-by-side sections only: Dest + times so Out/Return can flex.
+        if (leanColumns) {
+            const keep = new Set(['destination', 'outbound', 'return', 'day']);
+            columns = columns.filter((col) => keep.has(col.id));
+        }
+    }
     if (!columns.length) return '';
 
     const starHeader = includeStar ? '<th class="col-star" aria-label="Starred">★</th>' : '';
     const headers = columns.map((column) => {
-        const label = column.label || '';
-        if (label === 'Outbound') return '<th class="col-outbound">Outbound</th>';
-        if (label === 'Return') return '<th class="col-return">Return</th>';
-        return `<th class="col-fit-cell">${escapeHtml(label)}</th>`;
+        const cls = printColClass(column);
+        return `<th class="${cls}">${escapeHtml(column.label || '')}</th>`;
     }).join('');
 
     if (!rows.length) {
@@ -8035,12 +8482,8 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
             ? `<td class="col-star">${renderBusFavButtonHtml(row)}</td>`
             : '';
         const cells = columns.map((column) => {
-            const label = column.label || '';
-            let cellClass = 'col-fit-cell';
-            if (label === 'Outbound') cellClass = 'col-outbound';
-            else if (label === 'Return') cellClass = 'col-return';
             const content = column.render ? column.render(row) : escapeHtml(String(row[column.field] || ''));
-            return `<td class="${cellClass}">${content}</td>`;
+            return `<td class="${printColClass(column)}">${content}</td>`;
         }).join('');
         return `<tr class="${escapeHtml(rowClass)}">${starCell}${cells}</tr>`;
     }).join('');
@@ -8062,26 +8505,19 @@ function buildBusScheduleTablePrintBody(dataset) {
         .join('');
 }
 
-function buildPrintPageHtml(pageId, logoHtml, innerContent) {
+function buildPrintPageHtml(pageId, mastheadHtml, innerContent) {
     return `<section class="tt-page" data-tt-page="${escapeHtml(pageId)}">
 <div class="tt-page-inner">
-<div class="tt-page-masthead">${logoHtml}</div>
+${mastheadHtml || ''}
 ${innerContent}
 </div>
 </section>`;
 }
 
-function buildBusTablePrintHtml(dataset, orientation = getPrintOrientation()) {
+function buildBusTablePrintHtml(dataset, orientation = getPrintOrientation(), pagesSpec = getPrintPages()) {
     const metrics = getPrintPageMetrics(orientation);
-    const sections = getBusScheduleTableSections(dataset);
-    const pages = sections.map(({ title, bandClass, regionKey, rows }) => {
-        const logo = regionKey === 'east'
-            ? getPrintLogoHtml('EAST.png')
-            : getPrintLogoHtml('WEST.png');
-        const pageId = `${regionKey || 'other'}-${String(title).replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
-        const tableHtml = buildBusScheduleRegionTableSection(title, rows, bandClass);
-        return buildPrintPageHtml(pageId, logo, tableHtml);
-    }).join('');
+    const sections = getBusPrintSections(dataset);
+    const pages = buildGroupedPrintPagesHtml(sections, pagesSpec, renderPrintTableSectionBody);
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -8307,11 +8743,22 @@ function writePrintFrame(html, options = {}) {
 }
 
 function fitPrintPagesInFrame(doc, selector, orientation) {
+    fitPrintPagesInRoot(doc, selector, orientation, { setPageWidth: false });
+    if (doc.body) {
+        doc.body.style.margin = '0';
+        doc.body.style.padding = '0';
+        doc.documentElement.style.margin = '0';
+        doc.documentElement.style.padding = '0';
+    }
+}
+
+function fitPrintPagesInRoot(root, selector, orientation, { setPageWidth = false } = {}) {
+    if (!root) return;
     const metrics = getPrintPageMetrics(orientation);
     const pxPerMm = 96 / 25.4;
     const availW = Math.max(1, (metrics.paperWidthMm - (2 * metrics.marginMm)) * pxPerMm);
     const availH = Math.max(1, (metrics.paperHeightMm - (2 * metrics.marginMm)) * pxPerMm);
-    const pages = [...doc.querySelectorAll(selector)];
+    const pages = [...root.querySelectorAll(selector)];
 
     const measureScale = (inner) => Math.min(
         1,
@@ -8331,9 +8778,8 @@ function fitPrintPagesInFrame(doc, selector, orientation) {
         }
     };
 
-    // Masonry = CSS columns. Pick column count that maximizes print scale (biggest cards that still fit).
-    const optimizeMasonryPacks = (root, inner) => {
-        const packs = [...root.querySelectorAll('.tt-pack')];
+    const optimizeMasonryPacks = (pageRoot, inner) => {
+        const packs = [...pageRoot.querySelectorAll('.tt-pack')];
         if (!packs.length) return measureScale(inner);
 
         let bestScale = 0;
@@ -8367,11 +8813,17 @@ function fitPrintPagesInFrame(doc, selector, orientation) {
 
         page.style.cssText = '';
         page.style.boxSizing = 'border-box';
-        page.style.width = '100%';
+        page.style.width = setPageWidth ? `${availW}px` : '100%';
+        page.style.maxWidth = setPageWidth ? `${availW}px` : '';
         page.style.height = `${availH}px`;
         page.style.overflow = 'hidden';
         page.style.pageBreakAfter = index === pages.length - 1 ? 'auto' : 'always';
         page.style.breakAfter = index === pages.length - 1 ? 'auto' : 'page';
+        if (setPageWidth) {
+            page.style.marginLeft = 'auto';
+            page.style.marginRight = 'auto';
+            page.style.background = '#fff';
+        }
 
         const westPacks = page.querySelectorAll('.tt-west-col .tt-pack');
         const tableSection = page.querySelector('.bus-print-table');
@@ -8408,13 +8860,6 @@ function fitPrintPagesInFrame(doc, selector, orientation) {
         page.style.height = `${availH}px`;
         page.style.overflow = 'hidden';
     });
-
-    if (doc.body) {
-        doc.body.style.margin = '0';
-        doc.body.style.padding = '0';
-        doc.documentElement.style.margin = '0';
-        doc.documentElement.style.padding = '0';
-    }
 }
 
 function triggerBusTablePrint() {
@@ -8425,7 +8870,7 @@ function triggerBusTablePrint() {
     }
     const orientation = getPrintOrientation();
     try {
-        writePrintFrame(buildBusTablePrintHtml(rows, orientation), {
+        writePrintFrame(buildBusTablePrintHtml(rows, orientation, getPrintPages()), {
             fitSelector: '.tt-page',
             orientation,
             waitForImages: true
@@ -8447,7 +8892,7 @@ function triggerSystemPrint() {
 
         if (isBusTable) {
             const orientation = getPrintOrientation();
-            writePrintFrame(buildBusTablePrintHtml(getBusPrintRecords(), orientation), {
+            writePrintFrame(buildBusTablePrintHtml(getBusPrintRecords(), orientation, getPrintPages()), {
                 fitSelector: '.tt-page',
                 orientation,
                 waitForImages: true
@@ -8592,7 +9037,8 @@ html, body {
 .tt-page-masthead {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 8px;
   margin: 0 0 4px;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -8602,6 +9048,30 @@ html, body {
   width: 40px;
   height: 40px;
   object-fit: contain;
+}
+.tt-page-masthead .print-qr {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-left: auto;
+}
+.tt-section + .tt-section { margin-top: 8px; }
+.tt-sections-row {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  align-items: start;
+}
+.tt-sections-row[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tt-sections-row[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tt-sections-row[data-cols="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tt-sections-row > .tt-section {
+  min-width: 0;
+  margin-top: 0 !important;
+}
+.tt-sections-row .tt-pack {
+  column-count: 1;
 }
 .tt-print-card .schedule-direction {
   font-size: 4.6pt;
@@ -8694,43 +9164,37 @@ html, body {
   font-size: 4.5pt; line-height: 1.2; color: #64748b; margin-top: 2px; padding-top: 2px;
   border-top: 1px dashed #e2e8f0; font-style: italic; white-space: pre-line;
 }
+.tt-print-card .bus-meta-footer {
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  text-align: center;
+}
+.tt-print-card .bus-meta-chip,
+.tt-print-card .bus-route-stops {
+  font-size: 4.5pt;
+  line-height: 1.2;
+  color: #64748b;
+}
 .tt-empty, .tt-empty-times { color: #94a3b8; font-size: 7pt; }
 .tt-meta { margin-top: 4px; font-size: 6pt; color: #64748b; }
 .print-brand { display: none; }
 .print-logo { display: block; object-fit: contain; }`;
 }
 
-function buildTimetablePrintHtml(dataset, orientation = getPrintOrientation()) {
+function buildTimetablePrintHtml(dataset, orientation = getPrintOrientation(), pagesSpec = getPrintPages()) {
     const metrics = getPrintPageMetrics(orientation);
     const rows = Array.isArray(dataset) ? sortBusScheduleRows(dataset.slice()) : [];
-    const byRegion = (region) => rows.filter((row) => normalizeText(row.region) === region);
-
-    const eastLogo = getPrintLogoHtml('EAST.png');
-    const westLogo = getPrintLogoHtml('WEST.png');
-
-    const eastSections = getBusScheduleTableSections(byRegion('east'));
-    const eastPages = eastSections.length
-        ? eastSections.map(({ title, rows: sectionRows }) => {
-            const cards = sectionRows.map((row) => renderTimetableMiniCard(row, { showDayTag: true })).filter(Boolean).join('');
-            const body = `<div class="tt-band-title tt-band-east">${escapeHtml(title)}</div><div class="tt-pack">${cards || '<div class="tt-empty">No routes</div>'}</div>`;
-            const pageId = `east-${String(title).replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
-            return buildPrintPageHtml(pageId, eastLogo, body);
-        }).join('')
-        : buildPrintPageHtml('east-empty', eastLogo, '<div class="tt-empty">No East routes</div>');
-
-    const west = byRegion('west');
-    const westDayColumns = [
-        { label: 'Mon–Fri', key: 'Weekdays' },
-        { label: 'Saturday', key: 'Saturday' },
-        { label: 'Sunday', key: 'Sunday' }
-    ].filter(({ key }) => west.some((row) => rowMatchesWestPrintDay(row.day, key)));
-
-    const westPages = westDayColumns.map(({ label, key }) => {
-        const dayRows = sortBusScheduleRowsWithinBand(west.filter((row) => rowMatchesWestPrintDay(row.day, key)));
-        const cards = dayRows.map((row) => renderTimetableMiniCard(row, { showDayTag: false })).filter(Boolean).join('');
-        const body = `<div class="tt-band-title">West · ${escapeHtml(label)}</div><div class="tt-pack">${cards || '<div class="tt-empty">No routes</div>'}</div>`;
-        return buildPrintPageHtml(`west-${String(key).toLowerCase()}`, westLogo, body);
-    }).join('');
+    const sections = getBusPrintSections(rows);
+    const pages = sections.length
+        ? buildGroupedPrintPagesHtml(sections, pagesSpec, renderPrintCardsSectionBody)
+        : buildPrintPageHtml(
+            'empty',
+            buildPrintMastheadHtml([{ regionKey: 'other' }]),
+            '<div class="tt-empty">No routes</div>'
+        );
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -8740,7 +9204,7 @@ function buildTimetablePrintHtml(dataset, orientation = getPrintOrientation()) {
 <style>${getTimetablePrintCss(metrics)}</style>
 </head>
 <body>
-<div class="tt-sheet">${eastPages}${westPages}</div>
+<div class="tt-sheet">${pages}</div>
 </body>
 </html>`;
 }
@@ -8753,7 +9217,7 @@ function triggerTimetablePrint() {
     }
     const orientation = getPrintOrientation();
     try {
-        writePrintFrame(buildTimetablePrintHtml(rows, orientation), {
+        writePrintFrame(buildTimetablePrintHtml(rows, orientation, getPrintPages()), {
             fitSelector: '.tt-page',
             orientation,
             waitForImages: true
@@ -8764,128 +9228,269 @@ function triggerTimetablePrint() {
 }
 
 function runStandalonePrint(mode) {
-    const nextMode = mode === 'cards' ? 'cards' : 'table';
-    if (window.__STANDALONE_BUS__) {
-        try {
-            const raw = window.localStorage.getItem(STANDALONE_BUS_STATE_KEY);
-            const parsed = raw ? JSON.parse(raw) : {};
-            parsed.printMode = nextMode;
-            window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(parsed));
-        } catch (error) {
-            /* ignore */
-        }
+    setPrintMode(mode === 'table' ? 'table' : 'cards');
+    openPrintPreview();
+}
+
+function updatePrintPagesHint(sectionCount, pagesSpec) {
+    const hint = document.getElementById('print-pages-hint');
+    if (!hint) return;
+    const n = Math.max(0, Number(sectionCount) || 0);
+    if (!n) {
+        hint.textContent = 'No sections to print.';
+        return;
     }
-    if (nextMode === 'cards') triggerTimetablePrint();
+    const groups = parsePrintPageGroups(pagesSpec, n);
+    const sheetCount = groups.length;
+    hint.textContent = `${n} section${n === 1 ? '' : 's'} → ${sheetCount} sheet${sheetCount === 1 ? '' : 's'}. Group with 1,2,3-4 · Stack/Columns arranges multi-section sheets.`;
+}
+
+function resetPrintPagesField() {
+    const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+    const sectionCount = getBusPrintSections(rows).length;
+    const next = defaultPrintPagesSpec(sectionCount);
+    const pagesInput = document.getElementById('print-pages-input');
+    if (pagesInput) pagesInput.value = next;
+    setPrintPages(next);
+    fillPrintPreviewSheet();
+}
+
+function scopePrintCssForPreview(css) {
+    const root = '#print-preview-sheet .print-preview-doc';
+    return String(css || '')
+        .replace(/html\s*,\s*body\s*\{/gi, `${root} {`)
+        .replace(/(^|})\s*body\s*\{/gi, `$1${root} {`)
+        .replace(/(^|})\s*html\s*\{/gi, `$1${root} {`);
+}
+
+function fillPrintPreviewSheet() {
+    const host = document.getElementById('print-preview-sheet');
+    if (!host) return false;
+    const mode = getPrintMode();
+    const orientation = getPrintOrientation();
+    const pagesInput = document.getElementById('print-pages-input');
+    const pagesSpec = pagesInput ? pagesInput.value : getPrintPages();
+    const rows = mode === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+    if (!rows.length) {
+        host.innerHTML = '<div class="tt-empty">No schedule data loaded to print.</div>';
+        updatePrintPagesHint(0, '');
+        return false;
+    }
+    const sectionCount = getBusPrintSections(rows).length;
+    if (pagesInput && !String(pagesInput.value || '').trim()) {
+        pagesInput.value = defaultPrintPagesSpec(sectionCount);
+    }
+    const effectiveSpec = pagesInput ? pagesInput.value : pagesSpec;
+    updatePrintPagesHint(sectionCount, effectiveSpec);
+    const html = buildPrintDocumentHtml(mode, orientation, effectiveSpec);
+    const parts = splitPrintHtmlDocument(html);
+    const scopedStyle = scopePrintCssForPreview(parts.style);
+    host.innerHTML = `<style>${scopedStyle}
+#print-preview-sheet .print-preview-doc .tt-page {
+  page-break-after: always;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  border-radius: 2px;
+}
+#print-preview-sheet .print-preview-doc .tt-page:last-child { page-break-after: auto; }
+</style><div class="print-preview-doc">${parts.body}</div>`;
+    const docRoot = host.querySelector('.print-preview-doc');
+    if (docRoot) {
+        // Match system print: same paper box + fitPrintPagesInRoot scaling
+        requestAnimationFrame(() => {
+            fitPrintPagesInRoot(docRoot, '.tt-page', orientation, { setPageWidth: true });
+        });
+    }
+    return true;
+}
+
+function openPrintPreview() {
+    const overlay = document.getElementById('print-preview');
+    if (!overlay) {
+        if (getPrintMode() === 'cards') triggerTimetablePrint();
+        else triggerBusTablePrint();
+        return;
+    }
+    const pagesInput = document.getElementById('print-pages-input');
+    if (pagesInput) {
+        const saved = getPrintPages();
+        const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+        pagesInput.value = saved || defaultPrintPagesSpec(getBusPrintSections(rows).length);
+    }
+    syncPrintOrientationButtons();
+    syncPrintModeButtons();
+    syncPrintSectionLayoutButtons();
+    fillPrintPreviewSheet();
+    overlay.hidden = false;
+    overlay.classList.remove('hidden');
+    document.body.classList.add('print-preview-open');
+}
+
+function closePrintPreview() {
+    const overlay = document.getElementById('print-preview');
+    if (!overlay) return;
+    overlay.hidden = true;
+    overlay.classList.add('hidden');
+    document.body.classList.remove('print-preview-open');
+}
+
+function printFromPreview() {
+    const pagesInput = document.getElementById('print-pages-input');
+    if (pagesInput) setPrintPages(pagesInput.value);
+    const mode = getPrintMode();
+    if (mode === 'cards') triggerTimetablePrint();
     else triggerBusTablePrint();
 }
 
-function positionStandalonePrintMenu(trigger, menu) {
-    const margin = 8;
-    const rect = trigger.getBoundingClientRect();
-    const menuWidth = Math.min(188, window.innerWidth - margin * 2);
-    const centerHorizontally = window.innerWidth <= 768;
-
-    menu.style.position = 'fixed';
-    menu.style.zIndex = '120';
-    menu.style.width = `${menuWidth}px`;
-    menu.style.maxWidth = `calc(100vw - ${margin * 2}px)`;
-    menu.style.bottom = 'auto';
-
-    if (centerHorizontally) {
-        menu.style.left = `${Math.max(margin, (window.innerWidth - menuWidth) / 2)}px`;
-        menu.style.right = 'auto';
-    } else {
-        menu.style.left = 'auto';
-        menu.style.right = `${Math.max(margin, window.innerWidth - rect.right)}px`;
-    }
-
-    const wasHidden = menu.hidden;
-    menu.hidden = false;
-    menu.style.visibility = 'hidden';
-    menu.style.display = 'block';
-    const menuHeight = menu.offsetHeight;
-    menu.style.visibility = '';
-    menu.hidden = wasHidden;
-    if (wasHidden) menu.style.display = '';
-
-    const spaceBelow = window.innerHeight - rect.bottom - margin;
-    const spaceAbove = rect.top - margin;
-    if (spaceBelow >= menuHeight + 4 || spaceBelow >= spaceAbove) {
-        menu.style.top = `${rect.bottom + 4}px`;
-    } else {
-        menu.style.top = `${Math.max(margin, rect.top - menuHeight - 4)}px`;
-    }
+function closePrintColsPopup() {
+    const popup = document.getElementById('print-cols-popup');
+    if (popup) popup.hidden = true;
 }
 
-function resetStandalonePrintMenuPosition(menu) {
-    menu.style.position = '';
-    menu.style.top = '';
-    menu.style.right = '';
-    menu.style.left = '';
-    menu.style.bottom = '';
-    menu.style.width = '';
-    menu.style.maxWidth = '';
-    menu.style.zIndex = '';
-    menu.style.visibility = '';
-    menu.style.display = '';
+function openPrintColsPopup() {
+    const popup = document.getElementById('print-cols-popup');
+    if (!popup) return;
+    const enabled = new Set(getPrintTableColumnIds());
+    const cols = activeScopeConfig?.tableColumns || [];
+    const options = cols.map((col) => {
+        const id = String(col.id || col.label || '').trim();
+        if (!id) return '';
+        const checked = enabled.has(id) ? ' checked' : '';
+        return `<label class="print-cols-option"><input type="checkbox" data-print-col-id="${escapeHtml(id)}"${checked}/> ${escapeHtml(col.label || id)}</label>`;
+    }).filter(Boolean).join('');
+    popup.innerHTML = `
+        <p class="print-cols-popup-title">Table columns</p>
+        ${options || '<p class="print-cols-popup-title">No columns</p>'}
+        <div class="print-cols-popup-actions">
+            <button type="button" class="print-pages-reset" data-print-cols-action="all">All</button>
+            <button type="button" class="print-pages-reset" data-print-cols-action="apply">Apply</button>
+        </div>`;
+    popup.hidden = false;
+}
+
+function applyPrintColsPopup() {
+    const popup = document.getElementById('print-cols-popup');
+    if (!popup) return;
+    const ids = [...popup.querySelectorAll('input[data-print-col-id]:checked')]
+        .map((input) => input.getAttribute('data-print-col-id'))
+        .filter(Boolean);
+    if (!ids.length) {
+        alert('Keep at least one column checked.');
+        return;
+    }
+    setPrintTableColumnIds(ids);
+    closePrintColsPopup();
+    fillPrintPreviewSheet();
 }
 
 function wireStandalonePrintMenu() {
     const trigger = document.getElementById('master-print');
-    const menu = document.getElementById('print-menu-list');
-    if (!trigger || !menu) return;
-
-    const closeMenu = () => {
-        menu.hidden = true;
-        trigger.setAttribute('aria-expanded', 'false');
-        resetStandalonePrintMenuPosition(menu);
-    };
-
-    const openMenu = () => {
-        positionStandalonePrintMenu(trigger, menu);
-        menu.hidden = false;
-        trigger.setAttribute('aria-expanded', 'true');
-    };
+    const overlay = document.getElementById('print-preview');
+    if (!trigger) return;
 
     syncPrintOrientationButtons();
-
-    document.querySelectorAll('[data-print-orient]').forEach((item) => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            setPrintOrientation(item.getAttribute('data-print-orient') || 'landscape');
-        });
-    });
+    syncPrintModeButtons();
+    syncPrintSectionLayoutButtons();
 
     trigger.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
-        if (menu.hidden) openMenu();
-        else closeMenu();
+        openPrintPreview();
     });
 
-    menu.querySelectorAll('[data-print-mode]').forEach((item) => {
+    if (!overlay) return;
+
+    document.getElementById('print-preview-close')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        closePrintColsPopup();
+        closePrintPreview();
+    });
+    document.getElementById('print-preview-print')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        closePrintColsPopup();
+        printFromPreview();
+    });
+
+    overlay.querySelectorAll('[data-print-orient]').forEach((item) => {
         item.addEventListener('click', (event) => {
             event.preventDefault();
-            const mode = item.getAttribute('data-print-mode') || 'table';
-            closeMenu();
-            runStandalonePrint(mode);
+            setPrintOrientation(item.getAttribute('data-print-orient') || 'landscape');
+            fillPrintPreviewSheet();
+        });
+    });
+    overlay.querySelectorAll('[data-print-mode]').forEach((item) => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            setPrintMode(item.getAttribute('data-print-mode') || 'cards');
+            const pagesInput = document.getElementById('print-pages-input');
+            const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+            if (pagesInput && !getPrintPages()) {
+                pagesInput.value = defaultPrintPagesSpec(getBusPrintSections(rows).length);
+            }
+            fillPrintPreviewSheet();
+        });
+    });
+    overlay.querySelectorAll('[data-print-section-layout]').forEach((item) => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            setPrintSectionLayout(item.getAttribute('data-print-section-layout') || 'vertical');
+            fillPrintPreviewSheet();
         });
     });
 
-    document.addEventListener('click', (event) => {
-        if (!menu.hidden && !event.target.closest('.print-menu')) {
-            closeMenu();
+    const pagesInput = document.getElementById('print-pages-input');
+    if (pagesInput) {
+        let timer = null;
+        const applyPages = () => {
+            setPrintPages(pagesInput.value);
+            fillPrintPreviewSheet();
+        };
+        pagesInput.addEventListener('change', applyPages);
+        pagesInput.addEventListener('input', () => {
+            window.clearTimeout(timer);
+            timer = window.setTimeout(applyPages, 350);
+        });
+    }
+
+    document.getElementById('print-pages-reset')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        resetPrintPagesField();
+    });
+
+    document.getElementById('print-cols-btn')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const popup = document.getElementById('print-cols-popup');
+        if (popup && !popup.hidden) closePrintColsPopup();
+        else openPrintColsPopup();
+    });
+
+    document.getElementById('print-cols-popup')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const action = event.target?.closest?.('[data-print-cols-action]')?.getAttribute('data-print-cols-action');
+        if (action === 'apply') {
+            applyPrintColsPopup();
+            return;
+        }
+        if (action === 'all') {
+            document.querySelectorAll('#print-cols-popup input[data-print-col-id]').forEach((input) => {
+                input.checked = true;
+            });
         }
     });
 
-    window.addEventListener('resize', () => {
-        if (!menu.hidden) positionStandalonePrintMenu(trigger, menu);
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest?.('.print-cols-wrap')) closePrintColsPopup();
     });
 
-    document.querySelector('.view-canvas')?.addEventListener('scroll', () => {
-        if (!menu.hidden) closeMenu();
-    }, { passive: true });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && document.body.classList.contains('print-preview-open')) {
+            if (document.getElementById('print-cols-popup') && !document.getElementById('print-cols-popup').hidden) {
+                closePrintColsPopup();
+                return;
+            }
+            closePrintPreview();
+        }
+    });
 }
 
 function closeModalEngine(event) { if (event.target.id === 'lightbox') document.getElementById('lightbox').style.display = 'none'; }
