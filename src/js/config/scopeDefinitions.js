@@ -68,7 +68,13 @@
                     },
                     { id: 'distance', label: 'Distance', render: (row) => (row.km != null && row.km !== '' && Number(row.km) > 0 ? escapeHtml(`~${row.km} km`) : '') },
                     { id: 'est_time', label: 'Est. time', render: (row) => (row.minutes != null && row.minutes !== '' && Number(row.minutes) > 0 ? escapeHtml(`~${row.minutes} min`) : '') },
-                    { id: 'price', label: 'Price', render: (row) => escapeHtml(`€${row.price || '0.00'}`) },
+                    { id: 'price', label: 'Price', render: (row) => {
+                        const raw = String(row.price ?? '').trim().replace(/^€\s*/, '').replace(',', '.');
+                        if (!raw) return '';
+                        const n = Number(raw);
+                        if (Number.isFinite(n) && n <= 0) return '';
+                        return escapeHtml(`€${row.price || raw}`);
+                    } },
                     { id: 'notes', label: 'Notes', render: (row) => escapeHtml(row.comments || '').replace(/\n/g, '<br>') },
                 ],
                 locationFields: []

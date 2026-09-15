@@ -1049,14 +1049,111 @@ function hasBusRouteKm(value) {
     return Number.isFinite(n) && n > 0;
 }
 
+/** Default Lindos door-to-door bus minutes (Google sample ~1h27). */
+const DEFAULT_LINDOS_TRAVEL_MINUTES = 87;
+let lindosTravelMinutes = DEFAULT_LINDOS_TRAVEL_MINUTES;
+let showRouteDistance = true;
+let showRouteEstTime = true;
+/** null = derive defaults (all cols, distance/est from settings). */
+let tableViewColumnIds = null;
+let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
+
+function shouldShowRouteDistance() {
+    return showRouteDistance !== false;
+}
+
+function shouldShowRouteEstTime() {
+    return showRouteEstTime !== false;
+}
+
+function hasDisplayableBusPrice(price) {
+    const raw = String(price ?? '').trim().replace(/^€\s*/u, '').replace(',', '.');
+    if (!raw) return false;
+    const n = Number(raw);
+    if (Number.isFinite(n)) return n > 0;
+    return true;
+}
+
+function formatBusPriceTagHtml(price) {
+    if (!hasDisplayableBusPrice(price)) return '';
+    const raw = String(price).trim();
+    const text = raw.startsWith('€') ? raw : `€${raw}`;
+    return `<div class="bus-price-tag">${escapeHtml(text)}</div>`;
+}
+
+function getLindosTravelMinutes() {
+    const n = Number(lindosTravelMinutes);
+    if (Number.isFinite(n) && n >= 1 && n <= 999) return Math.round(n);
+    return DEFAULT_LINDOS_TRAVEL_MINUTES;
+}
+
+function getEffectiveTravelSpeedKmh() {
+    const lindosKm = Number(routeTravelMeta.lindosKm);
+    const lindosMin = getLindosTravelMinutes();
+    if (lindosKm > 0 && lindosMin > 0) return lindosKm / (lindosMin / 60);
+    const fallback = Number(routeTravelMeta.fallbackSpeedKmh);
+    return fallback > 0 ? fallback : 40;
+}
+
+function estimateTravelMinutesFromKm(km, speedKmh = getEffectiveTravelSpeedKmh()) {
+    const k = Number(km);
+    const s = Number(speedKmh);
+    if (!(k > 0) || !(s > 0)) return '';
+    return Math.round((k * 60) / s);
+}
+
+function applyTravelMinutesToDataset(rows) {
+    const speed = getEffectiveTravelSpeedKmh();
+    (Array.isArray(rows) ? rows : []).forEach((row) => {
+        if (!row || typeof row !== 'object') return;
+        if (hasBusRouteKm(row.km)) {
+            row.minutes = estimateTravelMinutesFromKm(row.km, speed);
+        }
+    });
+}
+
+function setLindosTravelMinutes(raw, { persist = true, refresh = true } = {}) {
+    const n = Math.round(Number(raw));
+    if (!Number.isFinite(n) || n < 1 || n > 999) return false;
+    lindosTravelMinutes = n;
+    if (persist) saveStandaloneBusState();
+    applyTravelMinutesToDataset(activeDataset);
+    if (augmentedScopeDataCache.bus_schedule) {
+        applyTravelMinutesToDataset(augmentedScopeDataCache.bus_schedule);
+    }
+    if (refresh && typeof filterAndRenderEngine === 'function') {
+        filterAndRenderEngine();
+    }
+    return true;
+}
+
+function setShowRouteDistance(on, { persist = true, refresh = true } = {}) {
+    showRouteDistance = !!on;
+    if (persist) saveStandaloneBusState();
+    if (refresh && typeof filterAndRenderEngine === 'function') filterAndRenderEngine();
+}
+
+function setShowRouteEstTime(on, { persist = true, refresh = true } = {}) {
+    showRouteEstTime = !!on;
+    if (persist) saveStandaloneBusState();
+    if (refresh && typeof filterAndRenderEngine === 'function') filterAndRenderEngine();
+}
+
+// ponytail: one-shot sanity — Lindos 50km @ 87min ⇒ Gennadi 65km ≈ 113
+(function travelMinutesSelfCheck() {
+    const speed = 50 / (87 / 60);
+    const gennadi = Math.round((65 * 60) / speed);
+    if (gennadi !== 113) console.warn('travel minutes self-check failed', gennadi);
+})();
+
 function buildBusRouteMetaFooterHtml(row) {
     const stops = Array.isArray(row.routeStops) ? row.routeStops.filter((s) => s && s.name) : [];
     const metaParts = [];
-    if (hasBusRouteMinutes(row.minutes)) {
+    if (shouldShowRouteEstTime() && hasBusRouteMinutes(row.minutes)) {
         metaParts.push(`~${escapeHtml(String(row.minutes))} min`);
     }
     // When per-stop km exist, skip the averaged km chip (avoids Pastida ~15 + ~13/~17 clutter)
-    if (!stops.length && hasBusRouteKm(row.km)) {
+    if (shouldShowRouteDistance() && !stops.length && hasBusRouteKm(row.km)) {
         metaParts.push(`~${escapeHtml(String(row.km))} km`);
     }
     const distChip = metaParts.length
@@ -1064,7 +1161,9 @@ function buildBusRouteMetaFooterHtml(row) {
         : '';
     const stopsLine = stops.length
         ? `<div class="bus-route-stops">${stops.map((s) => {
-            const kmBit = hasBusRouteKm(s.km) ? ` (~${escapeHtml(String(s.km))} km)` : '';
+            const kmBit = shouldShowRouteDistance() && hasBusRouteKm(s.km)
+                ? ` (~${escapeHtml(String(s.km))} km)`
+                : '';
             return `${escapeHtml(String(s.name))}${kmBit}`;
         }).join(' · ')}</div>`
         : '';
@@ -1331,29 +1430,13 @@ function wireBusMasonryResize() {
 
 function initializeStandaloneFiltersCollapse() {
     if (!window.__STANDALONE_BUS__) return;
-
-    const canvas = document.querySelector('.view-canvas');
-    if (!canvas || canvas.dataset.filtersCollapseInit === '1') return;
-
-    const isCompact = () => window.innerWidth <= 768;
-    let filtersCollapsed = false;
-
-    const sync = () => {
-        if (!isCompact()) {
-            document.body.classList.remove('filters-collapsed');
-            filtersCollapsed = false;
-            return;
-        }
-        const top = canvas.scrollTop;
-        if (!filtersCollapsed && top > 56) filtersCollapsed = true;
-        else if (filtersCollapsed && top < 20) filtersCollapsed = false;
-        document.body.classList.toggle('filters-collapsed', filtersCollapsed);
-    };
-
-    canvas.addEventListener('scroll', sync, { passive: true });
-    window.addEventListener('resize', sync);
-    canvas.dataset.filtersCollapseInit = '1';
-    sync();
+    // Keep main filters visible (sticky) — do not auto-hide on scroll.
+    document.body.classList.remove('filters-collapsed');
+    if (!window.__busStickyOffsetsWired) {
+        window.__busStickyOffsetsWired = true;
+        window.addEventListener('resize', () => syncBusStickyOffsets());
+    }
+    syncBusStickyOffsets();
 }
 
 async function bootApp() {
@@ -1386,6 +1469,16 @@ async function bootApp() {
         : (SCOPE_DEFINITIONS.bus_schedule ? 'bus_schedule' : 'dashboard_home');
 
     const restoredStandalone = standaloneBus ? loadStandaloneBusState() : null;
+    if (restoredStandalone?.lindosTravelMinutes != null && restoredStandalone.lindosTravelMinutes !== '') {
+        const n = Math.round(Number(restoredStandalone.lindosTravelMinutes));
+        if (Number.isFinite(n) && n >= 1 && n <= 999) lindosTravelMinutes = n;
+    }
+    if (typeof restoredStandalone?.showRouteDistance === 'boolean') {
+        showRouteDistance = restoredStandalone.showRouteDistance;
+    }
+    if (typeof restoredStandalone?.showRouteEstTime === 'boolean') {
+        showRouteEstTime = restoredStandalone.showRouteEstTime;
+    }
     if (standaloneBus) suppressStandalonePersist = true;
     await setScope(initialScope);
 
@@ -1423,6 +1516,8 @@ async function bootApp() {
     }
     if (standaloneBus) {
         wireStandalonePrintMenu();
+        wireTableColsPicker();
+        syncTableColsButton();
     } else {
         document.getElementById('master-print')?.addEventListener('click', (event) => {
             event.preventDefault();
@@ -1431,6 +1526,9 @@ async function bootApp() {
     }
     document.getElementById('about-info-btn')?.addEventListener('click', () => {
         openStandaloneAboutInfo();
+    });
+    document.getElementById('bus-settings-btn')?.addEventListener('click', () => {
+        openBusSettingsPopup();
     });
     document.getElementById('signs-info-btn')?.addEventListener('click', () => {
         openBusSignsInfo();
@@ -1652,6 +1750,7 @@ function renderLayoutTabs() {
 
         target.appendChild(controls);
     }
+    syncTableColsButton();
 }
 
 function setCardsInteriorMode(mode) {
@@ -1912,7 +2011,14 @@ function saveStandaloneBusState() {
             printMode: getPrintMode(),
             printPages: getPrintPages(),
             printSectionLayout: getPrintSectionLayout(),
-            printTableColumns: colIds.length ? colIds : (existing.printTableColumns || [])
+            printTableColumns: colIds.length ? colIds : (existing.printTableColumns || []),
+            tableViewColumns: (() => {
+                const ids = getTableViewColumnIds();
+                return ids.length ? ids : (existing.tableViewColumns || []);
+            })(),
+            lindosTravelMinutes: getLindosTravelMinutes(),
+            showRouteDistance: shouldShowRouteDistance(),
+            showRouteEstTime: shouldShowRouteEstTime()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -1944,9 +2050,27 @@ function applyStandaloneBusState(state) {
     } else {
         starredBusRoutes = new Set();
     }
+    if (state.lindosTravelMinutes != null && state.lindosTravelMinutes !== '') {
+        const n = Math.round(Number(state.lindosTravelMinutes));
+        if (Number.isFinite(n) && n >= 1 && n <= 999) {
+            lindosTravelMinutes = n;
+            applyTravelMinutesToDataset(activeDataset);
+            if (augmentedScopeDataCache.bus_schedule) {
+                applyTravelMinutesToDataset(augmentedScopeDataCache.bus_schedule);
+            }
+        }
+    }
+    if (typeof state.showRouteDistance === 'boolean') showRouteDistance = state.showRouteDistance;
+    if (typeof state.showRouteEstTime === 'boolean') showRouteEstTime = state.showRouteEstTime;
+    if (Array.isArray(state.tableViewColumns) && state.tableViewColumns.length) {
+        tableViewColumnIds = state.tableViewColumns
+            .map((id) => String(id || '').trim())
+            .filter(Boolean);
+    }
 
     injectCompactControlsHeaderBar();
     renderLayoutTabs();
+    syncTableColsButton();
 
     const start = document.getElementById('time-filter-start');
     const end = document.getElementById('time-filter-end');
@@ -2060,6 +2184,72 @@ function wireStandaloneInstallPrompt() {
     });
 
     syncInstallAppBar();
+}
+
+function openBusSettingsPopup() {
+    const target = document.getElementById('modal-body-target');
+    const lightbox = document.getElementById('lightbox');
+    if (!target || !lightbox) return;
+
+    target.className = 'modal-card bus-settings-card';
+    target.innerHTML = `
+        <button class="close-modal" type="button" onclick="document.getElementById('lightbox').style.display='none'">&times;</button>
+        <div class="bus-settings">
+            <p class="standalone-about-kicker">Settings</p>
+            <h3>Travel time</h3>
+            <p class="bus-settings-hint">Lindos sets the bus speed; other routes scale by km.</p>
+            <label class="bus-settings-row" for="settings-lindos-min">
+                <span>Lindos est.</span>
+                <input id="settings-lindos-min" type="number" min="1" max="999" step="1" value="${escapeHtml(String(getLindosTravelMinutes()))}" inputmode="numeric" />
+                <span>min</span>
+            </label>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input id="settings-show-distance" type="checkbox"${shouldShowRouteDistance() ? ' checked' : ''} />
+                    <span>Show distance</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input id="settings-show-est-time" type="checkbox"${shouldShowRouteEstTime() ? ' checked' : ''} />
+                    <span>Show estimated time</span>
+                </label>
+            </div>
+            <div class="bus-settings-actions">
+                <button type="button" class="compact-btn primary" id="settings-apply-btn">Apply</button>
+            </div>
+        </div>
+    `;
+    lightbox.style.display = 'flex';
+
+    const apply = () => {
+        const minInput = document.getElementById('settings-lindos-min');
+        const showDist = document.getElementById('settings-show-distance')?.checked !== false;
+        const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
+        showRouteDistance = showDist;
+        showRouteEstTime = showEst;
+        if (Array.isArray(tableViewColumnIds) && tableViewColumnIds.length) {
+            const ids = new Set(tableViewColumnIds);
+            if (showDist) ids.add('distance');
+            else ids.delete('distance');
+            if (showEst) ids.add('est_time');
+            else ids.delete('est_time');
+            tableViewColumnIds = [...ids];
+        }
+        if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
+            if (minInput) minInput.value = String(getLindosTravelMinutes());
+            return;
+        }
+        saveStandaloneBusState();
+        filterAndRenderEngine();
+        if (minInput) minInput.value = String(getLindosTravelMinutes());
+        lightbox.style.display = 'none';
+    };
+
+    document.getElementById('settings-apply-btn')?.addEventListener('click', apply);
+    document.getElementById('settings-lindos-min')?.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+        apply();
+    });
 }
 
 function openStandaloneAboutInfo() {
@@ -2248,14 +2438,16 @@ function renderBusSignsPage() {
     const west = sortBusSignRows(BUS_SIGN_WEST, mode);
     page.innerHTML = `
         <div class="bus-signs bus-signs-page-inner">
-            <div class="bus-signs-page-top">
-                <button type="button" class="bus-signs-back" data-signs-back>← Back</button>
-                <h2 class="bus-signs-page-title">Bus destination signs</h2>
-            </div>
-            <p class="bus-signs-hint">Buses usually show the destination on the front. Line numbers and letters are extra route info — they may also appear on the display.</p>
-            <div class="bus-signs-sort" role="group" aria-label="Sort signs">
-                <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
-                <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Number</button>
+            <div class="bus-signs-sticky">
+                <div class="bus-signs-page-top">
+                    <button type="button" class="bus-signs-back" data-signs-back>← Back</button>
+                    <h2 class="bus-signs-page-title">Bus destination signs</h2>
+                </div>
+                <p class="bus-signs-hint">Buses usually show the destination on the front. Line numbers and letters are extra route info — they may also appear on the display.</p>
+                <div class="bus-signs-sort" role="group" aria-label="Sort signs">
+                    <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
+                    <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Number</button>
+                </div>
             </div>
             <div class="bus-signs-grid">
                 <section class="bus-signs-panel">
@@ -2606,6 +2798,7 @@ function setLayout(mode) {
     if (typeof syncScrollAwareHeaderState === 'function') {
         syncScrollAwareHeaderState();
     }
+    syncTableColsButton();
     saveStandaloneBusState();
 }
 
@@ -2707,6 +2900,7 @@ function renderInlineFilterPills() {
 
     container.style.display = renderedSections > 0 ? '' : 'none';
     syncInlineFilterRowFadeState(container);
+    requestAnimationFrame(() => syncBusStickyOffsets());
 }
 
 function syncInlineFilterRowFadeState(container) {
@@ -2871,7 +3065,10 @@ function applyRouteAdditionalInfo(row, info) {
     if (!info) return row;
     const next = { ...row };
     if (info.km != null && info.km !== '') next.km = info.km;
-    if (info.minutes != null && info.minutes !== '') next.minutes = info.minutes;
+    // Minutes come from Lindos-anchor speed × km (ignore baked info.minutes).
+    if (hasBusRouteKm(next.km)) {
+        next.minutes = estimateTravelMinutesFromKm(next.km);
+    }
     if (Array.isArray(info.stops)) next.routeStops = info.stops;
     if (Array.isArray(info.timesOut) && info.timesOut.length) {
         next.timesOut = info.timesOut.slice();
@@ -2904,6 +3101,13 @@ async function loadRouteAdditionalInfo() {
 async function augmentBusScheduleWithAdditionalInfo(dataset) {
     const payload = await loadRouteAdditionalInfo();
     const routes = Array.isArray(payload.routes) ? payload.routes : [];
+    const fallbackSpeed = Number(payload.speedKmh);
+    routeTravelMeta.fallbackSpeedKmh = fallbackSpeed > 0 ? fallbackSpeed : 40;
+    const lindosRoute = routes.find((route) => (
+        String(route?.to || '').trim().toLowerCase() === 'lindos' && hasBusRouteKm(route.km)
+    ));
+    if (lindosRoute) routeTravelMeta.lindosKm = Number(lindosRoute.km);
+
     const infoByKey = new Map();
     routes.forEach((route) => {
         if (!route || !route.to) return;
@@ -5510,7 +5714,7 @@ function renderCardsView(dataset, options = {}) {
                                 <span>${escapeHtml(formatBusDayLabel(row.day, row.region))}</span>
                             </div>
                         </div>
-                        <div class="bus-price-tag">€${escapeHtml(row.price || '0.00')}</div>
+                        ${formatBusPriceTagHtml(row.price)}
                     </div>
                     ${emptyHint}
                     ${finalOutTimes.length ? `
@@ -5768,6 +5972,14 @@ function buildScopeCsv(dataset, scopeConfig = activeScopeConfig) {
     return [header, ...rows].join('\n');
 }
 
+function syncBusStickyOffsets() {
+    if (!window.__STANDALONE_BUS__) return;
+    const pills = document.getElementById('inline-filter-pills');
+    // Round (not ceil) so sticky top does not sit 1px below the filter strip.
+    const pillsH = pills && pills.offsetParent !== null ? Math.round(pills.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--bus-sticky-filters-h', `${Math.max(0, pillsH)}px`);
+}
+
 function enhanceTableView(container, dataset) {
     if (!container || !dataset.length) return;
 
@@ -5786,6 +5998,7 @@ function renderBusScheduleGroupedTableView() {
 
     if (!dataset.length) {
         container.innerHTML = '<div class="view-empty-state">No entries match the current filters.</div>';
+        syncBusStickyOffsets();
         return;
     }
 
@@ -5800,6 +6013,8 @@ function renderBusScheduleGroupedTableView() {
         });
     });
     enhanceTableView(container, dataset);
+    syncBusStickyOffsets();
+    requestAnimationFrame(() => syncBusStickyOffsets());
 }
 
 function renderTableView(dataset) {
@@ -8090,6 +8305,135 @@ function isPrintTableColumnEnabled(column) {
     return getPrintTableColumnIds().includes(id);
 }
 
+function allTableViewColumnIds() {
+    return (activeScopeConfig?.tableColumns || [])
+        .map((col) => String(col.id || col.label || '').trim())
+        .filter(Boolean);
+}
+
+function defaultTableViewColumnIds() {
+    return allTableViewColumnIds().filter((id) => {
+        if (id === 'distance') return shouldShowRouteDistance();
+        if (id === 'est_time') return shouldShowRouteEstTime();
+        return true;
+    });
+}
+
+function getTableViewColumnIds() {
+    const all = allTableViewColumnIds();
+    if (!all.length) return [];
+    if (!Array.isArray(tableViewColumnIds) || !tableViewColumnIds.length) {
+        return defaultTableViewColumnIds();
+    }
+    const allowed = new Set(all);
+    const picked = tableViewColumnIds.filter((id) => allowed.has(id));
+    return picked.length ? picked : defaultTableViewColumnIds();
+}
+
+function setTableViewColumnIds(ids) {
+    const allowed = new Set(allTableViewColumnIds());
+    const next = (Array.isArray(ids) ? ids : [])
+        .map((id) => String(id || '').trim())
+        .filter((id) => allowed.has(id));
+    tableViewColumnIds = next.length ? next : defaultTableViewColumnIds();
+    // Keep settings checkboxes in sync for card meta.
+    showRouteDistance = tableViewColumnIds.includes('distance');
+    showRouteEstTime = tableViewColumnIds.includes('est_time');
+    saveStandaloneBusState();
+    return tableViewColumnIds;
+}
+
+function isTableViewColumnEnabled(column) {
+    const id = String(column?.id || column?.label || '').trim();
+    if (!id) return true;
+    return getTableViewColumnIds().includes(id);
+}
+
+function syncTableColsButton() {
+    const wrap = document.getElementById('table-cols-wrap');
+    if (!wrap) return;
+    const show = !!(window.__STANDALONE_BUS__ && currentLayoutMode === 'table');
+    wrap.hidden = !show;
+    if (!show) closeTableColsPopup();
+}
+
+function closeTableColsPopup() {
+    const popup = document.getElementById('table-cols-popup');
+    if (popup) popup.hidden = true;
+}
+
+function openTableColsPopup() {
+    const popup = document.getElementById('table-cols-popup');
+    if (!popup) return;
+    const enabled = new Set(getTableViewColumnIds());
+    const cols = activeScopeConfig?.tableColumns || [];
+    const options = cols.map((col) => {
+        const id = String(col.id || col.label || '').trim();
+        if (!id) return '';
+        const checked = enabled.has(id) ? ' checked' : '';
+        return `<label class="print-cols-option"><input type="checkbox" data-table-col-id="${escapeHtml(id)}"${checked}/> ${escapeHtml(col.label || id)}</label>`;
+    }).filter(Boolean).join('');
+    popup.innerHTML = `
+        <p class="print-cols-popup-title">Table columns</p>
+        ${options || '<p class="print-cols-popup-title">No columns</p>'}
+        <div class="print-cols-popup-actions">
+            <button type="button" class="print-pages-reset" data-table-cols-action="all">All</button>
+            <button type="button" class="print-pages-reset" data-table-cols-action="apply">Apply</button>
+        </div>`;
+    popup.hidden = false;
+}
+
+function applyTableColsPopup() {
+    const popup = document.getElementById('table-cols-popup');
+    if (!popup) return;
+    const ids = [...popup.querySelectorAll('input[data-table-col-id]:checked')]
+        .map((input) => input.getAttribute('data-table-col-id'))
+        .filter(Boolean);
+    if (!ids.length) {
+        alert('Keep at least one column checked.');
+        return;
+    }
+    setTableViewColumnIds(ids);
+    closeTableColsPopup();
+    if (currentLayoutMode === 'table') filterAndRenderEngine();
+}
+
+function wireTableColsPicker() {
+    const wrap = document.getElementById('table-cols-wrap');
+    if (!wrap || wrap.dataset.wired === '1') return;
+    wrap.dataset.wired = '1';
+
+    document.getElementById('table-cols-btn')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const popup = document.getElementById('table-cols-popup');
+        if (popup && !popup.hidden) closeTableColsPopup();
+        else openTableColsPopup();
+    });
+
+    document.getElementById('table-cols-popup')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const action = event.target?.closest?.('[data-table-cols-action]')?.getAttribute('data-table-cols-action');
+        if (action === 'apply') {
+            applyTableColsPopup();
+            return;
+        }
+        if (action === 'all') {
+            document.querySelectorAll('#table-cols-popup input[data-table-col-id]').forEach((input) => {
+                input.checked = true;
+            });
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest?.('#table-cols-wrap')) closeTableColsPopup();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeTableColsPopup();
+    });
+}
+
 function defaultPrintPagesSpec(sectionCount) {
     const n = Math.max(0, Number(sectionCount) || 0);
     return Array.from({ length: n }, (_, i) => String(i + 1)).join(',');
@@ -8460,6 +8804,8 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
             const keep = new Set(['destination', 'outbound', 'return', 'day']);
             columns = columns.filter((col) => keep.has(col.id));
         }
+    } else {
+        columns = columns.filter((col) => isTableViewColumnEnabled(col));
     }
     if (!columns.length) return '';
 
@@ -8470,8 +8816,16 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
     }).join('');
 
     if (!rows.length) {
-        return `<section class="bus-print-table-section">
+        if (forPrint) {
+            return `<section class="bus-print-table-section">
             <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+            <div class="tt-empty">No routes</div>
+        </section>`;
+        }
+        return `<section class="bus-print-table-section">
+            <div class="bus-table-sticky-head">
+                <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+            </div>
             <div class="tt-empty">No routes</div>
         </section>`;
     }
@@ -8488,11 +8842,31 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
         return `<tr class="${escapeHtml(rowClass)}">${starCell}${cells}</tr>`;
     }).join('');
 
-    return `<section class="bus-print-table-section">
+    const tableClass = `flat-data-table bus-print-table${includeStar ? ' has-star-col' : ''}`;
+    if (forPrint) {
+        return `<section class="bus-print-table-section">
         <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
         <div class="table-responsive-wrapper">
-            <table class="flat-data-table bus-print-table${includeStar ? ' has-star-col' : ''}">
+            <table class="${tableClass}">
                 <thead><tr>${starHeader}${headers}</tr></thead>
+                <tbody>${body}</tbody>
+            </table>
+        </div>
+    </section>`;
+    }
+
+    // Screen: one sticky block (band + col headers) so nothing peeks between them.
+    return `<section class="bus-print-table-section">
+        <div class="bus-table-sticky-head">
+            <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+            <div class="bus-table-sticky-cols">
+                <table class="${tableClass}">
+                    <thead><tr>${starHeader}${headers}</tr></thead>
+                </table>
+            </div>
+        </div>
+        <div class="table-responsive-wrapper">
+            <table class="${tableClass}">
                 <tbody>${body}</tbody>
             </table>
         </div>
@@ -8964,9 +9338,7 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
 
     const comments = String(row.comments || '').trim();
     const note = comments ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>` : '';
-    const price = row.price != null && String(row.price).trim() !== ''
-        ? `<div class="bus-price-tag">${escapeHtml(String(row.price).startsWith('€') ? String(row.price) : `€${row.price}`)}</div>`
-        : '';
+    const price = formatBusPriceTagHtml(row.price);
     const metaFooter = buildBusRouteMetaFooterHtml(row);
 
     const regionSlug = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-') || 'unknown';

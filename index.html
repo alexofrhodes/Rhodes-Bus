@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="app-version" content="15a18790"/>
+    <meta name="app-version" content="7eb7dd80"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#2563eb"/>
     <meta name="description" content="Rhodes bus schedule and stations map. Installable offline app."/>
@@ -48,6 +48,10 @@
                     </div>
                     <div class="header-view-actions">
                         <div id="layout-toggles" class="compact-toggle-group"></div>
+                        <div id="table-cols-wrap" class="table-cols-wrap" hidden>
+                            <button id="table-cols-btn" class="view-tab" type="button" title="Choose table columns">Cols</button>
+                            <div id="table-cols-popup" class="print-cols-popup" hidden></div>
+                        </div>
                         <button id="master-print" class="print-mini-btn" type="button" title="Print preview">
                             <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none">
                                 <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -55,6 +59,7 @@
                                 <rect x="6" y="14" width="12" height="8"></rect>
                             </svg>
                         </button>
+                        <button id="bus-settings-btn" class="about-info-btn" type="button" title="Settings" aria-label="Settings">⚙</button>
                         <button id="signs-info-btn" class="about-info-btn" type="button" title="Bus destination signs" aria-label="Bus destination signs">i</button>
                         <button id="about-info-btn" class="about-info-btn" type="button" title="About" aria-label="About">?</button>
                     </div>
