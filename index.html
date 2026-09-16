@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="app-version" content="7eb7dd80"/>
+    <meta name="app-version" content="307af9fd"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#2563eb"/>
     <meta name="description" content="Rhodes bus schedule and stations map. Installable offline app."/>
@@ -46,12 +46,21 @@
                         <h1 id="canvas-title" class="sr-only">Bus Schedule</h1>
                         <div id="live-datetime" class="live-datetime" aria-live="polite"></div>
                     </div>
-                    <div class="header-view-actions">
+                    <div class="header-view-switch">
                         <div id="layout-toggles" class="compact-toggle-group"></div>
                         <div id="table-cols-wrap" class="table-cols-wrap" hidden>
                             <button id="table-cols-btn" class="view-tab" type="button" title="Choose table columns">Cols</button>
                             <div id="table-cols-popup" class="print-cols-popup" hidden></div>
                         </div>
+                    </div>
+                    <div class="header-view-actions">
+                        <button id="map-toggle-btn" class="map-toggle-btn" type="button" title="Map" aria-label="Map" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                                <line x1="8" y1="2" x2="8" y2="18"></line>
+                                <line x1="16" y1="6" x2="16" y2="22"></line>
+                            </svg>
+                        </button>
                         <button id="master-print" class="print-mini-btn" type="button" title="Print preview">
                             <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none">
                                 <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -132,14 +141,14 @@
             </div>
             <label class="print-pages-field" for="print-pages-input">
                 <span>Pages</span>
-                <input id="print-pages-input" type="text" inputmode="text" autocomplete="off" placeholder="1,2,3-4,5" spellcheck="false" />
+                <input id="print-pages-input" type="text" inputmode="text" autocomplete="off" placeholder="1,2,1+3,3-4" spellcheck="false" />
             </label>
             <button type="button" id="print-pages-reset" class="print-pages-reset" title="Reset to one section per page">Reset</button>
             <div class="print-cols-wrap">
-                <button type="button" id="print-cols-btn" class="print-pages-reset" title="Choose table columns">Cols</button>
+                <button type="button" id="print-cols-btn" class="print-pages-reset" title="Choose print table columns">Cols</button>
                 <div id="print-cols-popup" class="print-cols-popup" hidden></div>
             </div>
-            <p id="print-pages-hint" class="print-pages-hint">Sections: — · e.g. 1,2,3-4 or 1-3,4,5</p>
+            <p id="print-pages-hint" class="print-pages-hint">Sections: — · e.g. 1,2,3-4 or 1+3</p>
         </div>
         <div class="print-preview-scroll">
             <div id="print-preview-sheet" class="print-preview-sheet"></div>

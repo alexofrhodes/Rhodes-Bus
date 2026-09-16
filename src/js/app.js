@@ -1052,8 +1052,10 @@ function hasBusRouteKm(value) {
 /** Default Lindos door-to-door bus minutes (Google sample ~1h27). */
 const DEFAULT_LINDOS_TRAVEL_MINUTES = 87;
 let lindosTravelMinutes = DEFAULT_LINDOS_TRAVEL_MINUTES;
+let eastTableDayBands = 'combined'; // 'combined' | 'split'
 let showRouteDistance = true;
 let showRouteEstTime = true;
+let tableTimePills = true;
 /** null = derive defaults (all cols, distance/est from settings). */
 let tableViewColumnIds = null;
 let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
@@ -1064,6 +1066,10 @@ function shouldShowRouteDistance() {
 
 function shouldShowRouteEstTime() {
     return showRouteEstTime !== false;
+}
+
+function shouldShowTableTimePills() {
+    return tableTimePills !== false;
 }
 
 function hasDisplayableBusPrice(price) {
@@ -1085,6 +1091,22 @@ function getLindosTravelMinutes() {
     const n = Number(lindosTravelMinutes);
     if (Number.isFinite(n) && n >= 1 && n <= 999) return Math.round(n);
     return DEFAULT_LINDOS_TRAVEL_MINUTES;
+}
+
+function getEastTableDayBands() {
+    return eastTableDayBands === 'split' ? 'split' : 'combined';
+}
+
+function setEastTableDayBands(mode, { persist = true, refresh = true } = {}) {
+    eastTableDayBands = mode === 'split' ? 'split' : 'combined';
+    if (persist) saveStandaloneBusState();
+    if (refresh && (currentLayoutMode === 'table' || document.body.classList.contains('print-preview-open'))) {
+        filterAndRenderEngine();
+        if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
+            fillPrintPreviewSheet();
+        }
+    }
+    return eastTableDayBands;
 }
 
 function getEffectiveTravelSpeedKmh() {
@@ -1175,24 +1197,80 @@ function formatBusDayLabel(day, region) {
     const value = String(day || '').trim();
     if (!value) return '';
     if (value.toLowerCase() === 'all') return 'Every day';
+    if (value === '—') return '—';
     return value;
 }
 
-function formatBusScheduleTimesCell(times, { inbound = false } = {}) {
+function timeMarkTitle(mark) {
+    if (mark === 'nosunday') return '* not Sundays';
+    if (mark === 'weekdays') return '** Mon–Fri only';
+    if (mark === 'nosaturday') return 's except Saturday';
+    return '';
+}
+
+function timeMarkGlyph(mark) {
+    if (mark === 'nosunday') return '*';
+    if (mark === 'weekdays') return '**';
+    if (mark === 'nosaturday') return 's';
+    return '';
+}
+
+function formatBusTimePillHtml(time, { inbound = false, mark = '', asTable = false } = {}) {
+    const grey = fieldVisibility['btn-grey'] && isTimePassed(time);
+    const glyph = timeMarkGlyph(mark);
+    const title = timeMarkTitle(mark);
+    const pillsOn = !asTable || shouldShowTableTimePills();
+    const baseClass = asTable ? 'bus-table-time' : 'bus-pill';
+    const cls = [
+        baseClass,
+        asTable && pillsOn ? 'is-pill' : '',
+        inbound ? (asTable ? 'is-inbound' : 'inbound') : '',
+        grey ? 'passed-grey' : '',
+        mark === 'nosunday' ? 'is-nosunday' : '',
+        mark === 'weekdays' ? 'is-weekdays-only' : '',
+        mark === 'nosaturday' ? 'is-nosaturday' : ''
+    ].filter(Boolean).join(' ');
+    const markHtml = glyph
+        ? `<sup class="bus-time-mark" title="${escapeAttr(title)}">${escapeHtml(glyph)}</sup>`
+        : '';
+    const titleAttr = title ? ` title="${escapeAttr(title)}"` : '';
+    return `<span class="${cls}"${titleAttr}>${escapeHtml(time)}${markHtml}</span>`;
+}
+
+function formatBusScheduleTimesCell(times, { inbound = false, marks = null } = {}) {
     let list = normalizeTimeList(times || []);
     if (fieldVisibility['btn-rem']) {
         list = list.filter((time) => !isTimePassed(time));
     }
     if (!list.length) return '—';
-    return list.map((time) => {
-        const grey = fieldVisibility['btn-grey'] && isTimePassed(time);
-        const cls = [
-            'bus-table-time',
-            inbound ? 'is-inbound' : '',
-            grey ? 'passed-grey' : ''
-        ].filter(Boolean).join(' ');
-        return `<span class="${cls}">${escapeHtml(time)}</span>`;
-    }).join(' ');
+    const markMap = marks && typeof marks === 'object' ? marks : {};
+    return list.map((time) => formatBusTimePillHtml(time, {
+        inbound,
+        mark: markMap[time] || '',
+        asTable: true
+    })).join(' ');
+}
+
+function getSiblingRowsForDestination(to) {
+    const key = String(to || '').trim().toLowerCase();
+    if (!key) return [];
+    return (activeDataset || []).filter((row) => String(row.to || '').trim().toLowerCase() === key);
+}
+
+function getTimeMarksForBusRow(row) {
+    if (row?.timesOutMarks || row?.timesBackMarks) {
+        return {
+            out: row.timesOutMarks || {},
+            back: row.timesBackMarks || {}
+        };
+    }
+    const siblings = getSiblingRowsForDestination(row?.to);
+    if (siblings.length <= 1) return { out: {}, back: {} };
+    const merged = mergeEastDestinationRowsForTable(siblings)[0];
+    return {
+        out: merged?.timesOutMarks || {},
+        back: merged?.timesBackMarks || {}
+    };
 }
 
 function rowHasVisibleBusTimes(row) {
@@ -1479,6 +1557,12 @@ async function bootApp() {
     if (typeof restoredStandalone?.showRouteEstTime === 'boolean') {
         showRouteEstTime = restoredStandalone.showRouteEstTime;
     }
+    if (typeof restoredStandalone?.tableTimePills === 'boolean') {
+        tableTimePills = restoredStandalone.tableTimePills;
+    }
+    if (restoredStandalone?.eastTableDayBands === 'split' || restoredStandalone?.eastTableDayBands === 'combined') {
+        eastTableDayBands = restoredStandalone.eastTableDayBands;
+    }
     if (standaloneBus) suppressStandalonePersist = true;
     await setScope(initialScope);
 
@@ -1530,9 +1614,13 @@ async function bootApp() {
     document.getElementById('bus-settings-btn')?.addEventListener('click', () => {
         openBusSettingsPopup();
     });
+    document.getElementById('map-toggle-btn')?.addEventListener('click', () => {
+        toggleMapLayout();
+    });
     document.getElementById('signs-info-btn')?.addEventListener('click', () => {
         openBusSignsInfo();
     });
+    syncHeaderActionButtons();
     setInterval(() => {
         if (activeScope === 'bus_schedule' && currentLayoutMode === 'cards') {
             filterAndRenderEngine();
@@ -1638,6 +1726,7 @@ async function setScope(scope) {
 
     try {
         activeDataset = await fetchScopeData(activeScope);
+        invalidateBusRegionDestinationSetsCache();
         const availableModes = activeScopeConfig.layouts || ['cards'];
         const preferredLayout = activeScopeConfig.defaultLayout || 'cards';
         const initialLayout = availableModes.includes(preferredLayout)
@@ -1671,6 +1760,8 @@ function updateActiveScopeButtons() {
     document.querySelectorAll('.nav-link').forEach((el) => el.classList.toggle('active', el.id === `lnk-${activeScope}`));
 }
 
+let mapReturnLayout = 'cards';
+
 function renderLayoutTabs() {
     const target = document.getElementById('layout-toggles');
     if (!target) return;
@@ -1697,11 +1788,19 @@ function renderLayoutTabs() {
     };
 
     modes.forEach((mode) => {
+        // Standalone: Map is a circle toggle before Print, not a text tab.
+        if (window.__STANDALONE_BUS__ && mode === 'map') return;
         const button = document.createElement('button');
         button.id = `tab-${mode}`;
         button.className = `view-tab ${currentLayoutMode === mode ? 'active' : ''}`;
         button.textContent = labels[mode] || mode;
-        button.onclick = () => setLayout(mode);
+        const isCurrent = currentLayoutMode === mode;
+        button.disabled = isCurrent;
+        button.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+        button.onclick = () => {
+            if (currentLayoutMode === mode) return;
+            setLayout(mode);
+        };
         target.appendChild(button);
     });
 
@@ -1733,7 +1832,7 @@ function renderLayoutTabs() {
         `;
 
         const interiorSelect = controls.querySelector('#cards-interior-mode');
-    const labelLayoutSelect = controls.querySelector('#cards-label-layout');
+        const labelLayoutSelect = controls.querySelector('#cards-label-layout');
         const columnsSelect = controls.querySelector('#cards-max-columns');
 
         interiorSelect?.addEventListener('change', (event) => {
@@ -1751,6 +1850,57 @@ function renderLayoutTabs() {
         target.appendChild(controls);
     }
     syncTableColsButton();
+    syncMapToggleButton();
+    syncHeaderActionButtons();
+}
+
+function toggleMapLayout() {
+    if (currentLayoutMode === 'map') {
+        const back = mapReturnLayout && mapReturnLayout !== 'map' ? mapReturnLayout : 'cards';
+        setLayout(back);
+        return;
+    }
+    mapReturnLayout = currentLayoutMode === 'signs' ? 'cards' : (currentLayoutMode || 'cards');
+    setLayout('map');
+}
+
+function syncMapToggleButton() {
+    const btn = document.getElementById('map-toggle-btn');
+    if (!btn) return;
+    const onMap = currentLayoutMode === 'map';
+    btn.classList.toggle('active', onMap);
+    btn.setAttribute('aria-pressed', onMap ? 'true' : 'false');
+    btn.title = onMap ? 'Back to previous view' : 'Map';
+    btn.disabled = false;
+}
+
+function syncHeaderActionButtons() {
+    if (!window.__STANDALONE_BUS__) return;
+    syncMapToggleButton();
+    syncTableColsButton();
+    syncSearchClearButton();
+
+    const colsBtn = document.getElementById('table-cols-btn');
+    if (colsBtn) {
+        const canCols = currentLayoutMode === 'table';
+        colsBtn.disabled = !canCols;
+    }
+
+    const clearTimes = document.getElementById('clear-bus-times');
+    if (clearTimes) {
+        const start = document.getElementById('time-filter-start')?.value || '';
+        const end = document.getElementById('time-filter-end')?.value || '';
+        clearTimes.disabled = !start && !end;
+    }
+
+    document.querySelectorAll('#layout-toggles .view-tab').forEach((btn) => {
+        const mode = String(btn.id || '').replace(/^tab-/, '');
+        if (!mode) return;
+        const isCurrent = currentLayoutMode === mode;
+        btn.disabled = isCurrent;
+        btn.classList.toggle('active', isCurrent);
+        btn.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+    });
 }
 
 function setCardsInteriorMode(mode) {
@@ -1872,6 +2022,7 @@ function injectCompactControlsHeaderBar() {
                     onDone: () => {
                         filterAndRenderEngine();
                         saveStandaloneBusState();
+                        syncHeaderActionButtons();
                     }
                 });
             });
@@ -1881,9 +2032,11 @@ function injectCompactControlsHeaderBar() {
                 window.ClockTimePicker?.syncTriggers();
                 filterAndRenderEngine();
                 saveStandaloneBusState();
+                syncHeaderActionButtons();
             });
         });
         window.ClockTimePicker?.syncTriggers();
+        syncHeaderActionButtons();
     }
 }
 
@@ -1894,20 +2047,13 @@ function startStandaloneLiveClock() {
     const tick = () => {
         const now = new Date();
         const compact = window.matchMedia('(max-width: 768px)').matches;
-        target.textContent = now.toLocaleString(undefined, compact ? {
+        target.textContent = now.toLocaleDateString(undefined, compact ? {
             day: 'numeric',
-            month: 'short',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
+            month: 'short'
         } : {
             weekday: 'short',
             day: 'numeric',
-            month: 'short',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
+            month: 'short'
         });
     };
 
@@ -1915,7 +2061,8 @@ function startStandaloneLiveClock() {
     if (startStandaloneLiveClock._timer) {
         clearInterval(startStandaloneLiveClock._timer);
     }
-    startStandaloneLiveClock._timer = setInterval(tick, 1000);
+    // Date-only: refresh hourly is enough (midnight rollover).
+    startStandaloneLiveClock._timer = setInterval(tick, 60 * 60 * 1000);
     if (!startStandaloneLiveClock._resizeBound) {
         window.addEventListener('resize', tick);
         startStandaloneLiveClock._resizeBound = true;
@@ -2017,8 +2164,10 @@ function saveStandaloneBusState() {
                 return ids.length ? ids : (existing.tableViewColumns || []);
             })(),
             lindosTravelMinutes: getLindosTravelMinutes(),
+            eastTableDayBands: getEastTableDayBands(),
             showRouteDistance: shouldShowRouteDistance(),
-            showRouteEstTime: shouldShowRouteEstTime()
+            showRouteEstTime: shouldShowRouteEstTime(),
+            tableTimePills: shouldShowTableTimePills()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -2062,6 +2211,10 @@ function applyStandaloneBusState(state) {
     }
     if (typeof state.showRouteDistance === 'boolean') showRouteDistance = state.showRouteDistance;
     if (typeof state.showRouteEstTime === 'boolean') showRouteEstTime = state.showRouteEstTime;
+    if (typeof state.tableTimePills === 'boolean') tableTimePills = state.tableTimePills;
+    if (state.eastTableDayBands === 'split' || state.eastTableDayBands === 'combined') {
+        eastTableDayBands = state.eastTableDayBands;
+    }
     if (Array.isArray(state.tableViewColumns) && state.tableViewColumns.length) {
         tableViewColumnIds = state.tableViewColumns
             .map((id) => String(id || '').trim())
@@ -2206,11 +2359,30 @@ function openBusSettingsPopup() {
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input id="settings-show-distance" type="checkbox"${shouldShowRouteDistance() ? ' checked' : ''} />
-                    <span>Show distance</span>
+                    <span>Show distance on cards</span>
                 </label>
                 <label class="bus-settings-check">
                     <input id="settings-show-est-time" type="checkbox"${shouldShowRouteEstTime() ? ' checked' : ''} />
-                    <span>Show estimated time</span>
+                    <span>Show estimated time on cards</span>
+                </label>
+            </div>
+            <h3>East table</h3>
+            <p class="bus-settings-hint">Combined merges Sat/Sun exceptions into one band and marks times.</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-east-bands" value="combined"${getEastTableDayBands() === 'combined' ? ' checked' : ''} />
+                    <span>One band (mark exceptions)</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-east-bands" value="split"${getEastTableDayBands() === 'split' ? ' checked' : ''} />
+                    <span>Split by day</span>
+                </label>
+            </div>
+            <h3>Table times</h3>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input id="settings-table-time-pills" type="checkbox"${shouldShowTableTimePills() ? ' checked' : ''} />
+                    <span>Pill style on table &amp; print times</span>
                 </label>
             </div>
             <div class="bus-settings-actions">
@@ -2224,22 +2396,21 @@ function openBusSettingsPopup() {
         const minInput = document.getElementById('settings-lindos-min');
         const showDist = document.getElementById('settings-show-distance')?.checked !== false;
         const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
+        const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
+        const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
         showRouteDistance = showDist;
         showRouteEstTime = showEst;
-        if (Array.isArray(tableViewColumnIds) && tableViewColumnIds.length) {
-            const ids = new Set(tableViewColumnIds);
-            if (showDist) ids.add('distance');
-            else ids.delete('distance');
-            if (showEst) ids.add('est_time');
-            else ids.delete('est_time');
-            tableViewColumnIds = [...ids];
-        }
+        tableTimePills = showPills;
+        setEastTableDayBands(eastMode, { persist: false, refresh: false });
         if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
             if (minInput) minInput.value = String(getLindosTravelMinutes());
             return;
         }
         saveStandaloneBusState();
         filterAndRenderEngine();
+        if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
+            fillPrintPreviewSheet();
+        }
         if (minInput) minInput.value = String(getLindosTravelMinutes());
         lightbox.style.display = 'none';
     };
@@ -2566,6 +2737,7 @@ function clearBusTimeFilters() {
     window.ClockTimePicker?.syncTriggers();
     filterAndRenderEngine();
     saveStandaloneBusState();
+    syncHeaderActionButtons();
 }
 
 function clearDateFilters() {
@@ -2592,6 +2764,7 @@ function handleSearchInput() {
     syncSearchClearButton();
     filterAndRenderEngine();
     saveStandaloneBusState();
+    syncHeaderActionButtons();
 }
 
 function clearSearchQuery() {
@@ -2799,6 +2972,8 @@ function setLayout(mode) {
         syncScrollAwareHeaderState();
     }
     syncTableColsButton();
+    syncMapToggleButton();
+    syncHeaderActionButtons();
     saveStandaloneBusState();
 }
 
@@ -2807,6 +2982,9 @@ function setScopeFilterValue(filterId, value) {
     activeFilterState[filterId] = value;
     buildDynamicSlicers();
     filterAndRenderEngine();
+    if (document.body.classList.contains('print-preview-open')) {
+        fillPrintPreviewSheet();
+    }
     saveStandaloneBusState();
 }
 
@@ -2859,6 +3037,12 @@ function renderInlineFilterPills() {
         row.className = 'inline-filter-row';
 
         const selected = activeFilterState[filterDef.id] || 'ALL';
+        const cardsOnlyFilter = shouldSkipBusRegionDayFilters()
+            && (filterDef.id === 'region' || filterDef.id === 'day');
+        if (cardsOnlyFilter) {
+            section.classList.add('filter-cards-only');
+            label.textContent = `${filterDef.label} · Cards`;
+        }
 
         if (filterDef.special !== 'busDay') {
             const allChip = document.createElement('button');
@@ -2899,6 +3083,7 @@ function renderInlineFilterPills() {
     });
 
     container.style.display = renderedSections > 0 ? '' : 'none';
+    document.body.classList.toggle('filters-region-day-cards-only', shouldSkipBusRegionDayFilters());
     syncInlineFilterRowFadeState(container);
     requestAnimationFrame(() => syncBusStickyOffsets());
 }
@@ -3366,9 +3551,14 @@ function doesRowMatchFilterSelection(row, filterDef, selected) {
     return rowValues.includes(normalizeText(selected));
 }
 
-function doesRowMatchActiveFilters(row, excludedFilterId = null) {
+function doesRowMatchActiveFilters(row, excludedFilterIds = null) {
+    const excluded = excludedFilterIds == null
+        ? []
+        : Array.isArray(excludedFilterIds)
+            ? excludedFilterIds
+            : [excludedFilterIds];
     return getActiveScopeFilters().every((filterDef) => {
-        if (excludedFilterId && filterDef.id === excludedFilterId) {
+        if (excluded.includes(filterDef.id)) {
             return true;
         }
         const selected = activeFilterState[filterDef.id] || 'ALL';
@@ -3401,11 +3591,20 @@ function isFilterOptionAvailable(filterDef, option) {
     });
 }
 
+function shouldSkipBusRegionDayFilters() {
+    if (activeScope !== 'bus_schedule') return false;
+    return currentLayoutMode === 'table' || document.body.classList.contains('print-preview-open');
+}
+
 function sanitizeBusDayFilterSelection() {
     if (activeScope !== 'bus_schedule') return;
     const dayFilter = getActiveScopeFilters().find((filterDef) => filterDef.id === 'day');
     if (!dayFilter) return;
     const selected = activeFilterState.day || 'Weekdays';
+    if (normalizeText(selected) === 'all') {
+        activeFilterState.day = 'Weekdays';
+        return;
+    }
     if (!isFilterOptionAvailable(dayFilter, selected)) {
         activeFilterState.day = 'Weekdays';
     }
@@ -3503,8 +3702,11 @@ function rowMatchesBusTimeWindow(row) {
     return all.some((time) => isTimeInWindow(time, timeStart, timeEnd));
 }
 
-function matchesRowFilters(row, { includeSearch = true, includeDestinations = true, skipDay = false } = {}) {
-    if (!doesRowMatchActiveFilters(row, skipDay ? 'day' : null)) return false;
+function matchesRowFilters(row, { includeSearch = true, includeDestinations = true, skipDay = false, skipRegion = false } = {}) {
+    const excludedFilters = [];
+    if (skipDay) excludedFilters.push('day');
+    if (skipRegion) excludedFilters.push('region');
+    if (!doesRowMatchActiveFilters(row, excludedFilters.length ? excludedFilters : null)) return false;
 
     if (activeScopeConfig?.headerControls?.length) {
         const startControl = activeScopeConfig.headerControls.find((c) => c.operator === 'gte');
@@ -3692,7 +3894,11 @@ function getFilteredRecords() {
 
 function getBusScheduleTableRecords() {
     if (activeDataLoadError) return [];
-    const rows = activeDataset.filter((row) => matchesRowFilters(row, { skipDay: true }));
+    const skipRegionDay = shouldSkipBusRegionDayFilters();
+    const rows = activeDataset.filter((row) => matchesRowFilters(row, {
+        skipDay: skipRegionDay,
+        skipRegion: skipRegionDay
+    }));
     const visible = fieldVisibility['btn-rem']
         ? rows.filter((row) => rowHasVisibleBusTimes(row))
         : rows;
@@ -3701,7 +3907,11 @@ function getBusScheduleTableRecords() {
 
 function getTimetablePrintRecords() {
     if (activeDataLoadError) return [];
-    return activeDataset.filter((row) => matchesRowFilters(row, { skipDay: true }));
+    const skipRegionDay = shouldSkipBusRegionDayFilters();
+    return activeDataset.filter((row) => matchesRowFilters(row, {
+        skipDay: skipRegionDay,
+        skipRegion: skipRegionDay
+    }));
 }
 
 function getBusPrintRecords() {
@@ -3759,14 +3969,165 @@ function sortBusScheduleRows(list) {
     });
 }
 
+function busDayContributesToBand(rowDay, band) {
+    const day = normalizeText(rowDay);
+    if (!day || day === 'all') return true;
+    if (band === 'weekdays') {
+        return day !== 'saturday' && day !== 'sunday' && day !== 'saturday-sunday';
+    }
+    if (band === 'saturday') {
+        return day === 'saturday' || day === 'mon-sat' || day === 'saturday-sunday';
+    }
+    if (band === 'sunday') {
+        return day === 'sunday' || day === 'saturday-sunday';
+    }
+    return false;
+}
+
+function inferTimeMarkFromBands(inWeekdays, inSaturday, inSunday) {
+    if (inWeekdays && inSaturday && inSunday) return '';
+    if (inWeekdays && inSaturday && !inSunday) return 'nosunday';
+    if (inWeekdays && !inSaturday && !inSunday) return 'weekdays';
+    if (inWeekdays && inSunday && !inSaturday) return 'nosaturday';
+    if (!inWeekdays && inSaturday && inSunday) return ''; // rare weekend-only — no mark
+    if (!inWeekdays && inSaturday && !inSunday) return '';
+    if (!inWeekdays && !inSaturday && inSunday) return '';
+    return '';
+}
+
+function mergeEastDestinationRowsForTable(rows) {
+    const list = Array.isArray(rows) ? rows : [];
+    if (list.length <= 1) {
+        return list.map((row) => ({ ...row }));
+    }
+
+    const weekdayTimes = { out: new Set(), back: new Set() };
+    const saturdayTimes = { out: new Set(), back: new Set() };
+    const sundayTimes = { out: new Set(), back: new Set() };
+
+    const addTimes = (bucket, row) => {
+        normalizeTimeList(row.timesOut || row.outbound || row.times || []).forEach((t) => bucket.out.add(t));
+        normalizeTimeList(row.timesBack || row.inbound || row.returns || []).forEach((t) => bucket.back.add(t));
+    };
+
+    list.forEach((row) => {
+        const day = normalizeText(row.day);
+        if (!day || day === 'all') {
+            addTimes(weekdayTimes, row);
+            addTimes(saturdayTimes, row);
+            addTimes(sundayTimes, row);
+            return;
+        }
+        if (busDayContributesToBand(day, 'weekdays')) addTimes(weekdayTimes, row);
+        if (busDayContributesToBand(day, 'saturday')) addTimes(saturdayTimes, row);
+        if (busDayContributesToBand(day, 'sunday')) addTimes(sundayTimes, row);
+    });
+
+    const allOut = new Set([...weekdayTimes.out, ...saturdayTimes.out, ...sundayTimes.out]);
+    const allBack = new Set([...weekdayTimes.back, ...saturdayTimes.back, ...sundayTimes.back]);
+
+    const buildMarks = (allSet, wd, sat, sun) => {
+        const marks = {};
+        allSet.forEach((time) => {
+            const mark = inferTimeMarkFromBands(wd.has(time), sat.has(time), sun.has(time));
+            if (mark) marks[time] = mark;
+        });
+        return marks;
+    };
+
+    const timesOut = Array.from(allOut).sort();
+    const timesBack = Array.from(allBack).sort();
+    const timesOutMarks = buildMarks(allOut, weekdayTimes.out, saturdayTimes.out, sundayTimes.out);
+    const timesBackMarks = buildMarks(allBack, weekdayTimes.back, saturdayTimes.back, sundayTimes.back);
+
+    const preferred = list.find((row) => {
+        const day = normalizeText(row.day);
+        return !day || day === 'all' || day === 'weekdays' || day === 'mon-sat' || day === 'mon-fri';
+    }) || list[0];
+
+    const commentParts = [];
+    list.forEach((row) => {
+        const c = String(row.comments || '').trim();
+        if (c && !commentParts.includes(c)) commentParts.push(c);
+    });
+    if (Object.values(timesOutMarks).includes('nosunday') || Object.values(timesBackMarks).includes('nosunday')) {
+        if (!commentParts.some((c) => c.includes('* not Sundays'))) commentParts.push('* not Sundays');
+    }
+    if (Object.values(timesOutMarks).includes('weekdays') || Object.values(timesBackMarks).includes('weekdays')) {
+        if (!commentParts.some((c) => c.includes('Mon-Fri') || c.includes('Mon–Fri'))) commentParts.push('** Mon–Fri only');
+    }
+    if (Object.values(timesOutMarks).includes('nosaturday') || Object.values(timesBackMarks).includes('nosaturday')) {
+        if (!commentParts.some((c) => /except Saturday/i.test(c))) commentParts.push('s except Saturday');
+    }
+
+    return [{
+        ...preferred,
+        day: 'All',
+        timesOut,
+        timesBack,
+        timesOutMarks,
+        timesBackMarks,
+        comments: commentParts.join('; '),
+        _eastCombined: true
+    }];
+}
+
+function collapseEastRowsForTable(rows) {
+    const groups = new Map();
+    (rows || []).forEach((row) => {
+        const key = String(row.to || '').trim().toLowerCase() || `row-${groups.size}`;
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(row);
+    });
+    const merged = [];
+    groups.forEach((group) => {
+        merged.push(...mergeEastDestinationRowsForTable(group));
+    });
+    return sortBusScheduleRowsWithinBand(merged);
+}
+
+function assertEastTableCollapseSelfCheck() {
+    const sample = [
+        {
+            to: 'Psinthos', region: 'East', day: 'Weekdays', price: '2.80',
+            timesOut: ['14:20'], timesBack: ['07:15', '15:00'], comments: '** Mon-Fri only'
+        },
+        {
+            to: 'Psinthos', region: 'East', day: 'Saturday', price: '2.80',
+            timesOut: ['14:20'], timesBack: ['15:00'], comments: '** Mon-Fri only'
+        },
+        {
+            to: 'Psinthos', region: 'East', day: 'Sunday', price: '2.80',
+            timesOut: ['14:20'], timesBack: ['15:00'], comments: '** Mon-Fri only'
+        }
+    ];
+    const merged = mergeEastDestinationRowsForTable(sample);
+    console.assert(merged.length === 1, 'east collapse one row');
+    console.assert(merged[0].timesBackMarks?.['07:15'] === 'weekdays', '07:15 marked weekdays-only');
+    console.assert(!merged[0].timesBackMarks?.['15:00'], '15:00 unmarked');
+}
+assertEastTableCollapseSelfCheck();
+
 function getBusScheduleTableSections(rows) {
     const list = Array.isArray(rows) ? rows : [];
     const sections = [];
     const regionKeys = ['east', 'west'];
     const dayBands = ['weekdays', 'saturday', 'sunday'];
+    const eastCombined = getEastTableDayBands() === 'combined';
 
     regionKeys.forEach((regionKey) => {
         const regionRows = list.filter((row) => normalizeText(row.region) === regionKey);
+        if (regionKey === 'east' && eastCombined) {
+            if (!regionRows.length) return;
+            sections.push({
+                title: `${getBusRegionSectionLabel(regionKey)} · ${getBusDayBandSectionLabel(regionKey, 'weekdays')}`,
+                bandClass: 'east',
+                regionKey: 'east',
+                legend: '* not Sundays · ** Mon–Fri only · s except Saturday',
+                rows: collapseEastRowsForTable(regionRows)
+            });
+            return;
+        }
         dayBands.forEach((band) => {
             const bandRows = sortBusScheduleRowsWithinBand(regionRows.filter((row) => getBusDayBand(row) === band));
             if (!bandRows.length) return;
@@ -5236,7 +5597,23 @@ function parseScheduleTimeMinutes(timeStr) {
     return parts[0] * 60 + parts[1];
 }
 
+function shouldApplyClockPassedFilter() {
+    // Passed Hide/Grey only make sense for "today". Viewing Sunday on a Wednesday
+    // must not strip Sunday departures as if they already ran.
+    if (activeScope !== 'bus_schedule') return true;
+    const day = normalizeText(activeFilterState.day || '');
+    if (!day || day === 'all') return true;
+    const dow = new Date().getDay(); // 0=Sun … 6=Sat
+    if (day === 'sunday') return dow === 0;
+    if (day === 'saturday') return dow === 6;
+    if (day === 'weekdays' || day === 'mon-fri') return dow >= 1 && dow <= 5;
+    if (day === 'mon-sat') return dow >= 1 && dow <= 6;
+    return true;
+}
+
 function isTimePassed(timeStr) {
+    if (!shouldApplyClockPassedFilter()) return false;
+
     const minutes = parseScheduleTimeMinutes(timeStr);
     if (minutes == null) return false;
 
@@ -5700,8 +6077,14 @@ function renderCardsView(dataset, options = {}) {
                 isBusRouteStarred(row) ? 'is-starred' : '',
                 isEmptyCard ? 'is-empty-route' : ''
             ].filter(Boolean).join(' ');
-            const outPills = finalOutTimes.map((time) => `<span class="bus-pill ${fieldVisibility['btn-grey'] && isTimePassed(time) ? 'passed-grey' : ''}">${time}</span>`).join('');
-            const backPills = finalBackTimes.map((time) => `<span class="bus-pill inbound ${fieldVisibility['btn-grey'] && isTimePassed(time) ? 'passed-grey' : ''}">${time}</span>`).join('');
+            const timeMarks = getTimeMarksForBusRow(row);
+            const outPills = finalOutTimes.map((time) => formatBusTimePillHtml(time, {
+                mark: timeMarks.out[time] || ''
+            })).join('');
+            const backPills = finalBackTimes.map((time) => formatBusTimePillHtml(time, {
+                inbound: true,
+                mark: timeMarks.back[time] || ''
+            })).join('');
             const metaFooter = buildBusRouteMetaFooterHtml(row);
             const emptyHint = isEmptyCard ? '<div class="bus-empty-hint">No times in current schedule</div>' : '';
             card.innerHTML = `
@@ -6003,7 +6386,12 @@ function renderBusScheduleGroupedTableView() {
     }
 
     const sectionsHtml = getBusScheduleTableSections(dataset)
-        .map(({ title, bandClass, rows }) => buildBusScheduleRegionTableSection(title, rows, bandClass, { includeStar: true }))
+        .map((section) => buildBusScheduleRegionTableSection(
+            section.title,
+            section.rows,
+            section.bandClass,
+            { includeStar: true, legend: section.legend || '' }
+        ))
         .join('');
 
     container.innerHTML = sectionsHtml;
@@ -7775,6 +8163,77 @@ function initializeScrollTopButton() {
     syncButton();
 }
 
+const BUS_MAP_REGION_COLORS = {
+    east: '#ea580c',
+    west: '#2563eb',
+    unknown: '#64748b'
+};
+
+function getBusMapRegionFilterKey() {
+    return String(activeFilterState.region || 'ALL').trim() || 'ALL';
+}
+
+let busRegionDestinationSetsCache = null;
+
+function invalidateBusRegionDestinationSetsCache() {
+    busRegionDestinationSetsCache = null;
+}
+
+function getBusRegionDestinationSets() {
+    if (busRegionDestinationSetsCache) return busRegionDestinationSetsCache;
+    const east = new Set();
+    const west = new Set();
+    (activeDataset || []).forEach((row) => {
+        const region = normalizeText(resolveFieldValue(row, ['region', 'Region']));
+        const dest = normalizeText(resolveFieldValue(row, ['to', 'To', 'destination']));
+        if (!dest) return;
+        if (region === 'east') east.add(dest);
+        else if (region === 'west' || region === 'city') west.add(dest);
+    });
+    busRegionDestinationSetsCache = { east, west };
+    return busRegionDestinationSetsCache;
+}
+
+function classifyBusStationRegion(station, sets = null) {
+    const { east, west } = sets || getBusRegionDestinationSets();
+    const onEast = stationMatchesBusRegionNeedles(station, east);
+    const onWest = stationMatchesBusRegionNeedles(station, west);
+    if (onEast && !onWest) return 'east';
+    if (onWest && !onEast) return 'west';
+    if (onEast && onWest) return 'east';
+    const type = normalizeText(station?.type || '');
+    if (type === 'ktel') return 'east';
+    // RODA / City / unmatched → blue (West family)
+    return 'west';
+}
+
+function stationPassesMapRegionFilter(stationClass) {
+    const regionKey = normalizeText(getBusMapRegionFilterKey());
+    if (regionKey === 'all') return true;
+    if (regionKey === 'city') return stationClass === 'west';
+    return stationClass === regionKey;
+}
+
+function getBusMapMarkerFillColor(stationClass) {
+    if (stationClass === 'east') return BUS_MAP_REGION_COLORS.east;
+    return BUS_MAP_REGION_COLORS.west;
+}
+
+function stationMatchesBusRegionNeedles(station, needles) {
+    if (!needles) return true;
+    if (!needles.size) return false;
+    const name = normalizeText(station?.name || '');
+    if (!name) return false;
+    for (const needle of needles) {
+        if (!needle) continue;
+        if (name.includes(needle) || needle.includes(name)) return true;
+        // Strip common prefixes like "36 " line codes in station names.
+        const stripped = name.replace(/^\d+\s+/, '');
+        if (stripped && (stripped.includes(needle) || needle.includes(stripped))) return true;
+    }
+    return false;
+}
+
 async function mountMapCoordinates(dataset = null, options = {}) {
     const mapContainer = options.containerId ? document.getElementById(options.containerId) : document.getElementById('map-container');
     if (!mapContainer) return;
@@ -7802,11 +8261,13 @@ async function mountMapCoordinates(dataset = null, options = {}) {
         });
     }
 
-    // Bus stations ignore schedule filters — keep pan/zoom stable when toggles re-render
+    const regionKey = getBusMapRegionFilterKey();
+    // Bus stations: ignore Day (and other schedule noise) but remount when Region changes.
     if (
         activeScope === 'bus_schedule'
         && leafletMap
         && mapContainer.dataset.stationsMounted === '1'
+        && mapContainer.dataset.stationsRegion === regionKey
         && (busClusterGroup || mapClusterGroup)
     ) {
         return;
@@ -7862,18 +8323,22 @@ async function mountMapCoordinates(dataset = null, options = {}) {
             const stations = dataProvider
                 ? await dataProvider.getStationsData('src/data/bus_stations.json')
                 : await (await fetch('src/data/bus_stations.json')).json();
+            const regionSets = getBusRegionDestinationSets();
             stations.forEach((station) => {
+                const stationClass = classifyBusStationRegion(station, regionSets);
+                if (!stationPassesMapRegionFilter(stationClass)) return;
                 const lat = parseFloat(station.lat || station.latitude);
                 const lon = parseFloat(station.lon || station.longitude || station.lng);
                 if (!isNaN(lat) && !isNaN(lon)) {
                     const popupHTML = `<strong>${escapeHtml(station.name || '')}</strong><br>Code: ${escapeHtml(station.code || '')}<br>Type: ${escapeHtml(station.type ? station.type.toUpperCase() : '')}`;
                     const circleMarker = L.circleMarker([lat, lon], {
                         radius: markerStyle.radius,
-                        fillColor: markerStyle.fillColor,
+                        fillColor: getBusMapMarkerFillColor(stationClass || 'west'),
                         color: '#ffffff',
                         weight: 2,
                         opacity: 1,
-                        fillOpacity: 0.92
+                        fillOpacity: 0.92,
+                        busRegion: stationClass === 'east' ? 'east' : 'west'
                     }).bindPopup(popupHTML);
                     if (busClusterGroup) {
                         busClusterGroup.addLayer(circleMarker);
@@ -7887,11 +8352,13 @@ async function mountMapCoordinates(dataset = null, options = {}) {
                 leafletMap.addLayer(busClusterGroup);
             }
             mapContainer.dataset.stationsMounted = '1';
+            mapContainer.dataset.stationsRegion = regionKey;
         } catch (e) {
             console.error('Cluster generation failed:', e);
         }
     } else {
         mapContainer.dataset.stationsMounted = '';
+        mapContainer.dataset.stationsRegion = '';
         const points = dataset || activeDataset;
         points.forEach((point) => {
             const lat = parseFloat(getCoordinateValue(point, ['Latitude', 'latitude', 'lat'], null));
@@ -7975,7 +8442,30 @@ function getMapMarkerStyle(scopeKey) {
 
 function getMapClusterOptions(scopeKey) {
     const iconCreateFunction = (cluster) => {
+        const children = cluster.getAllChildMarkers?.() || [];
         const count = cluster.getChildCount();
+        let east = 0;
+        let west = 0;
+        children.forEach((marker) => {
+            const region = marker?.options?.busRegion;
+            if (region === 'east') east += 1;
+            else west += 1;
+        });
+
+        if (scopeKey === 'bus_schedule') {
+            const regionClass = east >= west ? 'east' : 'west';
+            const fill = east >= west ? BUS_MAP_REGION_COLORS.east : BUS_MAP_REGION_COLORS.west;
+            // Fixed 36px disc; shrink digits so 3–4 figure counts still fit.
+            const fontPx = count < 10 ? 13 : count < 100 ? 12 : count < 1000 ? 10 : 8;
+            const px = 36;
+            return L.divIcon({
+                html: `<div style="background-color:${fill}"><span style="font-size:${fontPx}px">${count}</span></div>`,
+                className: `marker-cluster marker-cluster-bus marker-cluster-${regionClass}`,
+                iconSize: L.point(px, px),
+                iconAnchor: L.point(px / 2, px / 2)
+            });
+        }
+
         const size = count < 10 ? 'small' : count < 40 ? 'medium' : 'large';
         const px = size === 'small' ? 30 : size === 'medium' ? 34 : 38;
         return L.divIcon({
@@ -8020,10 +8510,13 @@ function busDayMatchesSelection(rowDay, selected) {
     const sel = normalizeText(selected);
     if (!sel || sel === 'all') return true;
 
-    const weekdayLabels = new Set(['weekdays', 'mon-fri', 'monday-friday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']);
+    const weekdayLabels = new Set([
+        'weekdays', 'mon-fri', 'monday-friday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
+        'mon-wed-fri', 'tue-thu', 'tuesday-thursday'
+    ]);
     const isWeekdayRow = weekdayLabels.has(row) || row === 'mon-sat';
-    const isSaturdayRow = row === 'saturday' || row === 'mon-sat';
-    const isSundayRow = row === 'sunday';
+    const isSaturdayRow = row === 'saturday' || row === 'mon-sat' || row === 'saturday-sunday';
+    const isSundayRow = row === 'sunday' || row === 'saturday-sunday';
 
     if (sel === 'weekdays') return isWeekdayRow;
     if (sel === 'saturday') return isSaturdayRow;
@@ -8244,6 +8737,20 @@ function syncPrintModeButtons() {
         btn.classList.toggle('is-active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    syncPrintColsButtonVisibility();
+}
+
+function syncPrintColsButtonVisibility() {
+    const wrap = document.querySelector('.print-cols-wrap');
+    const btn = document.getElementById('print-cols-btn');
+    if (!wrap && !btn) return;
+    const show = getPrintMode() === 'table';
+    if (wrap) wrap.hidden = !show;
+    if (btn) {
+        btn.disabled = !show;
+        btn.title = show ? 'Choose print table columns' : 'Cols available in Table print mode';
+    }
+    if (!show) closePrintColsPopup();
 }
 
 function syncPrintSectionLayoutButtons() {
@@ -8312,11 +8819,8 @@ function allTableViewColumnIds() {
 }
 
 function defaultTableViewColumnIds() {
-    return allTableViewColumnIds().filter((id) => {
-        if (id === 'distance') return shouldShowRouteDistance();
-        if (id === 'est_time') return shouldShowRouteEstTime();
-        return true;
-    });
+    // Independent of card-meta settings (distance/est on cards).
+    return allTableViewColumnIds().slice();
 }
 
 function getTableViewColumnIds() {
@@ -8336,9 +8840,6 @@ function setTableViewColumnIds(ids) {
         .map((id) => String(id || '').trim())
         .filter((id) => allowed.has(id));
     tableViewColumnIds = next.length ? next : defaultTableViewColumnIds();
-    // Keep settings checkboxes in sync for card meta.
-    showRouteDistance = tableViewColumnIds.includes('distance');
-    showRouteEstTime = tableViewColumnIds.includes('est_time');
     saveStandaloneBusState();
     return tableViewColumnIds;
 }
@@ -8374,7 +8875,7 @@ function openTableColsPopup() {
         return `<label class="print-cols-option"><input type="checkbox" data-table-col-id="${escapeHtml(id)}"${checked}/> ${escapeHtml(col.label || id)}</label>`;
     }).filter(Boolean).join('');
     popup.innerHTML = `
-        <p class="print-cols-popup-title">Table columns</p>
+        <p class="print-cols-popup-title">Screen table columns</p>
         ${options || '<p class="print-cols-popup-title">No columns</p>'}
         <div class="print-cols-popup-actions">
             <button type="button" class="print-pages-reset" data-table-cols-action="all">All</button>
@@ -8446,27 +8947,40 @@ function parsePrintPageGroups(spec, sectionCount) {
     const raw = String(spec || '').trim();
     if (!raw) return defaults;
 
-    const groups = [];
-    const used = new Set();
-    raw.split(',').forEach((token) => {
-        const t = String(token || '').trim();
-        if (!t) return;
+    const expandPart = (part) => {
+        const t = String(part || '').trim();
+        if (!t) return [];
         const m = t.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
-        if (!m) return;
+        if (!m) return [];
         let a = Number.parseInt(m[1], 10);
         let b = m[2] ? Number.parseInt(m[2], 10) : a;
-        if (!Number.isFinite(a) || !Number.isFinite(b)) return;
+        if (!Number.isFinite(a) || !Number.isFinite(b)) return [];
         if (a > b) {
             const tmp = a;
             a = b;
             b = tmp;
         }
-        const group = [];
+        const out = [];
         for (let n = a; n <= b; n += 1) {
-            if (n < 1 || n > count || used.has(n)) continue;
-            used.add(n);
-            group.push(n);
+            if (n >= 1 && n <= count) out.push(n);
         }
+        return out;
+    };
+
+    const groups = [];
+    const used = new Set();
+    raw.split(',').forEach((token) => {
+        const t = String(token || '').trim();
+        if (!t) return;
+        const group = [];
+        // "1+3" or "1-2+4" — + joins parts onto one sheet; - expands a range inside a part.
+        t.split('+').forEach((part) => {
+            expandPart(part).forEach((n) => {
+                if (used.has(n)) return;
+                used.add(n);
+                group.push(n);
+            });
+        });
         if (group.length) groups.push(group);
     });
     return groups.length ? groups : defaults;
@@ -8477,6 +8991,9 @@ function assertPrintPageGroupsSelfCheck() {
     console.assert(same(parsePrintPageGroups('1,2,3-4', 5), [[1], [2], [3, 4]]), 'pages 1,2,3-4');
     console.assert(same(parsePrintPageGroups('1-2,3-4,5', 5), [[1, 2], [3, 4], [5]]), 'pages 1-2,3-4,5');
     console.assert(same(parsePrintPageGroups('1-3,4,5', 5), [[1, 2, 3], [4], [5]]), 'pages 1-3,4,5');
+    console.assert(same(parsePrintPageGroups('1+3', 5), [[1, 3]]), 'pages 1+3');
+    console.assert(same(parsePrintPageGroups('1+3,2+4', 5), [[1, 3], [2, 4]]), 'pages 1+3,2+4');
+    console.assert(same(parsePrintPageGroups('1-2+4', 5), [[1, 2, 4]]), 'pages 1-2+4');
     console.assert(same(parsePrintPageGroups('', 3), [[1], [2], [3]]), 'pages default');
 }
 assertPrintPageGroupsSelfCheck();
@@ -8484,15 +9001,30 @@ assertPrintPageGroupsSelfCheck();
 function getBusPrintSections(dataset) {
     const rows = Array.isArray(dataset) ? dataset : [];
     const sections = [];
+    const eastCombined = getEastTableDayBands() === 'combined';
 
     const east = rows.filter((row) => normalizeText(row.region) === 'east');
     if (east.length) {
-        sections.push({
-            title: 'East · Every day',
-            bandClass: 'east',
-            regionKey: 'east',
-            rows: sortBusScheduleRowsWithinBand(east)
-        });
+        if (eastCombined) {
+            sections.push({
+                title: 'East · Every day',
+                bandClass: 'east',
+                regionKey: 'east',
+                legend: '* not Sundays · ** Mon–Fri only · s except Saturday',
+                rows: collapseEastRowsForTable(east)
+            });
+        } else {
+            ['weekdays', 'saturday', 'sunday'].forEach((band) => {
+                const bandRows = sortBusScheduleRowsWithinBand(east.filter((row) => getBusDayBand(row) === band));
+                if (!bandRows.length) return;
+                sections.push({
+                    title: `East · ${getBusDayBandSectionLabel('east', band)}`,
+                    bandClass: 'east',
+                    regionKey: 'east',
+                    rows: bandRows
+                });
+            });
+        }
     }
 
     const west = rows.filter((row) => normalizeText(row.region) === 'west');
@@ -8545,7 +9077,7 @@ function renderPrintTableSectionBody(section, { leanColumns = false } = {}) {
         section.title,
         section.rows || [],
         section.bandClass || '',
-        { forPrint: true, leanColumns }
+        { forPrint: true, leanColumns, legend: section.legend || '' }
     );
 }
 
@@ -8611,7 +9143,7 @@ function getBusTablePrintCss(metrics) {
 * { box-sizing: border-box; }
 html, body {
   margin: 0; padding: 0; background: #fff; color: #0f172a;
-  font-family: Arial, Helvetica, sans-serif; font-size: 7pt;
+  font-family: Arial, Helvetica, sans-serif; font-size: 8.5pt;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
 .tt-sheet { width: 100%; }
@@ -8737,6 +9269,46 @@ html, body {
 }
 .flat-data-table th.col-outbound { color: #1e40af; }
 .flat-data-table th.col-return { color: #5b21b6; }
+.bus-table-time {
+  display: inline-block;
+  min-width: 2.6em;
+  margin: 0 2px 1px 0;
+  padding-right: 0.45em;
+  position: relative;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: 9pt;
+  box-sizing: border-box;
+}
+.bus-table-time.is-pill {
+  min-width: 2.35em;
+  padding: 0 3px;
+  padding-right: 0.5em;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 9pt;
+  line-height: 1.2;
+  background: #eff6ff;
+  color: #1e40af;
+  text-align: center;
+}
+.bus-table-time.is-pill.is-inbound {
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+.bus-table-time .bus-time-mark {
+  position: absolute;
+  top: -0.25em;
+  right: 0;
+  font-size: 0.55em;
+  font-weight: 700;
+  line-height: 1;
+  color: #b45309;
+}
+.bus-table-time.is-pill .bus-time-mark {
+  top: -0.15em;
+  right: 1px;
+}
 .flat-data-table td {
   padding: 3px 4px; border: 1px solid #e2e8f0; vertical-align: top;
   word-break: normal; overflow-wrap: break-word; line-height: 1.25;
@@ -8792,7 +9364,7 @@ function printColumnHasContent(column, rows) {
     });
 }
 
-function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeStar = false, forPrint = false, leanColumns = false } = {}) {
+function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeStar = false, forPrint = false, leanColumns = false, legend = '' } = {}) {
     let columns = (activeScopeConfig?.tableColumns || []).filter(
         (col) => !col.visibilityToggleId || !!fieldVisibility[col.visibilityToggleId]
     );
@@ -8807,6 +9379,10 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
     } else {
         columns = columns.filter((col) => isTableViewColumnEnabled(col));
     }
+    // Combined East: Day column is redundant (band + time marks carry the meaning).
+    if (legend && getEastTableDayBands() === 'combined') {
+        columns = columns.filter((col) => col.id !== 'day');
+    }
     if (!columns.length) return '';
 
     const starHeader = includeStar ? '<th class="col-star" aria-label="Starred">★</th>' : '';
@@ -8814,17 +9390,22 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
         const cls = printColClass(column);
         return `<th class="${cls}">${escapeHtml(column.label || '')}</th>`;
     }).join('');
+    const legendHtml = legend
+        ? `<div class="bus-table-band-legend">${escapeHtml(legend)}</div>`
+        : '';
 
     if (!rows.length) {
         if (forPrint) {
             return `<section class="bus-print-table-section">
             <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+            ${legendHtml}
             <div class="tt-empty">No routes</div>
         </section>`;
         }
         return `<section class="bus-print-table-section">
             <div class="bus-table-sticky-head">
                 <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+                ${legendHtml}
             </div>
             <div class="tt-empty">No routes</div>
         </section>`;
@@ -8846,6 +9427,7 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
     if (forPrint) {
         return `<section class="bus-print-table-section">
         <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+        ${legendHtml}
         <div class="table-responsive-wrapper">
             <table class="${tableClass}">
                 <thead><tr>${starHeader}${headers}</tr></thead>
@@ -8859,6 +9441,7 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
     return `<section class="bus-print-table-section">
         <div class="bus-table-sticky-head">
             <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
+            ${legendHtml}
             <div class="bus-table-sticky-cols">
                 <table class="${tableClass}">
                     <thead><tr>${starHeader}${headers}</tr></thead>
@@ -8875,7 +9458,12 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
 
 function buildBusScheduleTablePrintBody(dataset) {
     return getBusScheduleTableSections(dataset)
-        .map(({ title, bandClass, rows }) => buildBusScheduleRegionTableSection(title, rows, bandClass))
+        .map((section) => buildBusScheduleRegionTableSection(
+            section.title,
+            section.rows,
+            section.bandClass,
+            { legend: section.legend || '' }
+        ))
         .join('');
 }
 
@@ -9134,22 +9722,54 @@ function fitPrintPagesInRoot(root, selector, orientation, { setPageWidth = false
     const availH = Math.max(1, (metrics.paperHeightMm - (2 * metrics.marginMm)) * pxPerMm);
     const pages = [...root.querySelectorAll(selector)];
 
-    const measureScale = (inner) => Math.min(
-        1,
-        availW / Math.max(1, inner.scrollWidth),
-        availH / Math.max(1, inner.scrollHeight)
-    );
-
+    // Transform scale (not CSS zoom): upscale reflows via narrower width, preview ≈ print.
     const applyZoom = (inner, scale) => {
-        if ('zoom' in inner.style) {
-            inner.style.zoom = String(scale);
+        const s = Math.max(0.22, Number(scale) || 1);
+        if ('zoom' in inner.style) inner.style.zoom = '';
+        inner.style.transformOrigin = 'top left';
+        if (Math.abs(s - 1) < 0.001) {
             inner.style.transform = 'none';
             inner.style.width = '100%';
-        } else {
-            inner.style.transformOrigin = 'top left';
-            inner.style.transform = `scale(${scale})`;
-            inner.style.width = `${100 / scale}%`;
+            return;
         }
+        inner.style.transform = `scale(${s})`;
+        inner.style.width = `${100 / s}%`;
+    };
+
+    // Binary-search scale with transform applied so upscale can exceed width ratio ≈ 1.
+    const measureScale = (inner) => {
+        applyZoom(inner, 1);
+        const fitAt = (s) => {
+            applyZoom(inner, s);
+            const visualW = inner.scrollWidth * s;
+            const visualH = inner.scrollHeight * s;
+            return visualW <= availW * 1.002 && visualH <= availH * 1.002;
+        };
+        if (!fitAt(1)) {
+            let lo = 0.22;
+            let hi = 1;
+            for (let i = 0; i < 10; i++) {
+                const mid = (lo + hi) / 2;
+                if (fitAt(mid)) lo = mid;
+                else hi = mid;
+            }
+            applyZoom(inner, 1);
+            return Math.max(0.22, lo * 0.98);
+        }
+        let lo = 1;
+        let hi = 1.75;
+        let best = 1;
+        for (let i = 0; i < 10; i++) {
+            const mid = (lo + hi) / 2;
+            if (fitAt(mid)) {
+                best = mid;
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        applyZoom(inner, 1);
+        return Math.max(0.22, best * 0.98);
     };
 
     const optimizeMasonryPacks = (pageRoot, inner) => {
@@ -9181,8 +9801,8 @@ function fitPrintPagesInRoot(root, selector, orientation, { setPageWidth = false
 
     pages.forEach((page, index) => {
         const inner = page.querySelector('.tt-page-inner') || page;
+        if ('zoom' in inner.style) inner.style.zoom = '';
         inner.style.transform = 'none';
-        if ('zoom' in inner.style) inner.style.zoom = '1';
         inner.style.width = '100%';
 
         page.style.cssText = '';
@@ -9306,17 +9926,17 @@ function triggerSystemPrint() {
     }
 }
 
-function renderTimetablePills(times, inbound = false) {
+function renderTimetablePills(times, inbound = false, marks = null) {
     let list = normalizeTimeList(times);
     if (fieldVisibility['btn-rem']) {
         list = list.filter((time) => !isTimePassed(time));
     }
     if (!list.length) return '<div class="tt-empty-times">—</div>';
-    return list.map((time) => {
-        const passed = fieldVisibility['btn-grey'] && isTimePassed(time) ? ' passed-grey' : '';
-        const kind = inbound ? ' inbound' : '';
-        return `<span class="bus-pill${kind}${passed}">${escapeHtml(time)}</span>`;
-    }).join('');
+    const markMap = marks && typeof marks === 'object' ? marks : {};
+    return list.map((time) => formatBusTimePillHtml(time, {
+        inbound,
+        mark: markMap[time] || ''
+    })).join('');
 }
 
 function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
@@ -9360,12 +9980,12 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
       ${outTimes.length ? `
       <div class="bus-schedule-block">
         <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
-        <div class="schedule-pills">${renderTimetablePills(outTimes, false)}</div>
+        <div class="schedule-pills">${renderTimetablePills(outTimes, false, getTimeMarksForBusRow(row).out)}</div>
       </div>` : ''}
       ${backTimes.length ? `
       <div class="bus-schedule-block inbound">
         <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
-        <div class="schedule-pills">${renderTimetablePills(backTimes, true)}</div>
+        <div class="schedule-pills">${renderTimetablePills(backTimes, true, getTimeMarksForBusRow(row).back)}</div>
       </div>` : ''}
       ${metaFooter}
       ${note}
@@ -9446,7 +10066,7 @@ html, body {
   column-count: 1;
 }
 .tt-print-card .schedule-direction {
-  font-size: 4.6pt;
+  font-size: 5.5pt;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.15;
@@ -9506,7 +10126,7 @@ html, body {
   display: flex; justify-content: space-between; gap: 4px; align-items: flex-start;
   border-bottom: 1px solid #e2e8f0; padding: 0 0 4px; margin-bottom: 4px;
 }
-.tt-print-card .bus-route-title { font-size: 8pt; font-weight: 800; color: #0f172a; line-height: 1.15; }
+.tt-print-card .bus-route-title { font-size: 9pt; font-weight: 800; color: #0f172a; line-height: 1.15; }
 .tt-print-card .bus-badge-row { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 2px; }
 .tt-print-card .bus-badge-row span {
   background: #f1f5f9; color: #64748b; font-size: 5.5pt; font-weight: 600;
@@ -9523,11 +10143,11 @@ html, body {
 .tt-print-card .bus-schedule-block.inbound { background: #faf5ff; border-color: #f3e8ff; }
 .tt-print-card .schedule-pills {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(22px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
   gap: 2px;
 }
 .tt-print-card .bus-pill {
-  text-align: center; padding: 1px 0; border-radius: 2px; font-size: 5.5pt; font-weight: 600;
+  text-align: center; padding: 1px 0; border-radius: 2px; font-size: 7.5pt; font-weight: 600;
   background: #eff6ff; color: #1e40af; border: 1px solid #dbeafe;
 }
 .tt-print-card .bus-pill.inbound { background: #f5f3ff; color: #5b21b6; border-color: #ede9fe; }
@@ -9614,7 +10234,7 @@ function updatePrintPagesHint(sectionCount, pagesSpec) {
     }
     const groups = parsePrintPageGroups(pagesSpec, n);
     const sheetCount = groups.length;
-    hint.textContent = `${n} section${n === 1 ? '' : 's'} → ${sheetCount} sheet${sheetCount === 1 ? '' : 's'}. Group with 1,2,3-4 · Stack/Columns arranges multi-section sheets.`;
+    hint.textContent = `${n} section${n === 1 ? '' : 's'} → ${sheetCount} sheet${sheetCount === 1 ? '' : 's'}. Group with 1,2,3-4 or 1+3 · Stack/Columns arranges multi-section sheets.`;
 }
 
 function resetPrintPagesField() {
@@ -9682,6 +10302,8 @@ function openPrintPreview() {
         else triggerBusTablePrint();
         return;
     }
+    document.body.classList.add('print-preview-open');
+    renderInlineFilterPills();
     const pagesInput = document.getElementById('print-pages-input');
     if (pagesInput) {
         const saved = getPrintPages();
@@ -9694,7 +10316,6 @@ function openPrintPreview() {
     fillPrintPreviewSheet();
     overlay.hidden = false;
     overlay.classList.remove('hidden');
-    document.body.classList.add('print-preview-open');
 }
 
 function closePrintPreview() {
@@ -9703,6 +10324,10 @@ function closePrintPreview() {
     overlay.hidden = true;
     overlay.classList.add('hidden');
     document.body.classList.remove('print-preview-open');
+    renderInlineFilterPills();
+    if (currentLayoutMode !== 'table') {
+        filterAndRenderEngine();
+    }
 }
 
 function printFromPreview() {
@@ -9721,6 +10346,10 @@ function closePrintColsPopup() {
 function openPrintColsPopup() {
     const popup = document.getElementById('print-cols-popup');
     if (!popup) return;
+    if (getPrintMode() !== 'table') {
+        closePrintColsPopup();
+        return;
+    }
     const enabled = new Set(getPrintTableColumnIds());
     const cols = activeScopeConfig?.tableColumns || [];
     const options = cols.map((col) => {
@@ -9730,7 +10359,7 @@ function openPrintColsPopup() {
         return `<label class="print-cols-option"><input type="checkbox" data-print-col-id="${escapeHtml(id)}"${checked}/> ${escapeHtml(col.label || id)}</label>`;
     }).filter(Boolean).join('');
     popup.innerHTML = `
-        <p class="print-cols-popup-title">Table columns</p>
+        <p class="print-cols-popup-title">Print table columns</p>
         ${options || '<p class="print-cols-popup-title">No columns</p>'}
         <div class="print-cols-popup-actions">
             <button type="button" class="print-pages-reset" data-print-cols-action="all">All</button>

@@ -59,12 +59,17 @@
                     {
                         id: 'outbound',
                         label: 'Outbound',
-                        render: (row) => formatBusScheduleTimesCell(row.timesOut || row.outbound || row.times || [])
+                        render: (row) => formatBusScheduleTimesCell(row.timesOut || row.outbound || row.times || [], {
+                            marks: row.timesOutMarks || null
+                        })
                     },
                     {
                         id: 'return',
                         label: 'Return',
-                        render: (row) => formatBusScheduleTimesCell(row.timesBack || row.inbound || row.returns || [], { inbound: true })
+                        render: (row) => formatBusScheduleTimesCell(row.timesBack || row.inbound || row.returns || [], {
+                            inbound: true,
+                            marks: row.timesBackMarks || null
+                        })
                     },
                     { id: 'distance', label: 'Distance', render: (row) => (row.km != null && row.km !== '' && Number(row.km) > 0 ? escapeHtml(`~${row.km} km`) : '') },
                     { id: 'est_time', label: 'Est. time', render: (row) => (row.minutes != null && row.minutes !== '' && Number(row.minutes) > 0 ? escapeHtml(`~${row.minutes} min`) : '') },

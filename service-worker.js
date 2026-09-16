@@ -1,5 +1,5 @@
-const APP_CACHE = 'standalone-bus-app-7eb7dd80';
-const DATA_CACHE = 'standalone-bus-data-ef6032d7';
+const APP_CACHE = 'standalone-bus-app-307af9fd';
+const DATA_CACHE = 'standalone-bus-data-3498715e';
 
 const APP_SHELL = [
   './',
@@ -57,18 +57,20 @@ async function networkFirst(request) {
   }
 }
 
-async function staleWhileRevalidate(request) {
+async function networkFirstData(request) {
+  // Prefer network so manager re-extracts show up without a stale first paint.
   const cache = await caches.open(DATA_CACHE);
-  const cached = await cache.match(request);
-  const networkPromise = fetch(request)
-    .then((response) => {
-      if (response && response.ok) {
-        cache.put(request, response.clone());
-      }
-      return response;
-    })
-    .catch(() => cached);
-  return cached || networkPromise;
+  try {
+    const response = await fetch(request, { cache: 'no-store' });
+    if (response && response.ok) {
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw error;
+  }
 }
 
 self.addEventListener('fetch', (event) => {
@@ -80,7 +82,7 @@ self.addEventListener('fetch', (event) => {
 
   const isData = /\.(json|csv|xlsx|xlsm)(\?|$)/i.test(url.pathname);
   if (isData) {
-    event.respondWith(staleWhileRevalidate(request));
+    event.respondWith(networkFirstData(request));
     return;
   }
 
