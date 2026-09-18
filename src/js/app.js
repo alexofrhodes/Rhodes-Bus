@@ -1056,6 +1056,7 @@ let eastTableDayBands = 'combined'; // 'combined' | 'split'
 let showRouteDistance = true;
 let showRouteEstTime = true;
 let tableTimePills = true;
+let tableCellVAlign = 'top'; // 'top' | 'center'
 /** null = derive defaults (all cols, distance/est from settings). */
 let tableViewColumnIds = null;
 let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
@@ -1070,6 +1071,16 @@ function shouldShowRouteEstTime() {
 
 function shouldShowTableTimePills() {
     return tableTimePills !== false;
+}
+
+function getTableCellVAlign() {
+    return tableCellVAlign === 'center' ? 'center' : 'top';
+}
+
+function applyTableCellVAlignToDom() {
+    const align = getTableCellVAlign();
+    document.body.classList.toggle('table-cell-valign-center', align === 'center');
+    document.body.classList.toggle('table-cell-valign-top', align !== 'center');
 }
 
 function hasDisplayableBusPrice(price) {
@@ -1560,6 +1571,10 @@ async function bootApp() {
     if (typeof restoredStandalone?.tableTimePills === 'boolean') {
         tableTimePills = restoredStandalone.tableTimePills;
     }
+    if (restoredStandalone?.tableCellVAlign === 'center' || restoredStandalone?.tableCellVAlign === 'top') {
+        tableCellVAlign = restoredStandalone.tableCellVAlign;
+    }
+    applyTableCellVAlignToDom();
     if (restoredStandalone?.eastTableDayBands === 'split' || restoredStandalone?.eastTableDayBands === 'combined') {
         eastTableDayBands = restoredStandalone.eastTableDayBands;
     }
@@ -1613,6 +1628,9 @@ async function bootApp() {
     });
     document.getElementById('bus-settings-btn')?.addEventListener('click', () => {
         openBusSettingsPopup();
+    });
+    document.getElementById('starred-filter-btn')?.addEventListener('click', () => {
+        toggleStarredFilterOnly();
     });
     document.getElementById('map-toggle-btn')?.addEventListener('click', () => {
         toggleMapLayout();
@@ -1879,6 +1897,7 @@ function syncHeaderActionButtons() {
     syncMapToggleButton();
     syncTableColsButton();
     syncSearchClearButton();
+    syncStarredFilterButton();
 
     const colsBtn = document.getElementById('table-cols-btn');
     if (colsBtn) {
@@ -1944,18 +1963,7 @@ function setCardsLabelLayout(value) {
 }
 
 function renderPassedControlGroup() {
-    const greyOn = !!fieldVisibility['btn-grey'];
-    const hideOn = !!fieldVisibility['btn-rem'];
-    const sparseOn = !!fieldVisibility['btn-hide-sparse-west'];
-    const emptyOn = !!fieldVisibility['btn-hide-empty-dest'];
-    return `<div class="passed-control-group" role="group" aria-label="Schedule display">
-        <span class="control-group-label">Passed:</span>
-        <button type="button" id="btn-grey" class="compact-chip${greyOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-grey')" aria-pressed="${greyOn ? 'true' : 'false'}">Gray</button>
-        <button type="button" id="btn-rem" class="compact-chip${hideOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-rem')" aria-pressed="${hideOn ? 'true' : 'false'}">Hide</button>
-        <span class="control-group-divider" aria-hidden="true"></span>
-        <button type="button" id="btn-hide-sparse-west" class="compact-chip${sparseOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-hide-sparse-west')" aria-pressed="${sparseOn ? 'true' : 'false'}" title="Hide West routes with only 1–2 departures in either direction">Sparse West</button>
-        <button type="button" id="btn-hide-empty-dest" class="compact-chip${emptyOn ? ' active' : ''}" onclick="toggleFieldVisibility('btn-hide-empty-dest')" aria-pressed="${emptyOn ? 'true' : 'false'}" title="Hide destinations with no departure times">Hide empty</button>
-    </div>`;
+    return '';
 }
 
 function injectCompactControlsHeaderBar() {
@@ -1965,7 +1973,7 @@ function injectCompactControlsHeaderBar() {
 
     const headerControls = activeScopeConfig.headerControls || [];
     const standalone = Boolean(window.__STANDALONE_BUS__);
-    const passedToggleIds = new Set(['btn-rem', 'btn-grey', 'btn-hide-sparse-west', 'btn-hide-empty-dest']);
+    const settingsToggleIds = new Set(['btn-rem', 'btn-grey', 'btn-hide-sparse-west', 'btn-hide-empty-dest']);
     let html = '';
     let timePairOpen = false;
 
@@ -1976,13 +1984,9 @@ function injectCompactControlsHeaderBar() {
         }
     };
 
-    if (standalone && headerControls.some((control) => passedToggleIds.has(control.id))) {
-        html += renderPassedControlGroup();
-    }
-
     headerControls.forEach((control) => {
         if (control.type === 'toggle') {
-            if (standalone && passedToggleIds.has(control.id)) return;
+            if (standalone && settingsToggleIds.has(control.id)) return;
             closeTimePair();
             const isOn = !!fieldVisibility[control.id];
             html += `<button id="${control.id}" class="compact-btn ${isOn ? 'active' : ''}" onclick="toggleFieldVisibility('${control.id}')">${escapeHtml(control.label)}: ${isOn ? 'ON' : 'OFF'}</button>`;
@@ -1995,12 +1999,9 @@ function injectCompactControlsHeaderBar() {
                 timePairOpen = true;
             }
             const timeLabel = standalone
-                ? (control.id === 'time-filter-end' ? 'To' : '')
+                ? ''
                 : control.label;
             if (standalone) {
-                if (timeLabel) {
-                    html += `<span class="time-window-label">${escapeHtml(timeLabel)}</span>`;
-                }
                 html += `<input type="hidden" id="${control.id}" value=""/>`;
                 html += `<button type="button" class="clock-time-trigger" data-clock-input="${control.id}" aria-label="${escapeHtml(control.id === 'time-filter-start' ? 'From' : control.id === 'time-filter-end' ? 'To' : control.label)} time">--:--</button>`;
             } else {
@@ -2046,11 +2047,7 @@ function startStandaloneLiveClock() {
 
     const tick = () => {
         const now = new Date();
-        const compact = window.matchMedia('(max-width: 768px)').matches;
-        target.textContent = now.toLocaleDateString(undefined, compact ? {
-            day: 'numeric',
-            month: 'short'
-        } : {
+        target.textContent = now.toLocaleDateString(undefined, {
             weekday: 'short',
             day: 'numeric',
             month: 'short'
@@ -2167,7 +2164,8 @@ function saveStandaloneBusState() {
             eastTableDayBands: getEastTableDayBands(),
             showRouteDistance: shouldShowRouteDistance(),
             showRouteEstTime: shouldShowRouteEstTime(),
-            tableTimePills: shouldShowTableTimePills()
+            tableTimePills: shouldShowTableTimePills(),
+            tableCellVAlign: getTableCellVAlign()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -2212,6 +2210,10 @@ function applyStandaloneBusState(state) {
     if (typeof state.showRouteDistance === 'boolean') showRouteDistance = state.showRouteDistance;
     if (typeof state.showRouteEstTime === 'boolean') showRouteEstTime = state.showRouteEstTime;
     if (typeof state.tableTimePills === 'boolean') tableTimePills = state.tableTimePills;
+    if (state.tableCellVAlign === 'center' || state.tableCellVAlign === 'top') {
+        tableCellVAlign = state.tableCellVAlign;
+    }
+    applyTableCellVAlignToDom();
     if (state.eastTableDayBands === 'split' || state.eastTableDayBands === 'combined') {
         eastTableDayBands = state.eastTableDayBands;
     }
@@ -2339,14 +2341,111 @@ function wireStandaloneInstallPrompt() {
     syncInstallAppBar();
 }
 
-function openBusSettingsPopup() {
+function closeStandaloneDrawer() {
+    const lightbox = document.getElementById('lightbox');
+    const target = document.getElementById('modal-body-target');
+    if (target?._drawerEsc) {
+        window.removeEventListener('keydown', target._drawerEsc, true);
+        target._drawerEsc = null;
+    }
+    if (target) {
+        target.style.transform = '';
+        target.style.transition = '';
+        target.classList.remove('is-drawer');
+    }
+    if (lightbox) {
+        lightbox.style.display = 'none';
+        lightbox.classList.remove('is-drawer');
+        lightbox.onclick = null;
+    }
+    document.body.classList.remove('standalone-drawer-open');
+}
+
+function wireStandaloneDrawerChrome(card, lightbox) {
+    if (!card || !lightbox) return;
+    const close = () => closeStandaloneDrawer();
+    card.querySelector('.drawer-close')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        close();
+    });
+    lightbox.onclick = (event) => {
+        if (event.target === lightbox) close();
+    };
+
+    if (card._drawerEsc) {
+        window.removeEventListener('keydown', card._drawerEsc, true);
+    }
+    const onKey = (event) => {
+        if (event.key !== 'Escape') return;
+        event.preventDefault();
+        close();
+    };
+    card._drawerEsc = onKey;
+    window.addEventListener('keydown', onKey, true);
+
+    const grab = card.querySelector('.drawer-grab');
+    if (!grab) return;
+
+    let startY = 0;
+    let dragging = false;
+    const thresholdRatio = 0.28;
+
+    const onMove = (clientY) => {
+        if (!dragging) return;
+        const dy = Math.max(0, clientY - startY);
+        card.style.transform = `translateY(${dy}px)`;
+    };
+    const onEnd = (clientY) => {
+        if (!dragging) return;
+        dragging = false;
+        card.style.transition = '';
+        const dy = Math.max(0, clientY - startY);
+        const threshold = Math.max(72, card.offsetHeight * thresholdRatio);
+        if (dy >= threshold) {
+            close();
+            return;
+        }
+        card.style.transform = '';
+    };
+
+    grab.addEventListener('pointerdown', (event) => {
+        if (event.button != null && event.button !== 0) return;
+        dragging = true;
+        startY = event.clientY;
+        card.style.transition = 'none';
+        grab.setPointerCapture?.(event.pointerId);
+    });
+    grab.addEventListener('pointermove', (event) => onMove(event.clientY));
+    grab.addEventListener('pointerup', (event) => onEnd(event.clientY));
+    grab.addEventListener('pointercancel', (event) => onEnd(event.clientY));
+}
+
+function openStandaloneDrawer({ cardClass = '', bodyHtml = '', afterOpen = null } = {}) {
     const target = document.getElementById('modal-body-target');
     const lightbox = document.getElementById('lightbox');
-    if (!target || !lightbox) return;
+    if (!target || !lightbox) return null;
 
-    target.className = 'modal-card bus-settings-card';
+    lightbox.classList.add('is-drawer');
+    document.body.classList.add('standalone-drawer-open');
+    target.className = `modal-card is-drawer ${cardClass}`.trim();
+    target.style.transform = '';
+    target.style.transition = '';
     target.innerHTML = `
-        <button class="close-modal" type="button" onclick="document.getElementById('lightbox').style.display='none'">&times;</button>
+        <div class="drawer-grab" aria-hidden="true"><span class="drawer-grab-bar"></span></div>
+        <button type="button" class="close-modal drawer-close" aria-label="Close">&times;</button>
+        ${bodyHtml}
+    `;
+    lightbox.style.display = 'flex';
+    wireStandaloneDrawerChrome(target, lightbox);
+    if (typeof afterOpen === 'function') afterOpen(target, lightbox);
+    return target;
+}
+
+function openBusSettingsPopup() {
+    openStandaloneDrawer({
+        cardClass: 'bus-settings-card',
+        bodyHtml: `
         <div class="bus-settings">
             <p class="standalone-about-kicker">Settings</p>
             <h3>Travel time</h3>
@@ -2364,6 +2463,26 @@ function openBusSettingsPopup() {
                 <label class="bus-settings-check">
                     <input id="settings-show-est-time" type="checkbox"${shouldShowRouteEstTime() ? ' checked' : ''} />
                     <span>Show estimated time on cards</span>
+                </label>
+            </div>
+            <h3>Schedule display</h3>
+            <p class="bus-settings-hint">Passed times, sparse West routes, and empty destinations.</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input id="settings-grey-passed" type="checkbox"${fieldVisibility['btn-grey'] ? ' checked' : ''} />
+                    <span>Gray passed times</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input id="settings-hide-passed" type="checkbox"${fieldVisibility['btn-rem'] ? ' checked' : ''} />
+                    <span>Hide passed times</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input id="settings-hide-sparse-west" type="checkbox"${fieldVisibility['btn-hide-sparse-west'] ? ' checked' : ''} />
+                    <span>Hide sparse West (1–2 departures)</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input id="settings-hide-empty-dest" type="checkbox"${fieldVisibility['btn-hide-empty-dest'] ? ' checked' : ''} />
+                    <span>Hide empty destinations</span>
                 </label>
             </div>
             <h3>East table</h3>
@@ -2385,55 +2504,69 @@ function openBusSettingsPopup() {
                     <span>Pill style on table &amp; print times</span>
                 </label>
             </div>
+            <h3>Table cell align</h3>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-table-valign" value="top"${getTableCellVAlign() === 'top' ? ' checked' : ''} />
+                    <span>Top</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-table-valign" value="center"${getTableCellVAlign() === 'center' ? ' checked' : ''} />
+                    <span>Center</span>
+                </label>
+            </div>
             <div class="bus-settings-actions">
                 <button type="button" class="compact-btn primary" id="settings-apply-btn">Apply</button>
             </div>
-        </div>
-    `;
-    lightbox.style.display = 'flex';
+        </div>`,
+        afterOpen: () => {
+            const apply = () => {
+                const minInput = document.getElementById('settings-lindos-min');
+                const showDist = document.getElementById('settings-show-distance')?.checked !== false;
+                const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
+                const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
+                const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
+                const valign = document.querySelector('input[name="settings-table-valign"]:checked')?.value || 'top';
+                showRouteDistance = showDist;
+                showRouteEstTime = showEst;
+                tableTimePills = showPills;
+                tableCellVAlign = valign === 'center' ? 'center' : 'top';
+                applyTableCellVAlignToDom();
+                fieldVisibility['btn-grey'] = !!document.getElementById('settings-grey-passed')?.checked;
+                fieldVisibility['btn-rem'] = !!document.getElementById('settings-hide-passed')?.checked;
+                fieldVisibility['btn-hide-sparse-west'] = !!document.getElementById('settings-hide-sparse-west')?.checked;
+                fieldVisibility['btn-hide-empty-dest'] = !!document.getElementById('settings-hide-empty-dest')?.checked;
+                setEastTableDayBands(eastMode, { persist: false, refresh: false });
+                if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
+                    if (minInput) minInput.value = String(getLindosTravelMinutes());
+                    return;
+                }
+                saveStandaloneBusState();
+                filterAndRenderEngine();
+                if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
+                    fillPrintPreviewSheet();
+                }
+                if (minInput) minInput.value = String(getLindosTravelMinutes());
+                closeStandaloneDrawer();
+            };
 
-    const apply = () => {
-        const minInput = document.getElementById('settings-lindos-min');
-        const showDist = document.getElementById('settings-show-distance')?.checked !== false;
-        const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
-        const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
-        const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
-        showRouteDistance = showDist;
-        showRouteEstTime = showEst;
-        tableTimePills = showPills;
-        setEastTableDayBands(eastMode, { persist: false, refresh: false });
-        if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
-            if (minInput) minInput.value = String(getLindosTravelMinutes());
-            return;
+            document.getElementById('settings-apply-btn')?.addEventListener('click', apply);
+            document.getElementById('settings-lindos-min')?.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+                apply();
+            });
         }
-        saveStandaloneBusState();
-        filterAndRenderEngine();
-        if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
-            fillPrintPreviewSheet();
-        }
-        if (minInput) minInput.value = String(getLindosTravelMinutes());
-        lightbox.style.display = 'none';
-    };
-
-    document.getElementById('settings-apply-btn')?.addEventListener('click', apply);
-    document.getElementById('settings-lindos-min')?.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter') return;
-        event.preventDefault();
-        apply();
     });
 }
 
 function openStandaloneAboutInfo() {
-    const target = document.getElementById('modal-body-target');
-    const lightbox = document.getElementById('lightbox');
-    if (!target || !lightbox) return;
-
     const canInstall = Boolean(deferredInstallPrompt);
     const isStandaloneDisplay = isStandaloneAppDisplay();
 
-    target.className = 'modal-card standalone-about-card';
-    target.innerHTML = `
-        <button class="close-modal" type="button" onclick="document.getElementById('lightbox').style.display='none'">&times;</button>
+    openStandaloneDrawer({
+        cardClass: 'standalone-about-card',
+        bodyHtml: `
         <div class="standalone-about">
             <p class="standalone-about-kicker">About</p>
             <h3>Alex of Rhodes</h3>
@@ -2474,21 +2607,21 @@ function openStandaloneAboutInfo() {
                 </ul>
                 `}
             </div>`}
-        </div>
-    `;
-    lightbox.style.display = 'flex';
-
-    document.getElementById('about-install-btn')?.addEventListener('click', async () => {
-        if (!deferredInstallPrompt) return;
-        deferredInstallPrompt.prompt();
-        try {
-            await deferredInstallPrompt.userChoice;
-        } catch (error) {
-            /* ignore */
+        </div>`,
+        afterOpen: () => {
+            document.getElementById('about-install-btn')?.addEventListener('click', async () => {
+                if (!deferredInstallPrompt) return;
+                deferredInstallPrompt.prompt();
+                try {
+                    await deferredInstallPrompt.userChoice;
+                } catch (error) {
+                    /* ignore */
+                }
+                deferredInstallPrompt = null;
+                syncInstallAppBar();
+                closeStandaloneDrawer();
+            });
         }
-        deferredInstallPrompt = null;
-        syncInstallAppBar();
-        lightbox.style.display = 'none';
     });
 }
 
@@ -2586,39 +2719,21 @@ function renderBusSignList(rows, { destFirst }) {
 }
 
 function closeBusSignsPage() {
-    document.body.classList.remove('signs-page-open');
-    const page = document.getElementById('view-signs');
-    if (page) {
-        page.style.display = 'none';
-        page.hidden = true;
-        page.innerHTML = '';
-    }
-    const restore = signsPageReturnLayout === 'signs' ? 'cards' : (signsPageReturnLayout || 'cards');
-    if (currentLayoutMode === 'signs') {
-        setLayout(restore);
-    } else {
-        filterAndRenderEngine();
-    }
+    closeStandaloneDrawer();
 }
 
-function renderBusSignsPage() {
-    const page = document.getElementById('view-signs');
-    if (!page) return;
+function renderBusSignsDrawerBody() {
     const mode = getBusSignsSortMode();
     const east = sortBusSignRows(BUS_SIGN_EAST, mode);
     const west = sortBusSignRows(BUS_SIGN_WEST, mode);
-    page.innerHTML = `
-        <div class="bus-signs bus-signs-page-inner">
-            <div class="bus-signs-sticky">
-                <div class="bus-signs-page-top">
-                    <button type="button" class="bus-signs-back" data-signs-back>← Back</button>
-                    <h2 class="bus-signs-page-title">Bus destination signs</h2>
-                </div>
-                <p class="bus-signs-hint">Buses usually show the destination on the front. Line numbers and letters are extra route info — they may also appear on the display.</p>
-                <div class="bus-signs-sort" role="group" aria-label="Sort signs">
-                    <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
-                    <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Number</button>
-                </div>
+    return `
+        <div class="bus-signs bus-signs-drawer-inner">
+            <p class="standalone-about-kicker">Help</p>
+            <h3 class="bus-signs-page-title">Bus destination signs</h3>
+            <p class="bus-signs-hint">Buses usually show the destination on the front. Line numbers and letters are extra route info — they may also appear on the display.</p>
+            <div class="bus-signs-sort" role="group" aria-label="Sort signs">
+                <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
+                <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Number</button>
             </div>
             <div class="bus-signs-grid">
                 <section class="bus-signs-panel">
@@ -2632,36 +2747,21 @@ function renderBusSignsPage() {
             </div>
         </div>
     `;
-    page.querySelector('[data-signs-back]')?.addEventListener('click', () => closeBusSignsPage());
-    page.querySelectorAll('[data-signs-sort]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            setBusSignsSortMode(btn.getAttribute('data-signs-sort'));
-            renderBusSignsPage();
-        });
-    });
 }
 
 function openBusSignsInfo() {
-    const page = document.getElementById('view-signs');
-    if (!page) return;
-    if (currentLayoutMode !== 'signs') {
-        signsPageReturnLayout = currentLayoutMode || 'cards';
-    }
-    document.body.classList.add('signs-page-open');
-    ['cards', 'rails', 'table', 'calendar', 'posters', 'flipbook', 'deck', 'timeline', 'gantt', 'kanban', 'charts', 'chartjs-lab', 'gridjs-table', 'advanced-table', 'dashboard', 'map'].forEach((viewKey) => {
-        const el = document.getElementById(`view-${viewKey}`);
-        if (el) el.style.display = 'none';
+    openStandaloneDrawer({
+        cardClass: 'bus-signs-drawer-card',
+        bodyHtml: renderBusSignsDrawerBody(),
+        afterOpen: (card) => {
+            card.querySelectorAll('[data-signs-sort]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    setBusSignsSortMode(btn.getAttribute('data-signs-sort'));
+                    openBusSignsInfo();
+                });
+            });
+        }
     });
-    const pills = document.getElementById('inline-filter-pills');
-    if (pills) {
-        pills.innerHTML = '';
-        pills.style.display = 'none';
-    }
-    page.hidden = false;
-    page.style.display = '';
-    currentLayoutMode = 'signs';
-    document.querySelectorAll('.view-tab').forEach((el) => el.classList.remove('active'));
-    renderBusSignsPage();
 }
 
 function formatDateInputValue(date) {
@@ -2752,12 +2852,23 @@ function syncSearchClearButton() {
     const searchInput = document.getElementById('app-search');
     const clearButton = document.getElementById('app-search-clear');
     if (!searchInput || !clearButton) return;
-    if (window.__STANDALONE_BUS__) {
-        clearButton.hidden = false;
-        clearButton.disabled = !searchInput.value.trim();
-        return;
-    }
     clearButton.hidden = !searchInput.value.trim();
+}
+
+function syncStarredFilterButton() {
+    const btn = document.getElementById('starred-filter-btn');
+    if (!btn) return;
+    const on = String(activeFilterState.starred || 'ALL') === 'Starred';
+    btn.classList.toggle('is-active', on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.title = on ? 'Show all routes' : 'Show starred only';
+    btn.setAttribute('aria-label', on ? 'Show all routes' : 'Show starred only');
+}
+
+function toggleStarredFilterOnly() {
+    const on = String(activeFilterState.starred || 'ALL') === 'Starred';
+    setScopeFilterValue('starred', on ? 'ALL' : 'Starred');
+    syncStarredFilterButton();
 }
 
 function handleSearchInput() {
@@ -2957,6 +3068,7 @@ function setLayout(mode) {
     }
     currentLayoutMode = mode;
     document.body.classList.toggle('map-layout-mode', mode === 'map');
+    document.body.classList.toggle('table-layout-mode', mode === 'table');
     if (mode === 'map') {
         document.body.classList.remove('header-condensed');
     }
@@ -2974,6 +3086,10 @@ function setLayout(mode) {
     syncTableColsButton();
     syncMapToggleButton();
     syncHeaderActionButtons();
+    requestAnimationFrame(() => {
+        syncBusTableColumnWidths();
+        syncTableScrollFadeState();
+    });
     saveStandaloneBusState();
 }
 
@@ -2986,6 +3102,7 @@ function setScopeFilterValue(filterId, value) {
         fillPrintPreviewSheet();
     }
     saveStandaloneBusState();
+    if (filterId === 'starred') syncStarredFilterButton();
 }
 
 function shouldRenderInlineFilters() {
@@ -3023,6 +3140,10 @@ function renderInlineFilterPills() {
         const nonAllOptions = options.filter((option) => option !== 'ALL');
         if (filterDef.special !== 'busDay' && filterDef.special !== 'busStarred' && !nonAllOptions.length) {
             return;
+        }
+
+        if (filterDef.special === 'busStarred') {
+            return; // Starred-only toggle lives next to Dest (single ★ button).
         }
 
         const section = document.createElement('section');
@@ -3068,15 +3189,6 @@ function renderInlineFilterPills() {
             row.appendChild(chip);
         });
 
-        if (filterDef.special === 'busStarred' && starredBusRoutes.size > 0) {
-            const clearChip = document.createElement('button');
-            clearChip.className = 'inline-filter-chip inline-filter-clear';
-            clearChip.textContent = 'Clear';
-            clearChip.title = 'Clear all starred routes';
-            clearChip.onclick = () => clearStarredBusRoutes();
-            row.appendChild(clearChip);
-        }
-
         section.appendChild(row);
         container.appendChild(section);
         renderedSections += 1;
@@ -3085,27 +3197,163 @@ function renderInlineFilterPills() {
     container.style.display = renderedSections > 0 ? '' : 'none';
     document.body.classList.toggle('filters-region-day-cards-only', shouldSkipBusRegionDayFilters());
     syncInlineFilterRowFadeState(container);
-    requestAnimationFrame(() => syncBusStickyOffsets());
+    requestAnimationFrame(() => {
+        syncBusStickyOffsets();
+        syncTableScrollFadeState();
+    });
 }
 
 function syncInlineFilterRowFadeState(container) {
     if (!container) return;
+    const applyFade = (el) => {
+        const max = Math.max(0, el.scrollWidth - el.clientWidth);
+        const atEnd = max <= 1 || el.scrollLeft >= (max - 1);
+        const atStart = el.scrollLeft <= 1;
+        el.classList.toggle('at-end', atEnd);
+        el.classList.toggle('at-start', atStart);
+        el.classList.toggle('is-scrollable', max > 1);
+    };
+
     const rows = container.querySelectorAll('.inline-filter-row');
-
     rows.forEach((row) => {
-        const applyEndState = () => {
-            const max = Math.max(0, row.scrollWidth - row.clientWidth);
-            const atEnd = max <= 1 || row.scrollLeft >= (max - 1);
-            row.classList.toggle('at-end', atEnd);
-        };
-
         if (row.dataset.fadeInit !== '1') {
-            row.addEventListener('scroll', applyEndState, { passive: true });
-            window.addEventListener('resize', applyEndState);
+            row.addEventListener('scroll', () => applyFade(row), { passive: true });
+            window.addEventListener('resize', () => applyFade(row));
             row.dataset.fadeInit = '1';
         }
+        applyFade(row);
+    });
 
-        requestAnimationFrame(applyEndState);
+    if (container.classList.contains('inline-filter-pills')) {
+        if (container.dataset.fadeInit !== '1') {
+            container.addEventListener('scroll', () => applyFade(container), { passive: true });
+            window.addEventListener('resize', () => applyFade(container));
+            container.dataset.fadeInit = '1';
+        }
+        applyFade(container);
+    }
+}
+
+function syncBusTableColumnWidths() {
+    if (!window.__STANDALONE_BUS__) return;
+    document.querySelectorAll('.bus-grouped-table-view .bus-print-table-section').forEach((section) => {
+        const headTable = section.querySelector('.bus-table-sticky-cols table');
+        const bodyTable = section.querySelector('.table-responsive-wrapper table');
+        if (!headTable || !bodyTable) return;
+
+        const clearInline = (table) => {
+            table.style.width = '';
+            table.querySelectorAll('th, td').forEach((cell) => {
+                cell.style.width = '';
+                cell.style.minWidth = '';
+                cell.style.maxWidth = '';
+            });
+        };
+        clearInline(headTable);
+        clearInline(bodyTable);
+
+        const headCells = [...(headTable.querySelector('thead tr')?.children || [])];
+        const bodyRows = [...bodyTable.querySelectorAll('tbody tr')];
+        if (!headCells.length || !bodyRows.length) return;
+
+        const n = headCells.length;
+        const widths = new Array(n).fill(0);
+        const bump = (cell, i) => {
+            if (!cell || i >= n) return;
+            widths[i] = Math.max(widths[i], Math.ceil(cell.getBoundingClientRect().width));
+        };
+        headCells.forEach((cell, i) => bump(cell, i));
+        // Sample rows (all if short) so sparse first-row times don't undersize a busy later row.
+        const sample = bodyRows.length <= 24
+            ? bodyRows
+            : bodyRows.filter((_, idx) => idx % Math.ceil(bodyRows.length / 24) === 0);
+        sample.forEach((row) => {
+            [...row.children].forEach((cell, i) => bump(cell, i));
+        });
+
+        const total = widths.reduce((sum, w) => sum + w, 0);
+        if (total <= 0) return;
+
+        const apply = (table) => {
+            table.style.width = `${total}px`;
+            table.querySelectorAll('tr').forEach((row) => {
+                [...row.children].forEach((cell, i) => {
+                    if (!widths[i]) return;
+                    cell.style.width = `${widths[i]}px`;
+                    cell.style.minWidth = `${widths[i]}px`;
+                    cell.style.maxWidth = `${widths[i]}px`;
+                });
+            });
+        };
+        apply(headTable);
+        apply(bodyTable);
+    });
+}
+
+function syncTableScrollFadeState() {
+    document.querySelectorAll('.bus-grouped-table-view .bus-print-table-section').forEach((section) => {
+        const wrap = section.querySelector('.table-responsive-wrapper');
+        if (!wrap) return;
+        const head = section.querySelector('.bus-table-sticky-cols');
+        const cueRight = section.querySelector('.bus-table-hscroll-cue[data-dir="right"]');
+        const cueLeft = section.querySelector('.bus-table-hscroll-cue[data-dir="left"]');
+
+        const max = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+        const atEnd = max <= 1 || wrap.scrollLeft >= (max - 1);
+        const atStart = wrap.scrollLeft <= 1;
+        const scrollable = max > 1;
+        wrap.classList.toggle('at-end', atEnd);
+        wrap.classList.toggle('at-start', atStart);
+        wrap.classList.toggle('is-scrollable', scrollable);
+        if (head) {
+            head.classList.toggle('at-end', atEnd);
+            head.classList.toggle('at-start', atStart);
+            head.classList.toggle('is-scrollable', scrollable);
+        }
+        section.classList.toggle('has-more-right', scrollable && !atEnd);
+        section.classList.toggle('has-more-left', scrollable && !atStart);
+        if (cueRight) cueRight.hidden = !(scrollable && !atEnd);
+        if (cueLeft) cueLeft.hidden = !(scrollable && !atStart);
+
+        if (wrap.dataset.fadeInit !== '1') {
+            const syncX = (from, to) => {
+                if (!to || from._busXLock) return;
+                if (Math.abs(from.scrollLeft - to.scrollLeft) < 1) return;
+                to._busXLock = true;
+                to.scrollLeft = from.scrollLeft;
+                to._busXLock = false;
+            };
+            const nudge = (dir) => {
+                const span = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+                const step = Math.max(120, Math.round(wrap.clientWidth * 0.7));
+                const next = Math.max(0, Math.min(span, wrap.scrollLeft + (dir === 'left' ? -step : step)));
+                wrap.scrollTo({ left: next, behavior: 'smooth' });
+                if (head) head.scrollTo({ left: next, behavior: 'smooth' });
+            };
+            wrap.addEventListener('scroll', () => {
+                syncX(wrap, head);
+                syncTableScrollFadeState();
+            }, { passive: true });
+            head?.addEventListener('scroll', () => {
+                syncX(head, wrap);
+                syncTableScrollFadeState();
+            }, { passive: true });
+            section.querySelectorAll('.bus-table-hscroll-cue').forEach((btn) => {
+                btn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    nudge(btn.getAttribute('data-dir') === 'left' ? 'left' : 'right');
+                });
+            });
+            if (!syncTableScrollFadeState._resizeBound) {
+                window.addEventListener('resize', () => {
+                    syncBusTableColumnWidths();
+                    syncTableScrollFadeState();
+                });
+                syncTableScrollFadeState._resizeBound = true;
+            }
+            wrap.dataset.fadeInit = '1';
+        }
     });
 }
 
@@ -5544,23 +5792,8 @@ async function filterAndRenderEngine() {
     }
 
     if (currentLayoutMode === 'signs') {
-        document.body.classList.add('signs-page-open');
-        ['cards', 'rails', 'table', 'calendar', 'posters', 'flipbook', 'deck', 'timeline', 'gantt', 'kanban', 'charts', 'chartjs-lab', 'gridjs-table', 'advanced-table', 'dashboard', 'map'].forEach((viewKey) => {
-            const el = document.getElementById(`view-${viewKey}`);
-            if (el) el.style.display = 'none';
-        });
-        const pills = document.getElementById('inline-filter-pills');
-        if (pills) {
-            pills.innerHTML = '';
-            pills.style.display = 'none';
-        }
-        const page = document.getElementById('view-signs');
-        if (page) {
-            page.hidden = false;
-            page.style.display = '';
-            renderBusSignsPage();
-        }
-        return;
+        // Signs help is a drawer now — fall back to cards if mode was left stale.
+        currentLayoutMode = 'cards';
     }
 
     syncSearchClearButton();
@@ -6367,6 +6600,11 @@ function enhanceTableView(container, dataset) {
     if (!container || !dataset.length) return;
 
     container.classList.toggle('table-density-compact', viewEnhancementState.tableDense);
+    // Standalone bus uses its own wide/scroll table sizing — don't force fit-page width:100%.
+    if (window.__STANDALONE_BUS__ && container.classList.contains('bus-grouped-table-view')) {
+        container.classList.remove('table-fit-page', 'table-fit-content');
+        return;
+    }
     container.classList.add('table-fit-page');
     container.classList.remove('table-fit-content');
 }
@@ -6402,7 +6640,11 @@ function renderBusScheduleGroupedTableView() {
     });
     enhanceTableView(container, dataset);
     syncBusStickyOffsets();
-    requestAnimationFrame(() => syncBusStickyOffsets());
+    requestAnimationFrame(() => {
+        syncBusStickyOffsets();
+        syncBusTableColumnWidths();
+        syncTableScrollFadeState();
+    });
 }
 
 function renderTableView(dataset) {
@@ -8741,7 +8983,7 @@ function syncPrintModeButtons() {
 }
 
 function syncPrintColsButtonVisibility() {
-    const wrap = document.querySelector('.print-cols-wrap');
+    const wrap = document.getElementById('print-cols-wrap') || document.querySelector('.print-cols-wrap');
     const btn = document.getElementById('print-cols-btn');
     if (!wrap && !btn) return;
     const show = getPrintMode() === 'table';
@@ -8852,10 +9094,15 @@ function isTableViewColumnEnabled(column) {
 
 function syncTableColsButton() {
     const wrap = document.getElementById('table-cols-wrap');
-    if (!wrap) return;
-    const show = !!(window.__STANDALONE_BUS__ && currentLayoutMode === 'table');
-    wrap.hidden = !show;
-    if (!show) closeTableColsPopup();
+    const btn = document.getElementById('table-cols-btn');
+    if (!wrap || !btn) return;
+    const can = !!(window.__STANDALONE_BUS__ && currentLayoutMode === 'table');
+    wrap.hidden = false;
+    wrap.classList.remove('is-dormant');
+    btn.disabled = !can;
+    btn.setAttribute('aria-disabled', can ? 'false' : 'true');
+    btn.title = can ? 'Table columns' : 'Table columns (switch to Table view)';
+    if (!can) closeTableColsPopup();
 }
 
 function closeTableColsPopup() {
@@ -8864,8 +9111,9 @@ function closeTableColsPopup() {
 }
 
 function openTableColsPopup() {
+    const btn = document.getElementById('table-cols-btn');
     const popup = document.getElementById('table-cols-popup');
-    if (!popup) return;
+    if (!popup || btn?.disabled) return;
     const enabled = new Set(getTableViewColumnIds());
     const cols = activeScopeConfig?.tableColumns || [];
     const options = cols.map((col) => {
@@ -8907,6 +9155,8 @@ function wireTableColsPicker() {
     document.getElementById('table-cols-btn')?.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
+        const btn = document.getElementById('table-cols-btn');
+        if (btn?.disabled) return;
         const popup = document.getElementById('table-cols-popup');
         if (popup && !popup.hidden) closeTableColsPopup();
         else openTableColsPopup();
@@ -9442,10 +9692,14 @@ function buildBusScheduleRegionTableSection(title, rows, bandClass, { includeSta
         <div class="bus-table-sticky-head">
             <h2 class="bus-print-table-band ${escapeHtml(bandClass)}">${escapeHtml(title)}</h2>
             ${legendHtml}
-            <div class="bus-table-sticky-cols">
-                <table class="${tableClass}">
-                    <thead><tr>${starHeader}${headers}</tr></thead>
-                </table>
+            <div class="bus-table-cols-frame">
+                <div class="bus-table-sticky-cols">
+                    <table class="${tableClass}">
+                        <thead><tr>${starHeader}${headers}</tr></thead>
+                    </table>
+                </div>
+                <button type="button" class="bus-table-hscroll-cue" data-dir="right" hidden aria-label="More columns to the right" title="More columns">···›</button>
+                <button type="button" class="bus-table-hscroll-cue is-left" data-dir="left" hidden aria-label="More columns to the left" title="More columns">‹···</button>
             </div>
         </div>
         <div class="table-responsive-wrapper">
@@ -10290,6 +10544,26 @@ function fillPrintPreviewSheet() {
         // Match system print: same paper box + fitPrintPagesInRoot scaling
         requestAnimationFrame(() => {
             fitPrintPagesInRoot(docRoot, '.tt-page', orientation, { setPageWidth: true });
+            // Phone preview: shrink sheets to scroll width; keep left-aligned (no center offset).
+            const metrics = getPrintPageMetrics(orientation);
+            const pxPerMm = 96 / 25.4;
+            const paperW = Math.max(1, (metrics.paperWidthMm - (2 * metrics.marginMm)) * pxPerMm);
+            const paperH = Math.max(1, (metrics.paperHeightMm - (2 * metrics.marginMm)) * pxPerMm);
+            const viewW = Math.max(1, host.clientWidth || 1);
+            const previewScale = Math.min(1, (viewW - 4) / paperW);
+            const pages = docRoot.querySelectorAll('.tt-page');
+            const pageCount = Math.max(1, pages.length);
+            docRoot.style.transformOrigin = 'top left';
+            docRoot.style.width = `${paperW}px`;
+            docRoot.style.alignItems = 'stretch';
+            if (previewScale < 0.999) {
+                docRoot.style.transform = `scale(${previewScale})`;
+                docRoot.style.marginBottom = `${Math.round(paperH * pageCount * (1 - previewScale) + 24)}px`;
+            } else {
+                docRoot.style.transform = '';
+                docRoot.style.marginBottom = '';
+            }
+            docRoot.dataset.previewScale = String(previewScale);
         });
     }
     return true;
@@ -10494,7 +10768,14 @@ function wireStandalonePrintMenu() {
     });
 }
 
-function closeModalEngine(event) { if (event.target.id === 'lightbox') document.getElementById('lightbox').style.display = 'none'; }
+function closeModalEngine(event) {
+    if (event.target.id !== 'lightbox') return;
+    if (document.getElementById('lightbox')?.classList.contains('is-drawer')) {
+        closeStandaloneDrawer();
+        return;
+    }
+    document.getElementById('lightbox').style.display = 'none';
+}
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -10524,6 +10805,7 @@ window.toggleBusRouteStar = toggleBusRouteStar;
 window.clearStarredBusRoutes = clearStarredBusRoutes;
 window.handleSearchInput = handleSearchInput;
 window.clearSearchQuery = clearSearchQuery;
+window.toggleStarredFilterOnly = toggleStarredFilterOnly;
 window.syncSearchClearButton = syncSearchClearButton;
 window.saveStandaloneBusState = saveStandaloneBusState;
 window.openBookingAdminPanel = openBookingAdminPanel;
