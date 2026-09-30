@@ -3,6 +3,7 @@ let activeScope = 'contacts';
 let activeScopeConfig = null;
 let currentLayoutMode = 'cards';
 let signsPageReturnLayout = 'cards';
+let listExpandedKeys = new Set();
 let activeFilterState = {};
 let leafletMap = null;
 let busClusterGroup = null;
@@ -1057,6 +1058,7 @@ let showRouteDistance = true;
 let showRouteEstTime = true;
 let tableTimePills = true;
 let tableCellVAlign = 'top'; // 'top' | 'center'
+let tableFreezeDestCols = false;
 /** null = derive defaults (all cols, distance/est from settings). */
 let tableViewColumnIds = null;
 let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
@@ -1073,6 +1075,10 @@ function shouldShowTableTimePills() {
     return tableTimePills !== false;
 }
 
+function shouldFreezeTableDestCols() {
+    return tableFreezeDestCols === true;
+}
+
 function getTableCellVAlign() {
     return tableCellVAlign === 'center' ? 'center' : 'top';
 }
@@ -1081,6 +1087,10 @@ function applyTableCellVAlignToDom() {
     const align = getTableCellVAlign();
     document.body.classList.toggle('table-cell-valign-center', align === 'center');
     document.body.classList.toggle('table-cell-valign-top', align !== 'center');
+}
+
+function applyTableFreezeDestToDom() {
+    document.body.classList.toggle('table-freeze-dest', shouldFreezeTableDestCols());
 }
 
 function hasDisplayableBusPrice(price) {
@@ -1571,10 +1581,14 @@ async function bootApp() {
     if (typeof restoredStandalone?.tableTimePills === 'boolean') {
         tableTimePills = restoredStandalone.tableTimePills;
     }
+    if (typeof restoredStandalone?.tableFreezeDestCols === 'boolean') {
+        tableFreezeDestCols = restoredStandalone.tableFreezeDestCols;
+    }
     if (restoredStandalone?.tableCellVAlign === 'center' || restoredStandalone?.tableCellVAlign === 'top') {
         tableCellVAlign = restoredStandalone.tableCellVAlign;
     }
     applyTableCellVAlignToDom();
+    applyTableFreezeDestToDom();
     if (restoredStandalone?.eastTableDayBands === 'split' || restoredStandalone?.eastTableDayBands === 'combined') {
         eastTableDayBands = restoredStandalone.eastTableDayBands;
     }
@@ -1788,6 +1802,7 @@ function renderLayoutTabs() {
     const modes = activeScopeConfig.layouts || ['cards', 'table', 'calendar', 'map'];
     const labels = {
         cards: 'Cards',
+        list: 'List',
         rails: 'Rails',
         table: 'Table',
         calendar: 'Calendar',
@@ -2105,19 +2120,47 @@ function toggleBusRouteStar(key, event) {
     if (!starKey) return;
     if (starredBusRoutes.has(starKey)) starredBusRoutes.delete(starKey);
     else starredBusRoutes.add(starKey);
+    if (!starredBusRoutes.has(starKey)) listExpandedKeys.delete(starKey);
     sanitizeBusStarredFilterSelection();
     saveStandaloneBusState();
-    filterAndRenderEngine();
+    const starred = starredBusRoutes.has(starKey);
+    document.querySelectorAll('.bus-fav-btn').forEach((el) => {
+        if (el.getAttribute('data-star-key') !== starKey) return;
+        el.classList.toggle('is-starred', starred);
+        el.setAttribute('aria-pressed', starred ? 'true' : 'false');
+        el.setAttribute('aria-label', starred ? 'Remove from starred' : 'Add to starred');
+        el.title = starred ? 'Starred' : 'Star';
+        el.closest('.profile-card')?.classList.toggle('is-starred', starred);
+    });
+    if (
+        (currentLayoutMode === 'table' || currentLayoutMode === 'list')
+        && String(activeFilterState.starred || 'ALL') === 'Starred'
+    ) {
+        filterAndRenderEngine();
+    }
 }
 
 function clearStarredBusRoutes() {
     if (!starredBusRoutes.size) return;
     starredBusRoutes.clear();
+    listExpandedKeys.clear();
     if (activeFilterState.starred && activeFilterState.starred !== 'ALL') {
         activeFilterState.starred = 'ALL';
     }
     saveStandaloneBusState();
-    filterAndRenderEngine();
+    document.querySelectorAll('.bus-fav-btn.is-starred').forEach((el) => {
+        el.classList.remove('is-starred');
+        el.setAttribute('aria-pressed', 'false');
+        el.setAttribute('aria-label', 'Add to starred');
+        el.title = 'Star';
+        el.closest('.profile-card')?.classList.remove('is-starred');
+    });
+    if (currentLayoutMode === 'table' || currentLayoutMode === 'list') {
+        filterAndRenderEngine();
+        syncStarredFilterButton();
+        return;
+    }
+    syncStarredFilterButton();
 }
 
 function loadStandaloneBusState() {
@@ -2165,6 +2208,7 @@ function saveStandaloneBusState() {
             showRouteDistance: shouldShowRouteDistance(),
             showRouteEstTime: shouldShowRouteEstTime(),
             tableTimePills: shouldShowTableTimePills(),
+            tableFreezeDestCols: shouldFreezeTableDestCols(),
             tableCellVAlign: getTableCellVAlign()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
@@ -2210,10 +2254,12 @@ function applyStandaloneBusState(state) {
     if (typeof state.showRouteDistance === 'boolean') showRouteDistance = state.showRouteDistance;
     if (typeof state.showRouteEstTime === 'boolean') showRouteEstTime = state.showRouteEstTime;
     if (typeof state.tableTimePills === 'boolean') tableTimePills = state.tableTimePills;
+    if (typeof state.tableFreezeDestCols === 'boolean') tableFreezeDestCols = state.tableFreezeDestCols;
     if (state.tableCellVAlign === 'center' || state.tableCellVAlign === 'top') {
         tableCellVAlign = state.tableCellVAlign;
     }
     applyTableCellVAlignToDom();
+    applyTableFreezeDestToDom();
     if (state.eastTableDayBands === 'split' || state.eastTableDayBands === 'combined') {
         eastTableDayBands = state.eastTableDayBands;
     }
@@ -2351,7 +2397,7 @@ function closeStandaloneDrawer() {
     if (target) {
         target.style.transform = '';
         target.style.transition = '';
-        target.classList.remove('is-drawer');
+        target.classList.remove('is-drawer', 'favorites-drawer-card');
     }
     if (lightbox) {
         lightbox.style.display = 'none';
@@ -2359,6 +2405,7 @@ function closeStandaloneDrawer() {
         lightbox.onclick = null;
     }
     document.body.classList.remove('standalone-drawer-open');
+    syncStarredFilterButton();
 }
 
 function wireStandaloneDrawerChrome(card, lightbox) {
@@ -2439,6 +2486,7 @@ function openStandaloneDrawer({ cardClass = '', bodyHtml = '', afterOpen = null 
     lightbox.style.display = 'flex';
     wireStandaloneDrawerChrome(target, lightbox);
     if (typeof afterOpen === 'function') afterOpen(target, lightbox);
+    syncStarredFilterButton();
     return target;
 }
 
@@ -2497,6 +2545,14 @@ function openBusSettingsPopup() {
                     <span>Split by day</span>
                 </label>
             </div>
+            <h3>Table scroll</h3>
+            <p class="bus-settings-hint">Keep destination visible while swiping columns.</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input id="settings-table-freeze-dest" type="checkbox"${shouldFreezeTableDestCols() ? ' checked' : ''} />
+                    <span>Freeze star &amp; destination columns</span>
+                </label>
+            </div>
             <h3>Table times</h3>
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
@@ -2525,13 +2581,16 @@ function openBusSettingsPopup() {
                 const showDist = document.getElementById('settings-show-distance')?.checked !== false;
                 const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
                 const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
+                const freezeDest = !!document.getElementById('settings-table-freeze-dest')?.checked;
                 const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
                 const valign = document.querySelector('input[name="settings-table-valign"]:checked')?.value || 'top';
                 showRouteDistance = showDist;
                 showRouteEstTime = showEst;
                 tableTimePills = showPills;
+                tableFreezeDestCols = freezeDest;
                 tableCellVAlign = valign === 'center' ? 'center' : 'top';
                 applyTableCellVAlignToDom();
+                applyTableFreezeDestToDom();
                 fieldVisibility['btn-grey'] = !!document.getElementById('settings-grey-passed')?.checked;
                 fieldVisibility['btn-rem'] = !!document.getElementById('settings-hide-passed')?.checked;
                 fieldVisibility['btn-hide-sparse-west'] = !!document.getElementById('settings-hide-sparse-west')?.checked;
@@ -2560,11 +2619,51 @@ function openBusSettingsPopup() {
     });
 }
 
+function openStandaloneCenteredModal({ cardClass = '', bodyHtml = '', afterOpen = null } = {}) {
+    const target = document.getElementById('modal-body-target');
+    const lightbox = document.getElementById('lightbox');
+    if (!target || !lightbox) return null;
+
+    lightbox.classList.remove('is-drawer');
+    document.body.classList.remove('standalone-drawer-open');
+    target.className = `modal-card ${cardClass}`.trim();
+    target.style.transform = '';
+    target.style.transition = '';
+    target.innerHTML = `
+        <button type="button" class="close-modal" aria-label="Close">&times;</button>
+        ${bodyHtml}
+    `;
+    lightbox.style.display = 'flex';
+
+    const close = () => closeStandaloneDrawer();
+    target.querySelector('.close-modal')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        close();
+    });
+    lightbox.onclick = (event) => {
+        if (event.target === lightbox) close();
+    };
+    if (target._drawerEsc) {
+        window.removeEventListener('keydown', target._drawerEsc, true);
+    }
+    const onKey = (event) => {
+        if (event.key !== 'Escape') return;
+        event.preventDefault();
+        close();
+    };
+    target._drawerEsc = onKey;
+    window.addEventListener('keydown', onKey, true);
+
+    if (typeof afterOpen === 'function') afterOpen(target, lightbox);
+    return target;
+}
+
 function openStandaloneAboutInfo() {
     const canInstall = Boolean(deferredInstallPrompt);
     const isStandaloneDisplay = isStandaloneAppDisplay();
 
-    openStandaloneDrawer({
+    openStandaloneCenteredModal({
         cardClass: 'standalone-about-card',
         bodyHtml: `
         <div class="standalone-about">
@@ -2858,6 +2957,13 @@ function syncSearchClearButton() {
 function syncStarredFilterButton() {
     const btn = document.getElementById('starred-filter-btn');
     if (!btn) return;
+    if (currentLayoutMode === 'cards') {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.title = 'Show starred only';
+        btn.setAttribute('aria-label', 'Show starred only');
+        return;
+    }
     const on = String(activeFilterState.starred || 'ALL') === 'Starred';
     btn.classList.toggle('is-active', on);
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -2866,6 +2972,11 @@ function syncStarredFilterButton() {
 }
 
 function toggleStarredFilterOnly() {
+    if (currentLayoutMode === 'cards') {
+        activeFilterState.starred = 'Starred';
+        setLayout('list');
+        return;
+    }
     const on = String(activeFilterState.starred || 'ALL') === 'Starred';
     setScopeFilterValue('starred', on ? 'ALL' : 'Starred');
     syncStarredFilterButton();
@@ -3066,9 +3177,15 @@ function setLayout(mode) {
             signsPage.hidden = true;
         }
     }
+    // Cards clears starred filter (exit “favorites mode” from List).
+    if (mode === 'cards' && activeFilterState.starred && activeFilterState.starred !== 'ALL') {
+        activeFilterState.starred = 'ALL';
+    }
+    if (mode !== 'list') listExpandedKeys.clear();
     currentLayoutMode = mode;
     document.body.classList.toggle('map-layout-mode', mode === 'map');
     document.body.classList.toggle('table-layout-mode', mode === 'table');
+    document.body.classList.toggle('list-layout-mode', mode === 'list');
     if (mode === 'map') {
         document.body.classList.remove('header-condensed');
     }
@@ -3086,6 +3203,7 @@ function setLayout(mode) {
     syncTableColsButton();
     syncMapToggleButton();
     syncHeaderActionButtons();
+    syncStarredFilterButton();
     requestAnimationFrame(() => {
         syncBusTableColumnWidths();
         syncTableScrollFadeState();
@@ -3124,6 +3242,7 @@ function renderInlineFilterPills() {
     sanitizeBusRegionFilterSelection();
     sanitizeBusDayFilterSelection();
     sanitizeBusStarredFilterSelection();
+    syncStarredFilterButton();
 
     const filters = getActiveScopeFilters();
     if (!filters.length || !shouldRenderInlineFilters()) {
@@ -3864,9 +3983,10 @@ function sanitizeBusStarredFilterSelection() {
     if (!starredFilter) return;
     const selected = activeFilterState.starred || 'ALL';
     if (selected === 'ALL') return;
-    if (!isFilterOptionAvailable(starredFilter, selected)) {
-        activeFilterState.starred = 'ALL';
-    }
+    // Keep Starred while any favourites exist. Table view skips region/day for display,
+    // so availability must not depend on those pills alone.
+    if (starredBusRoutes.size > 0) return;
+    activeFilterState.starred = 'ALL';
 }
 
 function sanitizeBusRegionFilterSelection() {
@@ -3950,10 +4070,11 @@ function rowMatchesBusTimeWindow(row) {
     return all.some((time) => isTimeInWindow(time, timeStart, timeEnd));
 }
 
-function matchesRowFilters(row, { includeSearch = true, includeDestinations = true, skipDay = false, skipRegion = false } = {}) {
+function matchesRowFilters(row, { includeSearch = true, includeDestinations = true, skipDay = false, skipRegion = false, skipStarred = false } = {}) {
     const excludedFilters = [];
     if (skipDay) excludedFilters.push('day');
     if (skipRegion) excludedFilters.push('region');
+    if (skipStarred) excludedFilters.push('starred');
     if (!doesRowMatchActiveFilters(row, excludedFilters.length ? excludedFilters : null)) return false;
 
     if (activeScopeConfig?.headerControls?.length) {
@@ -4138,6 +4259,222 @@ function getFilteredRecords() {
     const rows = activeDataset.filter((row) => matchesRowFilters(row));
     if (activeScope === 'bus_schedule') return sortBusScheduleRows(rows);
     return rows;
+}
+
+function getBusCardsBaseRecords() {
+    if (activeDataLoadError) return [];
+    const rows = activeDataset.filter((row) => matchesRowFilters(row, { skipStarred: true }));
+    return sortBusScheduleRows(rows);
+}
+
+function getStarredBusRecords() {
+    if (activeDataLoadError) return [];
+    const rows = activeDataset.filter((row) => isBusRouteStarred(row));
+    return sortBusScheduleRows(rows);
+}
+
+function buildBusListScheduleHtml(row) {
+    const outTimes = normalizeTimeList(row.timesOut || row.outbound || row.times || []);
+    const backTimes = normalizeTimeList(row.timesBack || row.inbound || row.returns || []);
+    const timeMarks = getTimeMarksForBusRow(row);
+    const outPills = outTimes.map((time) => formatBusTimePillHtml(time, {
+        mark: timeMarks.out[time] || ''
+    })).join('');
+    const backPills = backTimes.map((time) => formatBusTimePillHtml(time, {
+        inbound: true,
+        mark: timeMarks.back[time] || ''
+    })).join('');
+    if (!outTimes.length && !backTimes.length) {
+        return '<div class="bus-empty-hint">No times in current schedule</div>';
+    }
+    return `
+        ${outTimes.length ? `
+        <div class="bus-schedule-block">
+            <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
+            <div class="schedule-pills">${outPills}</div>
+        </div>` : ''}
+        ${backTimes.length ? `
+        <div class="bus-schedule-block inbound">
+            <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
+            <div class="schedule-pills">${backPills}</div>
+        </div>` : ''}`;
+}
+
+function buildBusListRow(row) {
+    const starKey = getBusRouteStarKey(row);
+    const regionKey = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-');
+    const routeTitle = String(row.to || '').trim() || 'Route';
+    const splitFaliraki = routeTitle.toLowerCase() === 'kalithea-faliraki';
+    const dayLabel = formatBusDayLabel(row.day, row.region);
+    const priceHtml = formatBusPriceTagHtml(row.price);
+    const expanded = listExpandedKeys.has(starKey);
+
+    const el = document.createElement('div');
+    el.className = [
+        'bus-list-row',
+        regionKey ? `region-${regionKey}` : '',
+        splitFaliraki ? 'region-split-faliraki' : '',
+        expanded ? 'is-expanded' : '',
+        isBusRouteStarred(starKey) ? 'is-starred' : ''
+    ].filter(Boolean).join(' ');
+    el.dataset.starKey = starKey;
+    el.innerHTML = `
+        <button type="button" class="bus-list-row-head" aria-expanded="${expanded ? 'true' : 'false'}">
+            <div class="bus-list-row-main">
+                <span class="bus-list-row-title">${escapeHtml(routeTitle)}</span>
+                <span class="bus-list-row-day">${escapeHtml(dayLabel)}</span>
+            </div>
+            <div class="bus-list-row-meta">
+                ${priceHtml}
+                <span class="bus-list-row-chevron" aria-hidden="true"></span>
+            </div>
+        </button>
+        <div class="bus-list-row-star">
+            ${renderBusFavButtonHtml(row, { floating: false })}
+        </div>
+        <div class="bus-list-row-body"${expanded ? '' : ' hidden'}>
+            ${buildBusListScheduleHtml(row)}
+        </div>`;
+
+    const head = el.querySelector('.bus-list-row-head');
+    const body = el.querySelector('.bus-list-row-body');
+    head?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const open = !el.classList.contains('is-expanded');
+        el.classList.toggle('is-expanded', open);
+        head.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (body) body.hidden = !open;
+        if (open) listExpandedKeys.add(starKey);
+        else listExpandedKeys.delete(starKey);
+        if (open) {
+            requestAnimationFrame(() => {
+                el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            });
+        }
+    });
+    el.querySelector('.bus-fav-btn')?.addEventListener('click', (event) => {
+        toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
+    });
+    return el;
+}
+
+function renderListView(dataset) {
+    const root = document.getElementById('view-list');
+    if (!root) return;
+
+    for (const key of Array.from(listExpandedKeys)) {
+        if (!starredBusRoutes.has(key) && String(activeFilterState.starred || 'ALL') === 'Starred') {
+            listExpandedKeys.delete(key);
+        }
+    }
+
+    const rows = Array.isArray(dataset) ? dataset : getFilteredRecords();
+    const starredOnly = String(activeFilterState.starred || 'ALL') === 'Starred';
+    const showClearAll = starredOnly && starredBusRoutes.size > 0;
+
+    root.className = 'view-container bus-list-view';
+    root.innerHTML = `
+        <div class="bus-list-inner">
+            ${starredOnly ? `
+            <div class="bus-list-toolbar">
+                <p class="bus-list-toolbar-label">Starred</p>
+                <button type="button" id="favorites-clear-all" class="favorites-clear-all"${showClearAll ? '' : ' hidden'}>Clear all</button>
+            </div>` : ''}
+            <div id="bus-list-rows" class="bus-list-rows"></div>
+        </div>`;
+
+    const listEl = root.querySelector('#bus-list-rows');
+    if (!rows.length) {
+        if (listEl) {
+            listEl.innerHTML = starredOnly
+                ? '<p class="bus-list-empty">No starred routes yet — tap ★ on a card</p>'
+                : '<p class="bus-list-empty">No routes match the current filters</p>';
+        }
+    } else {
+        const fragment = document.createDocumentFragment();
+        rows.forEach((row) => fragment.appendChild(buildBusListRow(row)));
+        listEl?.appendChild(fragment);
+    }
+
+    root.querySelector('#favorites-clear-all')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        clearStarredBusRoutes();
+    });
+}
+
+function buildBusScheduleCardElement(row, { forDrawer = false } = {}) {
+    const tStart = forDrawer ? '' : (document.getElementById('time-filter-start')?.value || '');
+    const tEnd = forDrawer ? '' : (document.getElementById('time-filter-end')?.value || '');
+    let finalOutTimes = normalizeTimeList(row.timesOut || row.outbound || row.times || []);
+    let finalBackTimes = normalizeTimeList(row.timesBack || row.inbound || row.returns || []);
+
+    if (!forDrawer) {
+        finalOutTimes = finalOutTimes.filter((time) => isTimeInWindow(time, tStart, tEnd));
+        finalBackTimes = finalBackTimes.filter((time) => isTimeInWindow(time, tStart, tEnd));
+        if (fieldVisibility['btn-rem']) {
+            finalOutTimes = finalOutTimes.filter((time) => !isTimePassed(time));
+            finalBackTimes = finalBackTimes.filter((time) => !isTimePassed(time));
+        }
+    }
+    const isEmptyCard = !finalOutTimes.length && !finalBackTimes.length;
+    if (!forDrawer && isEmptyCard && fieldVisibility['btn-hide-empty-dest']) return null;
+
+    const card = document.createElement('div');
+    const starKey = getBusRouteStarKey(row);
+    const regionKey = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-');
+    const routeTitle = String(row.to || '').trim();
+    const splitFaliraki = routeTitle.toLowerCase() === 'kalithea-faliraki';
+    card.className = [
+        'profile-card',
+        forDrawer ? 'is-favorites-drawer-card' : '',
+        regionKey ? `region-${regionKey}` : '',
+        splitFaliraki ? 'region-split-faliraki' : '',
+        isBusRouteStarred(starKey) ? 'is-starred' : '',
+        isEmptyCard ? 'is-empty-route' : ''
+    ].filter(Boolean).join(' ');
+    card.dataset.starKey = starKey;
+    const timeMarks = getTimeMarksForBusRow(row);
+    const outPills = finalOutTimes.map((time) => formatBusTimePillHtml(time, {
+        mark: timeMarks.out[time] || ''
+    })).join('');
+    const backPills = finalBackTimes.map((time) => formatBusTimePillHtml(time, {
+        inbound: true,
+        mark: timeMarks.back[time] || ''
+    })).join('');
+    const metaFooter = buildBusRouteMetaFooterHtml(row);
+    const emptyHint = isEmptyCard ? '<div class="bus-empty-hint">No times in current schedule</div>' : '';
+    card.innerHTML = `
+        ${renderBusFavButtonHtml(row, { floating: true })}
+        <div style="width:100%;">
+            <div class="bus-header">
+                <div>
+                    <div class="bus-route-title">${escapeHtml(row.to || '')}</div>
+                    <div class="bus-badge-row">
+                        <span>${escapeHtml(formatBusDayLabel(row.day, row.region))}</span>
+                    </div>
+                </div>
+                ${formatBusPriceTagHtml(row.price)}
+            </div>
+            ${emptyHint}
+            ${finalOutTimes.length ? `
+            <div class="bus-schedule-block">
+                <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
+                <div class="schedule-pills">${outPills}</div>
+            </div>` : ''}
+            ${finalBackTimes.length ? `
+                <div class="bus-schedule-block inbound">
+                    <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
+                    <div class="schedule-pills">${backPills}</div>
+                </div>` : ''}
+            ${metaFooter}
+            ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments).replace(/\n/g, '<br>')}</div>` : ''}
+        </div>`;
+    card.querySelector('.bus-fav-btn')?.addEventListener('click', (event) => {
+        toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
+    });
+    return card;
 }
 
 function getBusScheduleTableRecords() {
@@ -5768,6 +6105,7 @@ function renderDashboardView(dataset) {
 function initializeViewRegistry() {
     if (!window.ViewRegistry?.register) return;
     window.ViewRegistry.register('cards', renderCardsView);
+    window.ViewRegistry.register('list', renderListView);
     window.ViewRegistry.register('rails', renderRailsView);
     window.ViewRegistry.register('table', renderTableView);
     window.ViewRegistry.register('calendar', mountCalendarGrid);
@@ -5801,7 +6139,7 @@ async function filterAndRenderEngine() {
     const filtered = getFilteredRecords();
     renderInlineFilterPills();
 
-    ['cards', 'rails', 'table', 'calendar', 'posters', 'flipbook', 'deck', 'timeline', 'gantt', 'kanban', 'charts', 'chartjs-lab', 'gridjs-table', 'advanced-table', 'dashboard', 'map'].forEach((viewKey) => {
+    ['cards', 'list', 'rails', 'table', 'calendar', 'posters', 'flipbook', 'deck', 'timeline', 'gantt', 'kanban', 'charts', 'chartjs-lab', 'gridjs-table', 'advanced-table', 'dashboard', 'map'].forEach((viewKey) => {
         const el = document.getElementById(`view-${viewKey}`);
         if (!el) return;
         el.style.display = currentLayoutMode === viewKey ? '' : 'none';
@@ -6224,22 +6562,41 @@ function renderCardsView(dataset, options = {}) {
     }
     container.innerHTML = '';
 
+    if (activeScope === 'bus_schedule') {
+        const baseDataset = getBusCardsBaseRecords();
+        container.className = 'view-container layout-masonry-buses';
+        if (!baseDataset.length) {
+            container.className = 'view-container';
+            container.innerHTML = '<div class="view-empty-state">No entries match the current filters.</div>';
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        baseDataset.forEach((row) => {
+            const card = buildBusScheduleCardElement(row);
+            if (card) fragment.appendChild(card);
+        });
+
+        container.appendChild(fragment);
+        if (container.querySelector('.profile-card')) {
+            requestAnimationFrame(() => layoutBusMasonry(container));
+        }
+        return;
+    }
+
     if (!dataset.length) {
         container.className = 'view-container';
         container.innerHTML = '<div class="view-empty-state">No entries match the current filters.</div>';
         return;
     }
 
-    const sortedDataset = activeScope === 'bus_schedule'
-        ? dataset.slice()
-        : sortDatasetByMode(dataset, viewEnhancementState.cardsSort);
+    const sortedDataset = sortDatasetByMode(dataset, viewEnhancementState.cardsSort);
     const cardsPagination = getCardsPaginationConfig(sortedDataset.length);
     const renderDataset = cardsPagination.enabled
         ? sortedDataset.slice(cardsPagination.startIndex, cardsPagination.endIndex)
         : sortedDataset;
     const cardsControls = renderCardsPaginationControls(cardsPagination);
 
-    const showCardsToolbar = activeScope !== 'bus_schedule';
     const cardsToolbar = document.createElement('div');
     cardsToolbar.className = 'cards-view-toolbar';
     cardsToolbar.innerHTML = `
@@ -6253,117 +6610,38 @@ function renderCardsView(dataset, options = {}) {
         </select>
     `;
 
-    if (activeScope === 'bus_schedule') {
-        container.className = 'view-container layout-masonry-buses';
-    } else {
-        const cardsPref = getScopeLayoutPreference(activeScope).cards;
-        let layoutClass = 'view-container layout-grid-flow';
-        if (!fieldVisibility['btn-toggle-qr']) layoutClass += ' qr-hidden-layout';
-        if (!fieldVisibility['btn-toggle-img']) layoutClass += ' img-hidden-layout';
-        layoutClass += ` cards-interior-${cardsPref.interior}`;
-        layoutClass += ` cards-label-${cardsPref.label}`;
-        if (cardsPref.maxColumns !== 'auto') {
-            layoutClass += ` cards-max-${cardsPref.maxColumns}`;
-        }
-        layoutClass += ` cards-density-${viewEnhancementState.cardsDensity}`;
-        container.className = layoutClass;
+    const cardsPref = getScopeLayoutPreference(activeScope).cards;
+    let layoutClass = 'view-container layout-grid-flow';
+    if (!fieldVisibility['btn-toggle-qr']) layoutClass += ' qr-hidden-layout';
+    if (!fieldVisibility['btn-toggle-img']) layoutClass += ' img-hidden-layout';
+    layoutClass += ` cards-interior-${cardsPref.interior}`;
+    layoutClass += ` cards-label-${cardsPref.label}`;
+    if (cardsPref.maxColumns !== 'auto') {
+        layoutClass += ` cards-max-${cardsPref.maxColumns}`;
     }
+    layoutClass += ` cards-density-${viewEnhancementState.cardsDensity}`;
+    container.className = layoutClass;
 
-    if (showCardsToolbar) {
-        container.appendChild(cardsToolbar);
-        cardsToolbar.querySelector('#cards-sort-mode')?.addEventListener('change', (event) => {
-            viewEnhancementState.cardsSort = event.target.value || 'default';
-            saveViewEnhancementStateToStorage();
-            filterAndRenderEngine();
-        });
-    }
+    container.appendChild(cardsToolbar);
+    cardsToolbar.querySelector('#cards-sort-mode')?.addEventListener('change', (event) => {
+        viewEnhancementState.cardsSort = event.target.value || 'default';
+        saveViewEnhancementStateToStorage();
+        filterAndRenderEngine();
+    });
 
     if (cardsControls) {
         container.appendChild(cardsControls);
     }
 
-    const tStart = document.getElementById('time-filter-start')?.value || '';
-    const tEnd = document.getElementById('time-filter-end')?.value || '';
-
+    const fragment = document.createDocumentFragment();
     renderDataset.forEach((row) => {
-        if (activeScope === 'bus_schedule') {
-            let finalOutTimes = normalizeTimeList(row.timesOut || row.outbound || row.times || []);
-            let finalBackTimes = normalizeTimeList(row.timesBack || row.inbound || row.returns || []);
-
-            finalOutTimes = finalOutTimes.filter((time) => isTimeInWindow(time, tStart, tEnd));
-            finalBackTimes = finalBackTimes.filter((time) => isTimeInWindow(time, tStart, tEnd));
-            if (fieldVisibility['btn-rem']) {
-                finalOutTimes = finalOutTimes.filter((time) => !isTimePassed(time));
-                finalBackTimes = finalBackTimes.filter((time) => !isTimePassed(time));
-            }
-            const isEmptyCard = !finalOutTimes.length && !finalBackTimes.length;
-            if (isEmptyCard && fieldVisibility['btn-hide-empty-dest']) return;
-
-            const card = document.createElement('div');
-            const regionKey = String(row.region || '').trim().toLowerCase().replace(/\s+/g, '-');
-            const routeTitle = String(row.to || '').trim();
-            const splitFaliraki = routeTitle.toLowerCase() === 'kalithea-faliraki';
-            card.className = [
-                'profile-card',
-                regionKey ? `region-${regionKey}` : '',
-                splitFaliraki ? 'region-split-faliraki' : '',
-                isBusRouteStarred(row) ? 'is-starred' : '',
-                isEmptyCard ? 'is-empty-route' : ''
-            ].filter(Boolean).join(' ');
-            const timeMarks = getTimeMarksForBusRow(row);
-            const outPills = finalOutTimes.map((time) => formatBusTimePillHtml(time, {
-                mark: timeMarks.out[time] || ''
-            })).join('');
-            const backPills = finalBackTimes.map((time) => formatBusTimePillHtml(time, {
-                inbound: true,
-                mark: timeMarks.back[time] || ''
-            })).join('');
-            const metaFooter = buildBusRouteMetaFooterHtml(row);
-            const emptyHint = isEmptyCard ? '<div class="bus-empty-hint">No times in current schedule</div>' : '';
-            card.innerHTML = `
-                ${renderBusFavButtonHtml(row, { floating: true })}
-                <div style="width:100%;">
-                    <div class="bus-header">
-                        <div>
-                            <div class="bus-route-title">${escapeHtml(row.to || '')}</div>
-                            <div class="bus-badge-row">
-                                <span>${escapeHtml(formatBusDayLabel(row.day, row.region))}</span>
-                            </div>
-                        </div>
-                        ${formatBusPriceTagHtml(row.price)}
-                    </div>
-                    ${emptyHint}
-                    ${finalOutTimes.length ? `
-                    <div class="bus-schedule-block">
-                        <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
-                        <div class="schedule-pills">${outPills}</div>
-                    </div>` : ''}
-                    ${finalBackTimes.length ? `
-                        <div class="bus-schedule-block inbound">
-                            <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
-                            <div class="schedule-pills">${backPills}</div>
-                        </div>` : ''}
-                    ${metaFooter}
-                    ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments).replace(/\n/g, '<br>')}</div>` : ''}
-                </div>`;
-            card.querySelector('.bus-fav-btn')?.addEventListener('click', (event) => {
-                toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
-            });
-            container.appendChild(card);
-            return;
-        }
-
         const cfg = activeScopeConfig.cardConfig;
         const card = cfg ? renderCardFromConfig(row, cfg) : renderCardFallback(row);
-        container.appendChild(card);
+        fragment.appendChild(card);
     });
-
-    if (activeScope === 'bus_schedule' && container.children.length > 0) {
-        layoutBusMasonry(container);
-    }
+    container.appendChild(fragment);
 
     renderCardsInfiniteSentinel(container, cardsPagination);
-
 }
 
 function renderCardFallback(row) {

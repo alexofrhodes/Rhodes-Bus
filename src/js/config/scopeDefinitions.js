@@ -12,7 +12,7 @@
                 id: 'bus_schedule',
                 title: 'Transit Schedules',
                 file: 'src/data/bus_schedule.json',
-                layouts: ['cards', 'table', 'map'],
+                layouts: ['cards', 'list', 'table', 'map'],
                 cardPagination: {
                     enabled: false,
                     mode: 'load-more',
