@@ -3619,24 +3619,12 @@ body.standalone-bus .view-canvas {
     -webkit-mask-image: none !important;
 }
 
-/* iOS Safari/PWA: own status/safe area with opaque white (black-translucent meta). */
+/* Match Events Manager: opaque system status bar (no viewport-fit=cover).
+   Keep header chrome fully opaque; no backdrop blur. */
 html.standalone-bus-root,
 body.standalone-bus {
     background: #ffffff;
     overscroll-behavior-y: none;
-}
-
-/* Solid fill under the status bar / notch — survives rubber-band bounce. */
-body.standalone-bus::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top, 0px);
-    background: #ffffff;
-    z-index: 10000;
-    pointer-events: none;
 }
 
 body.standalone-bus .app-layout,
@@ -3663,15 +3651,10 @@ body.standalone-bus .content-header {
     align-items: stretch;
     gap: 6px;
     padding: 6px 8px;
-    padding-top: calc(6px + env(safe-area-inset-top, 0px));
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: visible;
-    /* Force an opaque compositor layer — stops iOS frosted scrapes over controls */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform: translateZ(0);
 }
 
 /* Secondary chrome must not frost under the header on iOS. */
