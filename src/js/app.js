@@ -1464,8 +1464,8 @@ function getBusMasonryLayout(container) {
 function layoutBusMasonry(container) {
     if (!container || !container.children.length || typeof Masonry !== 'function') return;
 
-    const canvas = container.closest('.view-canvas');
-    const savedScrollTop = canvas ? canvas.scrollTop : 0;
+    const scrollRoot = getBusScrollRootEl();
+    const savedScrollTop = scrollRoot ? scrollRoot.scrollTop : 0;
 
     container.style.width = '100%';
     container.style.maxWidth = '100%';
@@ -1492,7 +1492,7 @@ function layoutBusMasonry(container) {
     });
 
     const restoreScroll = () => {
-        if (canvas) canvas.scrollTop = savedScrollTop;
+        if (scrollRoot) scrollRoot.scrollTop = savedScrollTop;
     };
     try {
         globalBusMasonryInstance.once('layoutComplete', restoreScroll);
@@ -1534,6 +1534,11 @@ function initializeStandaloneFiltersCollapse() {
     if (!window.__busStickyOffsetsWired) {
         window.__busStickyOffsetsWired = true;
         window.addEventListener('resize', () => syncBusStickyOffsets());
+        const header = document.querySelector('.content-header');
+        if (header && typeof ResizeObserver !== 'undefined') {
+            const ro = new ResizeObserver(() => syncBusStickyOffsets());
+            ro.observe(header);
+        }
     }
     syncBusStickyOffsets();
 }
@@ -2679,9 +2684,6 @@ function openStandaloneAboutInfo() {
                     <span class="standalone-about-link-value">github.com/alexofrhodes</span>
                 </a>
             </div>
-            <div class="standalone-about-qr-wrap">
-                <img class="about-qr" src="${escapeHtml(getLogoUrl('site-qr.png'))}" alt="Site QR code" width="120" height="120" />
-            </div>
             <div class="standalone-about-divider" role="separator"></div>
             <div class="standalone-about-links">
                 <a class="standalone-about-link" href="https://www.ktelrodou.gr" target="_blank" rel="noopener">
@@ -2706,6 +2708,9 @@ function openStandaloneAboutInfo() {
                 </ul>
                 `}
             </div>`}
+            <div class="standalone-about-qr-wrap">
+                <img class="about-qr" src="${escapeHtml(getLogoUrl('site-qr.png'))}" alt="Site QR code" width="120" height="120" />
+            </div>
         </div>`,
         afterOpen: () => {
             document.getElementById('about-install-btn')?.addEventListener('click', async () => {
@@ -4925,7 +4930,9 @@ function renderCardsInfiniteSentinel(container, pagination) {
     container.appendChild(sentinel);
 
     disconnectCardsInfiniteObserver();
-    const scrollRoot = container.closest('.view-canvas') || null;
+    const scrollRoot = window.__STANDALONE_BUS__ && !document.body.classList.contains('map-layout-mode')
+        ? null
+        : (container.closest('.view-canvas') || null);
     cardsInfiniteObserver = new IntersectionObserver((entries) => {
         const entry = entries[0];
         if (!entry?.isIntersecting || cardsPaginationState.autoLoading) return;
@@ -6875,10 +6882,21 @@ function buildScopeCsv(dataset, scopeConfig = activeScopeConfig) {
 
 function syncBusStickyOffsets() {
     if (!window.__STANDALONE_BUS__) return;
+    const header = document.querySelector('.content-header');
     const pills = document.getElementById('inline-filter-pills');
+    const headerH = header ? Math.round(header.getBoundingClientRect().height) : 0;
     // Round (not ceil) so sticky top does not sit 1px below the filter strip.
     const pillsH = pills && pills.offsetParent !== null ? Math.round(pills.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--bus-chrome-header-h', `${Math.max(0, headerH)}px`);
     document.documentElement.style.setProperty('--bus-sticky-filters-h', `${Math.max(0, pillsH)}px`);
+}
+
+/** Page scroll root: document for standalone (Events-like); .view-canvas otherwise / map mode. */
+function getBusScrollRootEl() {
+    if (window.__STANDALONE_BUS__ && !document.body.classList.contains('map-layout-mode')) {
+        return document.scrollingElement || document.documentElement;
+    }
+    return document.querySelector('.view-canvas');
 }
 
 function enhanceTableView(container, dataset) {
@@ -8661,9 +8679,8 @@ function bindCalendarMonthNavigation() {
 }
 
 function initializeScrollTopButton() {
-    const canvas = document.querySelector('.view-canvas');
     const button = document.getElementById('scroll-top-fab');
-    if (!canvas || !button || button.dataset.init === '1') return;
+    if (!button || button.dataset.init === '1') return;
 
     let scrollFadeTimer = null;
     const markScrolling = () => {
@@ -8673,17 +8690,30 @@ function initializeScrollTopButton() {
     };
 
     const syncButton = () => {
+        const root = getBusScrollRootEl();
+        if (!root) return;
         const threshold = 260;
-        const show = canvas.scrollTop > threshold;
-        const nearBottom = canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 24;
+        const top = root.scrollTop;
+        const show = top > threshold;
+        const nearBottom = top + (root.clientHeight || window.innerHeight) >= root.scrollHeight - 24;
         button.classList.toggle('visible', show);
         button.classList.toggle('at-bottom', nearBottom);
         if (show) markScrolling();
     };
 
-    canvas.addEventListener('scroll', syncButton, { passive: true });
+    const onScroll = () => syncButton();
+    const canvas = document.querySelector('.view-canvas');
+    if (window.__STANDALONE_BUS__) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+    if (canvas) {
+        canvas.addEventListener('scroll', onScroll, { passive: true });
+    }
     button.addEventListener('click', () => {
-        canvas.scrollTop = 0;
+        const root = getBusScrollRootEl();
+        if (root) root.scrollTop = 0;
+        if (canvas && canvas !== root) canvas.scrollTop = 0;
+        window.scrollTo(0, 0);
         syncButton();
     });
     button.dataset.init = '1';
