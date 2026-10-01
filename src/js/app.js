@@ -2123,6 +2123,7 @@ function toggleBusRouteStar(key, event) {
     }
     const starKey = String(key || '').trim();
     if (!starKey) return;
+    const wasStarredOnly = String(activeFilterState.starred || 'ALL') === 'Starred';
     if (starredBusRoutes.has(starKey)) starredBusRoutes.delete(starKey);
     else starredBusRoutes.add(starKey);
     if (!starredBusRoutes.has(starKey)) listExpandedKeys.delete(starKey);
@@ -2136,13 +2137,17 @@ function toggleBusRouteStar(key, event) {
         el.setAttribute('aria-label', starred ? 'Remove from starred' : 'Add to starred');
         el.title = starred ? 'Starred' : 'Star';
         el.closest('.profile-card')?.classList.toggle('is-starred', starred);
+        el.closest('.bus-list-row')?.classList.toggle('is-starred', starred);
     });
+    const stillStarredOnly = String(activeFilterState.starred || 'ALL') === 'Starred';
+    // Re-render when staying in starred-only, or when sanitize just exited it (last unstar).
     if (
         (currentLayoutMode === 'table' || currentLayoutMode === 'list')
-        && String(activeFilterState.starred || 'ALL') === 'Starred'
+        && (stillStarredOnly || wasStarredOnly)
     ) {
         filterAndRenderEngine();
     }
+    syncStarredFilterButton();
 }
 
 function clearStarredBusRoutes() {
@@ -2978,11 +2983,25 @@ function syncStarredFilterButton() {
 
 function toggleStarredFilterOnly() {
     if (currentLayoutMode === 'cards') {
+        // No favourites yet — open List on ALL so a second ★ can later enter Starred,
+        // and so sanitize-after-filter can't leave an empty Starred UI stuck as ALL.
+        if (starredBusRoutes.size === 0) {
+            activeFilterState.starred = 'ALL';
+            setLayout('list');
+            return;
+        }
         activeFilterState.starred = 'Starred';
         setLayout('list');
         return;
     }
     const on = String(activeFilterState.starred || 'ALL') === 'Starred';
+    if (!on && starredBusRoutes.size === 0) {
+        // Already showing all; don't enter empty Starred (second click would re-enter it).
+        activeFilterState.starred = 'ALL';
+        syncStarredFilterButton();
+        filterAndRenderEngine();
+        return;
+    }
     setScopeFilterValue('starred', on ? 'ALL' : 'Starred');
     syncStarredFilterButton();
 }
@@ -6150,6 +6169,10 @@ async function filterAndRenderEngine() {
 
     syncSearchClearButton();
     syncDestinationPickerUI();
+    // Sanitize starred *before* filtering so empty Starred never paints an empty list
+    // while flipping state to ALL (which made the next ★ click re-enter Starred).
+    sanitizeBusStarredFilterSelection();
+    syncStarredFilterButton();
     const filtered = getFilteredRecords();
     renderInlineFilterPills();
 
