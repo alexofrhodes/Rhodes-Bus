@@ -3252,8 +3252,9 @@ body.map-layout-mode #map-container {
     .view-canvas {
         scrollbar-width: none;
         -ms-overflow-style: none;
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 88%, rgba(0, 0, 0, 0.22) 100%);
-        -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 88%, rgba(0, 0, 0, 0.22) 100%);
+        /* No fade mask — softens sticky tops / looks like top blur on iPhone */
+        mask-image: none;
+        -webkit-mask-image: none;
     }
     body.standalone-bus .view-canvas {
         mask-image: none !important;
@@ -3617,25 +3618,47 @@ body.standalone-bus .view-canvas {
     -webkit-mask-image: none !important;
 }
 
+/* iOS Safari/PWA: blue theme-color + translucent chrome washed the header.
+   Keep top chrome fully opaque and paint into the safe area. */
+html.standalone-bus-root,
+body.standalone-bus {
+    background: #ffffff;
+    overscroll-behavior-y: none;
+}
+
+body.standalone-bus .app-layout,
+body.standalone-bus .main-content {
+    background: #ffffff;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
 body.standalone-bus .content-header,
 body.standalone-bus .standalone-filter-panel,
 body.standalone-bus .header-top-row,
 body.standalone-bus .header-controls {
-    background: var(--bg-surface, #ffffff);
+    background: #ffffff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     filter: none !important;
 }
 
 body.standalone-bus .content-header {
+    position: relative;
+    z-index: 40;
     flex-direction: column;
     align-items: stretch;
     gap: 6px;
     padding: 6px 8px;
+    padding-top: calc(6px + env(safe-area-inset-top, 0px));
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: visible;
+    /* Force an opaque compositor layer — stops iOS frosted scrapes over controls */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 body.standalone-bus.header-condensed .search-shell,
