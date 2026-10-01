@@ -3255,6 +3255,10 @@ body.map-layout-mode #map-container {
         mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 88%, rgba(0, 0, 0, 0.22) 100%);
         -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 88%, rgba(0, 0, 0, 0.22) 100%);
     }
+    body.standalone-bus .view-canvas {
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+    }
     .view-canvas::-webkit-scrollbar {
         display: none;
     }
@@ -3611,6 +3615,16 @@ body.standalone-bus .view-canvas {
     /* Mobile global fade mask softens sticky tops — keep canvas sharp. */
     mask-image: none !important;
     -webkit-mask-image: none !important;
+}
+
+body.standalone-bus .content-header,
+body.standalone-bus .standalone-filter-panel,
+body.standalone-bus .header-top-row,
+body.standalone-bus .header-controls {
+    background: var(--bg-surface, #ffffff);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
 }
 
 body.standalone-bus .content-header {
@@ -5056,6 +5070,9 @@ body.standalone-bus .inline-filter-pills {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
     mask-image: linear-gradient(to right, #000 0%, #000 86%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, #000 0%, #000 86%, transparent 100%);
 }
@@ -5572,6 +5589,15 @@ body.standalone-bus .bus-list-row-body .bus-empty-hint {
     margin: 8px 0 0;
     font-size: 0.72rem;
     color: var(--text-sub);
+}
+
+body.standalone-bus .bus-list-row-body .bus-meta-footer {
+    margin-top: 8px;
+}
+
+body.standalone-bus .bus-list-row-body .bus-comments {
+    margin-top: 6px;
+    font-size: 0.62rem;
 }
 
 body.standalone-bus .bus-list-empty {

@@ -12,7 +12,7 @@
                 id: 'bus_schedule',
                 title: 'Transit Schedules',
                 file: 'src/data/bus_schedule.json',
-                layouts: ['cards', 'list', 'table', 'map'],
+                layouts: ['list', 'cards', 'table', 'map'],
                 cardPagination: {
                     enabled: false,
                     mode: 'load-more',
@@ -25,7 +25,7 @@
                 railsLayoutDefaults: { interior: 'horizontal', label: 'stack' },
                 railPreviewLimit: 6,
                 railMoreAction: { type: 'scope', scopeKey: 'bus_schedule', layout: 'cards' },
-                defaultLayout: 'cards',
+                defaultLayout: 'list',
                 showInlineFilters: true,
                 showSidebarFilters: false,
                 schemaAliases: {

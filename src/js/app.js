@@ -4284,7 +4284,12 @@ function buildBusListScheduleHtml(row) {
         inbound: true,
         mark: timeMarks.back[time] || ''
     })).join('');
-    if (!outTimes.length && !backTimes.length) {
+    const metaFooter = buildBusRouteMetaFooterHtml(row);
+    const comments = String(row.comments || '').trim();
+    const commentsHtml = comments
+        ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>`
+        : '';
+    if (!outTimes.length && !backTimes.length && !metaFooter && !commentsHtml) {
         return '<div class="bus-empty-hint">No times in current schedule</div>';
     }
     return `
@@ -4297,7 +4302,9 @@ function buildBusListScheduleHtml(row) {
         <div class="bus-schedule-block inbound">
             <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
             <div class="schedule-pills">${backPills}</div>
-        </div>` : ''}`;
+        </div>` : ''}
+        ${metaFooter}
+        ${commentsHtml}`;
 }
 
 function buildBusListRow(row) {
