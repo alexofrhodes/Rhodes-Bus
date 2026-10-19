@@ -1602,6 +1602,7 @@ async function bootApp() {
 
     if (standaloneBus) {
         wireDestinationPicker();
+        wireOriginPicker();
         if (!applyStandaloneBusState(restoredStandalone)) {
             if (requestedLayout && activeScopeConfig?.layouts?.includes(requestedLayout)) {
                 setLayout(requestedLayout);
@@ -2090,6 +2091,8 @@ const STANDALONE_BUS_STATE_KEY = 'standalone-bus.state.v1';
 let suppressStandalonePersist = false;
 let selectedDestinations = new Set();
 let destinationPickerOpen = false;
+let selectedOrigin = 'Rodos';
+let originPickerOpen = false;
 let starredBusRoutes = new Set();
 
 function getBusRouteStarKey(row) {
@@ -2198,6 +2201,7 @@ function saveStandaloneBusState() {
         const payload = {
             search: document.getElementById('app-search')?.value || '',
             destinations: Array.from(selectedDestinations),
+            origin: selectedOrigin || '',
             starred: Array.from(starredBusRoutes),
             layout: (currentLayoutMode === 'signs' ? signsPageReturnLayout : currentLayoutMode) || 'cards',
             filters: { ...activeFilterState },
@@ -2245,6 +2249,11 @@ function applyStandaloneBusState(state) {
         selectedDestinations = new Set(state.destinations.filter((d) => typeof d === 'string' && d.trim()));
     } else {
         selectedDestinations = new Set();
+    }
+    if (typeof state.origin === 'string') {
+        selectedOrigin = state.origin.trim();
+    } else {
+        selectedOrigin = 'Rodos';
     }
     if (Array.isArray(state.starred)) {
         starredBusRoutes = new Set(state.starred.filter((key) => typeof key === 'string' && key.trim()));
@@ -4058,6 +4067,10 @@ function getRowDestination(row) {
     return String(resolveFieldValue(row, ['to', 'To']) || '').trim();
 }
 
+function getRowOrigin(row) {
+    return String(resolveFieldValue(row, ['from', 'From', 'origin']) || '').trim();
+}
+
 function parseSearchTerms(raw) {
     return String(raw || '')
         .split(',')
@@ -4126,6 +4139,10 @@ function matchesRowFilters(row, { includeSearch = true, includeDestinations = tr
         if (!selectedDestinations.has(getRowDestination(row))) return false;
     }
 
+    if (selectedOrigin) {
+        if (getRowOrigin(row) !== selectedOrigin) return false;
+    }
+
     if (includeSearch) {
         const terms = parseSearchTerms(document.getElementById('app-search')?.value);
         if (!rowMatchesSearchTerms(row, terms)) return false;
@@ -4137,6 +4154,147 @@ function matchesRowFilters(row, { includeSearch = true, includeDestinations = tr
 function getRecordsForDestinationPicker() {
     if (activeDataLoadError) return [];
     return activeDataset.filter((row) => matchesRowFilters(row, { includeSearch: false, includeDestinations: false }));
+}
+
+function getAvailableOrigins() {
+    const names = new Set();
+    if (activeDataLoadError) return [];
+    activeDataset.forEach((row) => {
+        const origin = getRowOrigin(row);
+        if (origin) names.add(origin);
+    });
+    return Array.from(names).sort((a, b) => {
+        if (a === 'Rodos') return -1;
+        if (b === 'Rodos') return 1;
+        return a.localeCompare(b);
+    });
+}
+
+function pruneSelectedOrigin() {
+    if (!selectedOrigin) return;
+    const available = new Set(getAvailableOrigins());
+    if (!available.has(selectedOrigin)) {
+        selectedOrigin = available.has('Rodos') ? 'Rodos' : '';
+    }
+}
+
+function syncOriginPickerButton() {
+    const btn = document.getElementById('from-picker-btn');
+    if (!btn) return;
+    btn.textContent = selectedOrigin ? `From · ${selectedOrigin}` : 'From';
+    btn.classList.toggle('has-selection', Boolean(selectedOrigin));
+    btn.setAttribute('aria-expanded', originPickerOpen ? 'true' : 'false');
+}
+
+function renderOriginPickerPanel() {
+    const panel = document.getElementById('from-picker-panel');
+    if (!panel) return;
+
+    pruneSelectedOrigin();
+    const origins = getAvailableOrigins();
+    if (!origins.length) {
+        panel.innerHTML = '<div class="dest-picker-empty">No departure stops in data.</div>';
+        return;
+    }
+
+    const items = origins.map((origin, index) => {
+        const checked = selectedOrigin === origin;
+        const id = `from-opt-${index}`;
+        return `<label class="dest-picker-item" for="${id}">
+            <input type="radio" name="from-origin" id="${id}" value="${escapeHtml(origin)}"${checked ? ' checked' : ''}/>
+            <span>${escapeHtml(origin)}</span>
+        </label>`;
+    }).join('');
+
+    panel.innerHTML = `
+        <div class="dest-picker-head">
+            <span class="dest-picker-title">${escapeHtml(String(origins.length))} from</span>
+            <div class="dest-picker-actions">
+                <button type="button" class="dest-picker-ok from-picker-ok">OK</button>
+                <button type="button" class="dest-picker-clear from-picker-clear"${selectedOrigin ? '' : ' disabled'}>All</button>
+            </div>
+        </div>
+        <div class="dest-picker-list">${items}</div>`;
+
+    panel.querySelector('.from-picker-ok')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setOriginPickerOpen(false);
+    });
+
+    panel.querySelector('.from-picker-clear')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        selectedOrigin = '';
+        syncOriginPickerButton();
+        renderOriginPickerPanel();
+        filterAndRenderEngine();
+        saveStandaloneBusState();
+    });
+
+    panel.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.addEventListener('change', () => {
+            if (!input.checked) return;
+            selectedOrigin = input.value;
+            syncOriginPickerButton();
+            const clearBtn = panel.querySelector('.from-picker-clear');
+            if (clearBtn) clearBtn.disabled = !selectedOrigin;
+            filterAndRenderEngine();
+            saveStandaloneBusState();
+        });
+    });
+}
+
+function setOriginPickerOpen(open) {
+    originPickerOpen = open;
+    const panel = document.getElementById('from-picker-panel');
+    const btn = document.getElementById('from-picker-btn');
+    if (!panel || !btn) return;
+
+    if (open) {
+        setDestinationPickerOpen(false);
+        renderOriginPickerPanel();
+        panel.hidden = false;
+    } else {
+        panel.hidden = true;
+    }
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function wireOriginPicker() {
+    if (!window.__STANDALONE_BUS__) return;
+    const btn = document.getElementById('from-picker-btn');
+    const panel = document.getElementById('from-picker-panel');
+    if (!btn || !panel || btn.dataset.wired === '1') return;
+
+    btn.dataset.wired = '1';
+    syncOriginPickerButton();
+
+    btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setOriginPickerOpen(panel.hidden);
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!originPickerOpen) return;
+        if (event.target.closest('.from-picker-wrap')) return;
+        setOriginPickerOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && originPickerOpen) {
+            setOriginPickerOpen(false);
+        }
+    });
+}
+
+function syncOriginPickerUI() {
+    if (!window.__STANDALONE_BUS__) return;
+    syncOriginPickerButton();
+    if (originPickerOpen) {
+        renderOriginPickerPanel();
+    }
 }
 
 function getAvailableDestinations() {
@@ -4234,6 +4392,7 @@ function setDestinationPickerOpen(open) {
     if (!panel || !btn) return;
 
     if (open) {
+        setOriginPickerOpen(false);
         renderDestinationPickerPanel();
         panel.hidden = false;
     } else {
@@ -4276,6 +4435,7 @@ function syncDestinationPickerUI() {
     if (destinationPickerOpen) {
         renderDestinationPickerPanel();
     }
+    syncOriginPickerUI();
 }
 
 function getFilteredRecords() {

@@ -2,7 +2,7 @@
 <html lang="en" class="standalone-bus-root">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="app-version" content="edb06991"/>
+    <meta name="app-version" content="7ecd986e"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#0f766e"/>
     <meta name="description" content="Rhodes bus schedule and stations map. Installable offline app."/>
@@ -82,6 +82,10 @@
                 <div id="standalone-filter-panel" class="standalone-filter-panel">
                 <div class="header-controls">
                     <div class="search-shell">
+                        <div class="from-picker-wrap dest-picker-wrap">
+                            <button id="from-picker-btn" class="dest-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="from-picker-panel" title="Pick departure stop">From</button>
+                            <div id="from-picker-panel" class="dest-picker-panel" role="listbox" aria-multiselectable="false" hidden></div>
+                        </div>
                         <div class="dest-picker-wrap">
                             <button id="dest-picker-btn" class="dest-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="dest-picker-panel" title="Pick destinations">Dest</button>
                             <div id="dest-picker-panel" class="dest-picker-panel" role="listbox" aria-multiselectable="true" hidden></div>
