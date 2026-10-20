@@ -4198,6 +4198,12 @@ body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-return {
     max-width: 12rem;
 }
 
+/* Lock track count to --pills-cols (avoid max-content table blowing Auto N). */
+body.standalone-bus .bus-grouped-table-view .table-schedule-pills {
+    grid-template-columns: repeat(var(--pills-cols, 4), minmax(0, 1fr));
+    justify-content: start;
+}
+
 @media (max-width: 768px) {
     body.standalone-bus .search-shell {
         flex-wrap: nowrap;

@@ -1201,14 +1201,66 @@ function renderSchedulePillsHtml(times, {
     return `<div class="${cls}" style="--pills-cols: ${cols}" data-pills-cols="${cols}" data-pills-inbound="${inbound ? '1' : '0'}" data-pills-flow="${escapeAttr(flow)}"${asTable ? ' data-pills-table="1"' : ''}${auto ? ' data-pills-auto="1"' : ''} data-pills-times="${escapeAttr(JSON.stringify(list))}" data-pills-marks="${escapeAttr(JSON.stringify(markMap))}">${pills}</div>`;
 }
 
+function countPaintedPillsCols(el) {
+    if (!el) return 0;
+    const tpl = window.getComputedStyle(el).gridTemplateColumns || '';
+    if (!tpl || tpl === 'none') return 0;
+    return tpl.split(/\s+/).filter(Boolean).length;
+}
+
+/** Table is width:max-content — measure visible share, not overflowed cell width. */
 function measureSchedulePillsWidth(el, asTable) {
     if (!el) return 0;
     if (asTable) {
         const cell = el.closest('td, th');
+        const wrap = el.closest('.table-responsive-wrapper');
         const cellW = cell?.clientWidth || 0;
+        if (wrap && cell) {
+            const row = cell.parentElement;
+            let used = 0;
+            let timeShares = 1;
+            if (row) {
+                const timeCells = row.querySelectorAll('td.col-outbound, td.col-return');
+                timeShares = Math.max(1, timeCells.length);
+                row.querySelectorAll('td').forEach((td) => {
+                    if (td === cell) return;
+                    if (td.classList.contains('col-outbound') || td.classList.contains('col-return')) return;
+                    used += td.getBoundingClientRect().width;
+                });
+            }
+            const pad = 10;
+            const avail = Math.max(0, (wrap.clientWidth - used) / timeShares - pad);
+            if (avail > 0) {
+                // Prefer viewport share; cellW alone follows max-content and desyncs N.
+                return cellW > 0 ? Math.min(cellW, avail) : avail;
+            }
+        }
         if (cellW > 0) return cellW;
     }
     return el.clientWidth || el.parentElement?.clientWidth || 0;
+}
+
+function applySchedulePillsCols(el, {
+    times,
+    markMap,
+    inbound,
+    asTable,
+    flow,
+    cols,
+    auto
+}) {
+    const ordered = orderTimesForPillsFlow(times, cols, flow);
+    const html = ordered.map((time) => formatBusTimePillHtml(time, {
+        inbound,
+        mark: (markMap && markMap[time]) || '',
+        asTable
+    })).join('');
+    el.style.setProperty('--pills-cols', String(cols));
+    el.setAttribute('data-pills-cols', String(cols));
+    el.setAttribute('data-pills-flow', flow);
+    if (auto) el.setAttribute('data-pills-auto', '1');
+    else el.removeAttribute('data-pills-auto');
+    if (el.innerHTML !== html) el.innerHTML = html;
 }
 
 function syncTimePillsColumnCounts(root = document) {
@@ -1228,28 +1280,51 @@ function syncTimePillsColumnCounts(root = document) {
         const auto = el.getAttribute('data-pills-auto') === '1'
             || getEffectiveTimePillsColumnsSetting(asTable) === 'auto';
         const flow = getEffectiveTimePillsFlow(asTable);
-        const width = auto ? measureSchedulePillsWidth(el, asTable) : 0;
-        const cols = resolveTimePillsColumnCount(width, times.length, asTable);
-        const prev = Number(el.getAttribute('data-pills-cols') || 0);
-        const prevFlow = el.getAttribute('data-pills-flow') || '';
-        const ordered = orderTimesForPillsFlow(times, cols, flow);
-        const html = ordered.map((time) => formatBusTimePillHtml(time, {
-            inbound,
-            mark: (markMap && markMap[time]) || '',
+
+        let cols = resolveTimePillsColumnCount(
+            auto ? measureSchedulePillsWidth(el, asTable) : 0,
+            times.length,
             asTable
-        })).join('');
-        if (cols !== prev || prevFlow !== flow || el.innerHTML !== html) {
-            el.style.setProperty('--pills-cols', String(cols));
-            el.setAttribute('data-pills-cols', String(cols));
-            el.setAttribute('data-pills-flow', flow);
-            if (auto) el.setAttribute('data-pills-auto', '1');
-            else el.removeAttribute('data-pills-auto');
-            el.innerHTML = html;
+        );
+        // Table auto+column: converge on viewport measure (table is max-content).
+        const settle = asTable && auto && flow === 'column';
+        const passes = settle ? 4 : 1;
+        let prevCols = -1;
+        for (let i = 0; i < passes; i += 1) {
+            applySchedulePillsCols(el, {
+                times, markMap, inbound, asTable, flow, cols, auto
+            });
+            if (!settle) break;
+            const next = resolveTimePillsColumnCount(
+                measureSchedulePillsWidth(el, asTable),
+                times.length,
+                asTable
+            );
+            if (next === cols) break;
+            // Oscillation (e.g. 3↔5): keep the tighter N that fits the viewport.
+            if (next === prevCols) {
+                cols = Math.min(cols, next);
+                applySchedulePillsCols(el, {
+                    times, markMap, inbound, asTable, flow, cols, auto
+                });
+                break;
+            }
+            prevCols = cols;
+            cols = next;
+        }
+        // Final guard: reorder must match painted CSS tracks.
+        const painted = countPaintedPillsCols(el);
+        if (settle && painted > 0 && painted !== cols) {
+            cols = painted;
+            applySchedulePillsCols(el, {
+                times, markMap, inbound, asTable, flow, cols, auto
+            });
         }
     });
 }
 
 let timePillsSyncResizeTimer = 0;
+let timePillsTableResizeObs = null;
 function scheduleTimePillsColumnSync() {
     // Double rAF: wait for table sticky/col-width pass so N matches painted tracks.
     requestAnimationFrame(() => {
@@ -1268,11 +1343,30 @@ function wireTimePillsColumnSync() {
             scheduleTimePillsColumnSync();
         }, 120);
     });
+    if (typeof ResizeObserver !== 'undefined') {
+        timePillsTableResizeObs = new ResizeObserver(() => {
+            window.clearTimeout(timePillsSyncResizeTimer);
+            timePillsSyncResizeTimer = window.setTimeout(() => {
+                scheduleTimePillsColumnSync();
+            }, 80);
+        });
+    }
     // ponytail: transpose ceiling = fixed cols 2–5 / auto width; upgrade = denser packing heuristics
     const got = orderTimesForPillsFlow(['1', '2', '3', '4', '5', '6', '7', '8', '9'], 3, 'column').join(',');
     if (got !== '1,4,7,2,5,8,3,6,9') {
         console.warn('orderTimesForPillsFlow self-check failed', got);
     }
+}
+
+function observeTablePillsResizeTargets(root = document) {
+    wireTimePillsColumnSync();
+    if (!timePillsTableResizeObs) return;
+    const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
+    scope.querySelectorAll('.bus-grouped-table-view .table-responsive-wrapper').forEach((wrap) => {
+        if (wrap.dataset.pillsRo === '1') return;
+        wrap.dataset.pillsRo = '1';
+        timePillsTableResizeObs.observe(wrap);
+    });
 }
 
 function applyScheduleLayoutToDom() {
@@ -1455,11 +1549,12 @@ function formatBusScheduleTimesCell(times, { inbound = false, marks = null } = {
         list = list.filter((time) => !isTimePassed(time));
     }
     if (!list.length) return '—';
+    // Conservative hint — final N comes from viewport-aware sync (table is max-content).
     return renderSchedulePillsHtml(list, {
         inbound,
         marks,
         asTable: true,
-        widthHint: 280
+        widthHint: 160
     }) || '—';
 }
 
@@ -7834,6 +7929,7 @@ function renderBusScheduleGroupedTableView() {
         syncBusTableColumnWidths();
         syncTableScrollFadeState();
         wireBusDragScrollSurfaces();
+        observeTablePillsResizeTargets(container);
         scheduleTimePillsColumnSync();
     });
 }
