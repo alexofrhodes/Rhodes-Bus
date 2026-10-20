@@ -736,8 +736,8 @@ body.header-condensed .cards-layout-switches {
     overflow: hidden;
 }
 
-.layout-masonry-buses .schedule-pills {
-    grid-template-columns: repeat(auto-fit, minmax(var(--bus-pill-min, 2.5rem), 1fr));
+body.standalone-bus .layout-masonry-buses .schedule-pills {
+    grid-template-columns: repeat(var(--pills-cols, 4), minmax(0, 1fr));
 }
 
 /* Responsive Table Elements */
@@ -1269,13 +1269,33 @@ body.header-condensed .cards-layout-switches {
     opacity: 0.92;
 }
 
+.bus-schedule-dirs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+body.schedule-dirs-side .bus-schedule-dirs {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+body.schedule-dirs-side .bus-schedule-dirs .bus-schedule-block {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-bottom: 0;
+    width: auto;
+}
+
 .bus-schedule-block {
     background: #f8fafc;
     border-radius: 6px;
     padding: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 0;
     border: 1px solid #f1f5f9;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .bus-schedule-block.inbound {
@@ -1291,11 +1311,26 @@ body.header-condensed .cards-layout-switches {
     margin-bottom: 4px;
 }
 
+/* Both flows use a fixed N-column grid; column flow reorders times in JS. */
 .schedule-pills {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(2.65rem, 1fr));
+    grid-template-columns: repeat(var(--pills-cols, 4), minmax(0, 1fr));
     gap: 4px;
     width: 100%;
+    box-sizing: border-box;
+}
+
+.schedule-pills .bus-pill,
+.schedule-pills .bus-table-time.is-pill {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+.table-schedule-pills {
+    min-width: 8.5rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .bus-pill {
@@ -4206,6 +4241,22 @@ body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-return {
         table-layout: auto;
     }
 
+    body.standalone-bus .bus-grouped-table-view .flat-data-table th.col-from,
+    body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-from {
+        width: auto;
+        min-width: 4.2rem;
+        max-width: 7rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        line-height: 1.25;
+        font-weight: 600;
+        color: var(--text-sub, #64748b);
+        font-size: 0.72rem;
+    }
+
     body.standalone-bus .bus-grouped-table-view .flat-data-table th.col-destination,
     body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-destination {
         width: auto;
@@ -4224,8 +4275,8 @@ body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-return {
     body.standalone-bus .bus-grouped-table-view .flat-data-table th.col-return,
     body.standalone-bus .bus-grouped-table-view .flat-data-table td.col-return {
         width: auto;
-        min-width: 0;
-        max-width: 11rem;
+        min-width: 8.5rem;
+        max-width: 28rem;
         font-size: 0.68rem;
         white-space: normal;
     }
@@ -5447,6 +5498,96 @@ body.standalone-bus .bus-list-inner {
     margin: 0 auto;
 }
 
+body.standalone-bus .bus-list-inner.is-split {
+    max-width: 1100px;
+}
+
+body.standalone-bus .header-view-switch .cols-toggle-btn.active {
+    border-color: var(--primary, #2563eb);
+    color: var(--primary, #2563eb);
+    background: #eff6ff;
+}
+
+body.standalone-bus .list-city-placement-group {
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px solid #e2e8f0;
+}
+
+body.standalone-bus .list-city-placement-group.is-disabled {
+    opacity: 0.45;
+}
+
+body.standalone-bus .bus-list-split-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+body.standalone-bus .bus-list-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+}
+
+body.standalone-bus .bus-list-col {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+body.standalone-bus .bus-list-col-title {
+    margin: 0;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    background: #64748b;
+}
+
+body.standalone-bus .bus-list-col.band-east .bus-list-col-title {
+    background: #ea580c;
+}
+
+body.standalone-bus .bus-list-col.band-west .bus-list-col-title {
+    background: #2563eb;
+}
+
+body.standalone-bus .bus-list-city-band .bus-list-col-title {
+    background: #0f766e;
+}
+
+body.standalone-bus .bus-list-col-rows,
+body.standalone-bus .bus-list-city-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+body.standalone-bus .bus-list-city-band {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+body.standalone-bus .bus-list-city-under {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #cbd5e1;
+}
+
+@media (max-width: 720px) {
+    body.standalone-bus .bus-list-split {
+        grid-template-columns: 1fr;
+    }
+}
+
 body.standalone-bus .bus-list-toolbar {
     display: flex;
     align-items: center;
@@ -5463,6 +5604,53 @@ body.standalone-bus .bus-list-toolbar-label {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text-sub, #64748b);
+}
+
+body.standalone-bus .bus-list-toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+body.standalone-bus .bus-list-tool-btn {
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--text-main, #0f172a);
+    font-size: 0.68rem;
+    font-weight: 650;
+    padding: 4px 10px;
+    cursor: pointer;
+    line-height: 1.2;
+}
+
+body.standalone-bus .bus-list-tool-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+body.standalone-bus .is-drag-scroll {
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body.standalone-bus .is-drag-scroll.is-drag-scrolling {
+    cursor: grabbing;
+}
+
+body.standalone-bus .is-drag-scroll.is-drag-scrolling * {
+    cursor: grabbing;
+}
+
+@media (pointer: coarse) {
+    body.standalone-bus .is-drag-scroll {
+        cursor: auto;
+        -webkit-user-select: auto;
+        user-select: auto;
+    }
 }
 
 body.standalone-bus .bus-list-rows {
@@ -5606,7 +5794,7 @@ body.standalone-bus .bus-list-row-body[hidden] {
     display: none !important;
 }
 
-body.standalone-bus .bus-list-row-body .bus-schedule-block {
+body.standalone-bus .bus-list-row-body .bus-schedule-dirs {
     margin-top: 8px;
 }
 
@@ -5686,12 +5874,6 @@ body.standalone-bus .modal-card.is-drawer .drawer-close {
     right: 10px;
 }
 
-body.standalone-bus .modal-card.is-drawer.bus-settings-card,
-body.standalone-bus .modal-card.is-drawer.standalone-about-card,
-body.standalone-bus .modal-card.is-drawer.bus-signs-drawer-card {
-    max-width: 100%;
-}
-
 body.standalone-bus .bus-signs-drawer-inner .bus-signs-page-title {
     margin: 0 0 8px;
     font-size: 1.05rem;
@@ -5701,11 +5883,97 @@ body.standalone-bus .bus-signs-drawer-inner .bus-signs-sort {
     margin-bottom: 10px;
 }
 
+body.standalone-bus .bus-info-tabs {
+    display: flex;
+    gap: 6px;
+    margin: 0 0 10px;
+    padding: 2px;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 999px;
+    background: #f8fafc;
+}
+
+body.standalone-bus .bus-info-tab {
+    flex: 1 1 0;
+    margin: 0;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-sub, #64748b);
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+}
+
+body.standalone-bus .bus-info-tab.active {
+    background: #fff;
+    color: var(--text-main, #0f172a);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+body.standalone-bus .bus-info-tab-panel[hidden] {
+    display: none !important;
+}
+
+body.standalone-bus .bus-info-links {
+    margin-top: 4px;
+}
+
+body.standalone-bus .bus-info-routes-heading {
+    margin: 14px 0 6px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-sub, #64748b);
+}
+
+body.standalone-bus .bus-info-route-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: min(48vh, 420px);
+    overflow-y: auto;
+    padding: 2px 0 4px;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.standalone-bus .bus-info-route-link {
+    display: block;
+    padding: 7px 8px;
+    border-radius: 6px;
+    color: var(--primary, #2563eb);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+body.standalone-bus .bus-info-route-link:hover {
+    background: #f1f5f9;
+    text-decoration: underline;
+}
+
+/* Phone: full-bleed sheet. Tablet/desktop: centered panel, not edge-to-edge. */
 @media (min-width: 640px) {
     body.standalone-bus .modal-card.is-drawer {
+        width: min(100%, 420px);
         max-width: 420px;
         margin: 0 auto;
         border-radius: 16px 16px 0 0;
+    }
+
+    body.standalone-bus .modal-card.is-drawer.bus-settings-card {
+        width: min(100%, 380px);
+        max-width: 380px;
+    }
+
+    body.standalone-bus .modal-card.is-drawer.bus-signs-drawer-card {
+        width: min(100%, 480px);
+        max-width: 480px;
     }
 }
 
@@ -5754,11 +6022,49 @@ body.standalone-bus .bus-settings-check {
     cursor: pointer;
 }
 
+body.standalone-bus .bus-settings-pills-cols {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+body.standalone-bus .modal-card.is-drawer.bus-settings-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 0;
+}
+
+body.standalone-bus .bus-settings {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 100%;
+}
+
+body.standalone-bus .bus-settings-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+}
+
 body.standalone-bus .bus-settings-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
     flex-wrap: wrap;
+    flex: 0 0 auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 0 -14px 0;
+    padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border, #e2e8f0);
+    background: #fff;
+    box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.06);
 }
 
 body.standalone-bus .bus-settings-links {

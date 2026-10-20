@@ -54,6 +54,11 @@
                 ],
                 searchFields: ['from', 'to', 'comments'],
                 tableColumns: [
+                    {
+                        id: 'from',
+                        label: 'From',
+                        render: (row) => escapeHtml(String(row.from || row.origin || 'Rodos').trim() || 'Rodos')
+                    },
                     { id: 'destination', label: 'Destination', render: (row) => `<strong>${escapeHtml(row.to || 'Route')}</strong>` },
                     { id: 'day', label: 'Day', render: (row) => escapeHtml(formatBusDayLabel(row.day, row.region)) },
                     {

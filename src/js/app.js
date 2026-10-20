@@ -1059,8 +1059,24 @@ let showRouteEstTime = true;
 let tableTimePills = true;
 let tableCellVAlign = 'top'; // 'top' | 'center'
 let tableFreezeDestCols = false;
+/** List/cards: outbound vs inbound — 'stack' (top/bottom) | 'side' (left/right). */
+let scheduleDirsLayout = 'stack';
+/** Time pills — 'row' (LTR) | 'column' (column-major transpose). */
+let timePillsFlow = 'row';
+/** Pill grid column count — 'auto' | 2 | 3 | 4 | 5. */
+let timePillsColumns = 'auto';
+/** Table: skip by-column (force row order). */
+let tablePillsSkipColumn = false;
+/** Table column count — 'inherit' | 'auto' | 2 | 3 | 4 | 5. */
+let tablePillsColumns = 'inherit';
+const TIME_PILLS_MIN_PX = 41;
+const TIME_PILLS_AUTO_CAP = 5;
 /** null = derive defaults (all cols, distance/est from settings). */
 let tableViewColumnIds = null;
+/** List: false = single column; true = KTEL | RODA. */
+let listSplitColumns = false;
+/** When split: 'under-roda' | 'above' | 'below'. */
+let listCityPlacement = 'under-roda';
 let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
 
 function shouldShowRouteDistance() {
@@ -1091,6 +1107,181 @@ function applyTableCellVAlignToDom() {
 
 function applyTableFreezeDestToDom() {
     document.body.classList.toggle('table-freeze-dest', shouldFreezeTableDestCols());
+}
+
+function getScheduleDirsLayout() {
+    return scheduleDirsLayout === 'side' ? 'side' : 'stack';
+}
+
+function getTimePillsFlow() {
+    return timePillsFlow === 'column' ? 'column' : 'row';
+}
+
+function getTimePillsColumnsSetting() {
+    const n = Number(timePillsColumns);
+    if (n === 2 || n === 3 || n === 4 || n === 5) return n;
+    return 'auto';
+}
+
+function shouldSkipTablePillsColumn() {
+    return tablePillsSkipColumn === true;
+}
+
+function getTablePillsColumnsSetting() {
+    if (tablePillsColumns === 'auto') return 'auto';
+    const n = Number(tablePillsColumns);
+    if (n === 2 || n === 3 || n === 4 || n === 5) return n;
+    return 'inherit';
+}
+
+function getEffectiveTimePillsFlow(asTable = false) {
+    if (asTable && shouldSkipTablePillsColumn()) return 'row';
+    return getTimePillsFlow();
+}
+
+function getEffectiveTimePillsColumnsSetting(asTable = false) {
+    if (asTable) {
+        const tableSetting = getTablePillsColumnsSetting();
+        if (tableSetting !== 'inherit') return tableSetting;
+    }
+    return getTimePillsColumnsSetting();
+}
+
+function resolveTimePillsColumnCount(containerWidthPx, timeCount = 0, asTable = false) {
+    const setting = getEffectiveTimePillsColumnsSetting(asTable);
+    if (setting !== 'auto') {
+        const fixed = Math.max(1, Math.min(5, setting));
+        return timeCount > 0 ? Math.max(1, Math.min(fixed, timeCount)) : fixed;
+    }
+    const w = Number(containerWidthPx) || 0;
+    let cols = w > 0
+        ? Math.max(1, Math.floor(w / TIME_PILLS_MIN_PX))
+        : 4;
+    cols = Math.min(TIME_PILLS_AUTO_CAP, cols);
+    if (timeCount > 0) cols = Math.max(1, Math.min(cols, timeCount));
+    return cols;
+}
+
+function orderTimesForPillsFlow(times, cols, flow = getTimePillsFlow()) {
+    const list = Array.isArray(times) ? times.slice() : [];
+    const n = list.length;
+    const colCount = Math.max(1, Number(cols) || 1);
+    if (flow !== 'column' || colCount < 2 || n < 2) return list;
+    const rows = Math.ceil(n / colCount);
+    const out = [];
+    for (let r = 0; r < rows; r += 1) {
+        for (let c = 0; c < colCount; c += 1) {
+            const src = c * rows + r;
+            if (src < n) out.push(list[src]);
+        }
+    }
+    return out;
+}
+
+function renderSchedulePillsHtml(times, {
+    inbound = false,
+    marks = null,
+    asTable = false,
+    widthHint = 0
+} = {}) {
+    const list = normalizeTimeList(times || []);
+    if (!list.length) return '';
+    const markMap = marks && typeof marks === 'object' ? marks : {};
+    const colsSetting = getEffectiveTimePillsColumnsSetting(asTable);
+    const auto = colsSetting === 'auto';
+    const flow = getEffectiveTimePillsFlow(asTable);
+    const cols = resolveTimePillsColumnCount(widthHint, list.length, asTable);
+    const ordered = orderTimesForPillsFlow(list, cols, flow);
+    const pills = ordered.map((time) => formatBusTimePillHtml(time, {
+        inbound,
+        mark: markMap[time] || '',
+        asTable
+    })).join('');
+    const cls = `schedule-pills${asTable ? ' table-schedule-pills' : ''}`;
+    return `<div class="${cls}" style="--pills-cols: ${cols}" data-pills-cols="${cols}" data-pills-inbound="${inbound ? '1' : '0'}" data-pills-flow="${escapeAttr(flow)}"${asTable ? ' data-pills-table="1"' : ''}${auto ? ' data-pills-auto="1"' : ''} data-pills-times="${escapeAttr(JSON.stringify(list))}" data-pills-marks="${escapeAttr(JSON.stringify(markMap))}">${pills}</div>`;
+}
+
+function measureSchedulePillsWidth(el, asTable) {
+    if (!el) return 0;
+    if (asTable) {
+        const cell = el.closest('td, th');
+        const cellW = cell?.clientWidth || 0;
+        if (cellW > 0) return cellW;
+    }
+    return el.clientWidth || el.parentElement?.clientWidth || 0;
+}
+
+function syncTimePillsColumnCounts(root = document) {
+    const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
+    scope.querySelectorAll('.schedule-pills[data-pills-times]').forEach((el) => {
+        let times;
+        let markMap;
+        try {
+            times = JSON.parse(el.getAttribute('data-pills-times') || '[]');
+            markMap = JSON.parse(el.getAttribute('data-pills-marks') || '{}');
+        } catch (error) {
+            return;
+        }
+        if (!Array.isArray(times) || !times.length) return;
+        const inbound = el.getAttribute('data-pills-inbound') === '1';
+        const asTable = el.getAttribute('data-pills-table') === '1';
+        const auto = el.getAttribute('data-pills-auto') === '1'
+            || getEffectiveTimePillsColumnsSetting(asTable) === 'auto';
+        const flow = getEffectiveTimePillsFlow(asTable);
+        const width = auto ? measureSchedulePillsWidth(el, asTable) : 0;
+        const cols = resolveTimePillsColumnCount(width, times.length, asTable);
+        const prev = Number(el.getAttribute('data-pills-cols') || 0);
+        const prevFlow = el.getAttribute('data-pills-flow') || '';
+        const ordered = orderTimesForPillsFlow(times, cols, flow);
+        const html = ordered.map((time) => formatBusTimePillHtml(time, {
+            inbound,
+            mark: (markMap && markMap[time]) || '',
+            asTable
+        })).join('');
+        if (cols !== prev || prevFlow !== flow || el.innerHTML !== html) {
+            el.style.setProperty('--pills-cols', String(cols));
+            el.setAttribute('data-pills-cols', String(cols));
+            el.setAttribute('data-pills-flow', flow);
+            if (auto) el.setAttribute('data-pills-auto', '1');
+            else el.removeAttribute('data-pills-auto');
+            el.innerHTML = html;
+        }
+    });
+}
+
+let timePillsSyncResizeTimer = 0;
+function scheduleTimePillsColumnSync() {
+    // Double rAF: wait for table sticky/col-width pass so N matches painted tracks.
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            syncTimePillsColumnCounts();
+        });
+    });
+}
+
+function wireTimePillsColumnSync() {
+    if (wireTimePillsColumnSync.wired) return;
+    wireTimePillsColumnSync.wired = true;
+    window.addEventListener('resize', () => {
+        window.clearTimeout(timePillsSyncResizeTimer);
+        timePillsSyncResizeTimer = window.setTimeout(() => {
+            scheduleTimePillsColumnSync();
+        }, 120);
+    });
+    // ponytail: transpose ceiling = fixed cols 2–5 / auto width; upgrade = denser packing heuristics
+    const got = orderTimesForPillsFlow(['1', '2', '3', '4', '5', '6', '7', '8', '9'], 3, 'column').join(',');
+    if (got !== '1,4,7,2,5,8,3,6,9') {
+        console.warn('orderTimesForPillsFlow self-check failed', got);
+    }
+}
+
+function applyScheduleLayoutToDom() {
+    const dirs = getScheduleDirsLayout();
+    document.body.classList.toggle('schedule-dirs-side', dirs === 'side');
+    document.body.classList.toggle('schedule-dirs-stack', dirs !== 'side');
+    const pills = getTimePillsFlow();
+    document.body.classList.toggle('time-pills-flow-row', pills === 'row');
+    document.body.classList.toggle('time-pills-flow-column', pills === 'column');
 }
 
 function hasDisplayableBusPrice(price) {
@@ -1264,12 +1455,12 @@ function formatBusScheduleTimesCell(times, { inbound = false, marks = null } = {
         list = list.filter((time) => !isTimePassed(time));
     }
     if (!list.length) return '—';
-    const markMap = marks && typeof marks === 'object' ? marks : {};
-    return list.map((time) => formatBusTimePillHtml(time, {
+    return renderSchedulePillsHtml(list, {
         inbound,
-        mark: markMap[time] || '',
-        asTable: true
-    })).join(' ');
+        marks,
+        asTable: true,
+        widthHint: 280
+    }) || '—';
 }
 
 function getSiblingRowsForDestination(to) {
@@ -1461,11 +1652,13 @@ function getBusMasonryLayout(container) {
     };
 }
 
-function layoutBusMasonry(container) {
+function layoutBusMasonry(container, savedScrollTopOverride) {
     if (!container || !container.children.length || typeof Masonry !== 'function') return;
 
     const scrollRoot = getBusScrollRootEl();
-    const savedScrollTop = scrollRoot ? scrollRoot.scrollTop : 0;
+    const savedScrollTop = Number.isFinite(savedScrollTopOverride)
+        ? savedScrollTopOverride
+        : (scrollRoot ? scrollRoot.scrollTop : 0);
 
     container.style.width = '100%';
     container.style.maxWidth = '100%';
@@ -1592,8 +1785,29 @@ async function bootApp() {
     if (restoredStandalone?.tableCellVAlign === 'center' || restoredStandalone?.tableCellVAlign === 'top') {
         tableCellVAlign = restoredStandalone.tableCellVAlign;
     }
+    if (restoredStandalone?.scheduleDirsLayout === 'side' || restoredStandalone?.scheduleDirsLayout === 'stack') {
+        scheduleDirsLayout = restoredStandalone.scheduleDirsLayout;
+    }
+    if (restoredStandalone?.timePillsFlow === 'row' || restoredStandalone?.timePillsFlow === 'column') {
+        timePillsFlow = restoredStandalone.timePillsFlow;
+    }
+    {
+        const cols = Number(restoredStandalone?.timePillsColumns);
+        if (restoredStandalone?.timePillsColumns === 'auto') timePillsColumns = 'auto';
+        else if (cols === 2 || cols === 3 || cols === 4 || cols === 5) timePillsColumns = cols;
+    }
+    if (typeof restoredStandalone?.tablePillsSkipColumn === 'boolean') {
+        tablePillsSkipColumn = restoredStandalone.tablePillsSkipColumn;
+    }
+    {
+        const tCols = restoredStandalone?.tablePillsColumns;
+        const n = Number(tCols);
+        if (tCols === 'inherit' || tCols === 'auto') tablePillsColumns = tCols;
+        else if (n === 2 || n === 3 || n === 4 || n === 5) tablePillsColumns = n;
+    }
     applyTableCellVAlignToDom();
     applyTableFreezeDestToDom();
+    applyScheduleLayoutToDom();
     if (restoredStandalone?.eastTableDayBands === 'split' || restoredStandalone?.eastTableDayBands === 'combined') {
         eastTableDayBands = restoredStandalone.eastTableDayBands;
     }
@@ -1636,7 +1850,10 @@ async function bootApp() {
     if (standaloneBus) {
         wireStandalonePrintMenu();
         wireTableColsPicker();
+        wireListLayoutPicker();
+        wireTimePillsColumnSync();
         syncTableColsButton();
+        syncListLayoutButton();
     } else {
         document.getElementById('master-print')?.addEventListener('click', (event) => {
             event.preventDefault();
@@ -2217,13 +2434,20 @@ function saveStandaloneBusState() {
                 const ids = getTableViewColumnIds();
                 return ids.length ? ids : (existing.tableViewColumns || []);
             })(),
+            listSplitColumns: !!listSplitColumns,
+            listCityPlacement: getListCityPlacement(),
             lindosTravelMinutes: getLindosTravelMinutes(),
             eastTableDayBands: getEastTableDayBands(),
             showRouteDistance: shouldShowRouteDistance(),
             showRouteEstTime: shouldShowRouteEstTime(),
             tableTimePills: shouldShowTableTimePills(),
             tableFreezeDestCols: shouldFreezeTableDestCols(),
-            tableCellVAlign: getTableCellVAlign()
+            tableCellVAlign: getTableCellVAlign(),
+            scheduleDirsLayout: getScheduleDirsLayout(),
+            timePillsFlow: getTimePillsFlow(),
+            timePillsColumns: getTimePillsColumnsSetting(),
+            tablePillsSkipColumn: shouldSkipTablePillsColumn(),
+            tablePillsColumns: getTablePillsColumnsSetting()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -2250,7 +2474,7 @@ function applyStandaloneBusState(state) {
     } else {
         selectedDestinations = new Set();
     }
-    if (typeof state.origin === 'string') {
+    if (typeof state.origin === 'string' && state.origin.trim()) {
         selectedOrigin = state.origin.trim();
     } else {
         selectedOrigin = 'Rodos';
@@ -2277,8 +2501,29 @@ function applyStandaloneBusState(state) {
     if (state.tableCellVAlign === 'center' || state.tableCellVAlign === 'top') {
         tableCellVAlign = state.tableCellVAlign;
     }
+    if (state.scheduleDirsLayout === 'side' || state.scheduleDirsLayout === 'stack') {
+        scheduleDirsLayout = state.scheduleDirsLayout;
+    }
+    if (state.timePillsFlow === 'row' || state.timePillsFlow === 'column') {
+        timePillsFlow = state.timePillsFlow;
+    }
+    {
+        const cols = Number(state.timePillsColumns);
+        if (state.timePillsColumns === 'auto') timePillsColumns = 'auto';
+        else if (cols === 2 || cols === 3 || cols === 4 || cols === 5) timePillsColumns = cols;
+    }
+    if (typeof state.tablePillsSkipColumn === 'boolean') {
+        tablePillsSkipColumn = state.tablePillsSkipColumn;
+    }
+    {
+        const tCols = state.tablePillsColumns;
+        const n = Number(tCols);
+        if (tCols === 'inherit' || tCols === 'auto') tablePillsColumns = tCols;
+        else if (n === 2 || n === 3 || n === 4 || n === 5) tablePillsColumns = n;
+    }
     applyTableCellVAlignToDom();
     applyTableFreezeDestToDom();
+    applyScheduleLayoutToDom();
     if (state.eastTableDayBands === 'split' || state.eastTableDayBands === 'combined') {
         eastTableDayBands = state.eastTableDayBands;
     }
@@ -2286,11 +2531,25 @@ function applyStandaloneBusState(state) {
         tableViewColumnIds = state.tableViewColumns
             .map((id) => String(id || '').trim())
             .filter(Boolean);
+        // Surface new From column for saved layouts that already show Destination.
+        if (!tableViewColumnIds.includes('from') && tableViewColumnIds.includes('destination')) {
+            const destIdx = tableViewColumnIds.indexOf('destination');
+            tableViewColumnIds.splice(destIdx, 0, 'from');
+        }
+    }
+    if (typeof state.listSplitColumns === 'boolean') {
+        listSplitColumns = state.listSplitColumns;
+    }
+    if (state.listCityPlacement === 'under-roda'
+        || state.listCityPlacement === 'above'
+        || state.listCityPlacement === 'below') {
+        listCityPlacement = state.listCityPlacement;
     }
 
     injectCompactControlsHeaderBar();
     renderLayoutTabs();
     syncTableColsButton();
+    syncListLayoutButton();
 
     const start = document.getElementById('time-filter-start');
     const end = document.getElementById('time-filter-end');
@@ -2514,6 +2773,7 @@ function openBusSettingsPopup() {
         cardClass: 'bus-settings-card',
         bodyHtml: `
         <div class="bus-settings">
+            <div class="bus-settings-body">
             <p class="standalone-about-kicker">Settings</p>
             <h3>Travel time</h3>
             <p class="bus-settings-hint">Lindos sets the bus speed; other routes scale by km.</p>
@@ -2551,6 +2811,54 @@ function openBusSettingsPopup() {
                     <input id="settings-hide-empty-dest" type="checkbox"${fieldVisibility['btn-hide-empty-dest'] ? ' checked' : ''} />
                     <span>Hide empty destinations</span>
                 </label>
+            </div>
+            <h3>Outbound / return</h3>
+            <p class="bus-settings-hint">List and Cards: stack directions or place them side by side.</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-dirs-layout" value="stack"${getScheduleDirsLayout() === 'stack' ? ' checked' : ''} />
+                    <span>Top / bottom</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-dirs-layout" value="side"${getScheduleDirsLayout() === 'side' ? ' checked' : ''} />
+                    <span>Left / right</span>
+                </label>
+            </div>
+            <h3>Time pills</h3>
+            <p class="bus-settings-hint">List, Cards, and Table. Row fills left→right; column fills top→bottom (transposed).</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-pills-flow" value="row"${getTimePillsFlow() === 'row' ? ' checked' : ''} />
+                    <span>By row</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-pills-flow" value="column"${getTimePillsFlow() === 'column' ? ' checked' : ''} />
+                    <span>By column (transpose)</span>
+                </label>
+            </div>
+            <p class="bus-settings-hint">How many pill columns to use.</p>
+            <div class="bus-settings-checks bus-settings-pills-cols">
+                ${['auto', 2, 3, 4, 5].map((opt) => {
+                    const val = String(opt);
+                    const checked = String(getTimePillsColumnsSetting()) === val ? ' checked' : '';
+                    const label = opt === 'auto' ? 'Auto' : String(opt);
+                    return `<label class="bus-settings-check"><input type="radio" name="settings-pills-cols" value="${val}"${checked} /><span>${label}</span></label>`;
+                }).join('')}
+            </div>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input id="settings-table-skip-column" type="checkbox"${shouldSkipTablePillsColumn() ? ' checked' : ''} />
+                    <span>Table: skip by-column (keep row order)</span>
+                </label>
+            </div>
+            <p class="bus-settings-hint">Table columns override (Inherit uses the setting above).</p>
+            <div class="bus-settings-checks bus-settings-pills-cols">
+                ${['inherit', 'auto', 2, 3, 4, 5].map((opt) => {
+                    const val = String(opt);
+                    const checked = String(getTablePillsColumnsSetting()) === val ? ' checked' : '';
+                    const label = opt === 'inherit' ? 'Inherit' : (opt === 'auto' ? 'Auto' : String(opt));
+                    return `<label class="bus-settings-check"><input type="radio" name="settings-table-pills-cols" value="${val}"${checked} /><span>${label}</span></label>`;
+                }).join('')}
             </div>
             <h3>East table</h3>
             <p class="bus-settings-hint">Combined merges Sat/Sun exceptions into one band and marks times.</p>
@@ -2590,6 +2898,7 @@ function openBusSettingsPopup() {
                     <span>Center</span>
                 </label>
             </div>
+            </div>
             <div class="bus-settings-actions">
                 <button type="button" class="compact-btn primary" id="settings-apply-btn">Apply</button>
             </div>
@@ -2603,13 +2912,32 @@ function openBusSettingsPopup() {
                 const freezeDest = !!document.getElementById('settings-table-freeze-dest')?.checked;
                 const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
                 const valign = document.querySelector('input[name="settings-table-valign"]:checked')?.value || 'top';
+                const dirsLayout = document.querySelector('input[name="settings-dirs-layout"]:checked')?.value || 'stack';
+                const pillsFlow = document.querySelector('input[name="settings-pills-flow"]:checked')?.value || 'row';
+                const pillsColsRaw = document.querySelector('input[name="settings-pills-cols"]:checked')?.value || 'auto';
+                const pillsColsNum = Number(pillsColsRaw);
+                const tablePillsColsRaw = document.querySelector('input[name="settings-table-pills-cols"]:checked')?.value || 'inherit';
+                const tablePillsColsNum = Number(tablePillsColsRaw);
                 showRouteDistance = showDist;
                 showRouteEstTime = showEst;
                 tableTimePills = showPills;
                 tableFreezeDestCols = freezeDest;
                 tableCellVAlign = valign === 'center' ? 'center' : 'top';
+                scheduleDirsLayout = dirsLayout === 'side' ? 'side' : 'stack';
+                timePillsFlow = pillsFlow === 'column' ? 'column' : 'row';
+                timePillsColumns = (pillsColsNum === 2 || pillsColsNum === 3 || pillsColsNum === 4 || pillsColsNum === 5)
+                    ? pillsColsNum
+                    : 'auto';
+                tablePillsSkipColumn = !!document.getElementById('settings-table-skip-column')?.checked;
+                if (tablePillsColsRaw === 'auto') tablePillsColumns = 'auto';
+                else if (tablePillsColsNum === 2 || tablePillsColsNum === 3 || tablePillsColsNum === 4 || tablePillsColsNum === 5) {
+                    tablePillsColumns = tablePillsColsNum;
+                } else {
+                    tablePillsColumns = 'inherit';
+                }
                 applyTableCellVAlignToDom();
                 applyTableFreezeDestToDom();
+                applyScheduleLayoutToDom();
                 fieldVisibility['btn-grey'] = !!document.getElementById('settings-grey-passed')?.checked;
                 fieldVisibility['btn-rem'] = !!document.getElementById('settings-hide-passed')?.checked;
                 fieldVisibility['btn-hide-sparse-west'] = !!document.getElementById('settings-hide-sparse-west')?.checked;
@@ -2840,28 +3168,135 @@ function closeBusSignsPage() {
     closeStandaloneDrawer();
 }
 
-function renderBusSignsDrawerBody() {
+const BUS_INFO_OPERATOR_LINKS = [
+    {
+        label: 'RODA',
+        value: 'rhodes.gr · συγκοινωνίες',
+        href: 'https://www.rhodes.gr/sygkinonies-metafores-stin-poli-ke-sto-nisi/'
+    },
+    {
+        label: 'KTEL',
+        value: 'www.ktelrodou.gr',
+        href: 'https://www.ktelrodou.gr'
+    },
+    {
+        label: 'KTEL schedule index',
+        value: 'ktelrodou.gr/schedule',
+        href: 'https://www.ktelrodou.gr/schedule/'
+    }
+];
+
+/** Official KTEL “from Rhodes” route pages (slug after /rhodes-…). */
+const KTEL_ROUTE_LINK_SLUGS = [
+    ['1-5', 'Main timetable (stations 1–5)'],
+    ['afantou', 'Afantou'],
+    ['afantou-beach', 'Afantou Beach'],
+    ['apolakkia', 'Apolakkia'],
+    ['archangelos', 'Archangelos'],
+    ['arnitha', 'Arnitha'],
+    ['asklipio', 'Asklipio'],
+    ['faliraki-beach-rhodes-kalithea-avenue', 'Faliraki Beach · Kallithea Ave'],
+    ['faliraki-rhodes-lindos-avenue', 'Faliraki · Rhodes–Lindos Ave'],
+    ['gennadi', 'Gennadi'],
+    ['haraki-beach', 'Haraki Beach'],
+    ['istrios', 'Istrios'],
+    ['kalathos', 'Kalathos'],
+    ['kalithies', 'Kalithies'],
+    ['kallithea-springs', 'Kallithea Springs'],
+    ['kattavia', 'Kattavia'],
+    ['kiotari', 'Kiotari'],
+    ['kolymbia', 'Kolymbia'],
+    ['kolymbia-beach', 'Kolymbia Beach'],
+    ['koskinou', 'Koskinou'],
+    ['lachania', 'Lachania'],
+    ['ladiko', 'Ladiko'],
+    ['laerma', 'Laerma'],
+    ['lardos', 'Lardos'],
+    ['lardos-beach-summer', 'Lardos Beach'],
+    ['lindos', 'Lindos'],
+    ['lindos-psaltos', 'Lindos · Psaltos'],
+    ['malona', 'Malona'],
+    ['mantomata-summer', 'Mantomata'],
+    ['massari', 'Massari'],
+    ['pefkos', 'Pefkos / Pefki'],
+    ['pilona', 'Pilona'],
+    ['plimmiri', 'Plimmiri'],
+    ['prasonisi', 'Prasonisi'],
+    ['profilia', 'Profilia'],
+    ['psinthos', 'Psinthos'],
+    ['seven-springs', 'Seven Springs'],
+    ['stegna-beach-2', 'Stegna Beach'],
+    ['tsairi', 'Tsairi'],
+    ['tsambika-beach', 'Tsambika Beach'],
+    ['tsambika1', 'Tsambika'],
+    ['vati', 'Vati'],
+    ['vlycha', 'Vlycha'],
+    ['vlycha-beach-summer', 'Vlycha Beach']
+];
+
+let busInfoDrawerTab = 'routes'; // 'routes' | 'links'
+
+function getBusInfoDrawerTab() {
+    return busInfoDrawerTab === 'links' ? 'links' : 'routes';
+}
+
+function setBusInfoDrawerTab(tab) {
+    busInfoDrawerTab = tab === 'links' ? 'links' : 'routes';
+}
+
+function renderBusInfoLinksPanel() {
+    const operators = BUS_INFO_OPERATOR_LINKS.map((link) => `
+        <a class="standalone-about-link" href="${escapeHtml(link.href)}" target="_blank" rel="noopener">
+            <span class="standalone-about-link-label">${escapeHtml(link.label)}</span>
+            <span class="standalone-about-link-value">${escapeHtml(link.value)}</span>
+        </a>`).join('');
+    const routes = KTEL_ROUTE_LINK_SLUGS.map(([slug, label]) => {
+        const href = `https://www.ktelrodou.gr/rhodes-${slug}/`;
+        return `<a class="bus-info-route-link" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+    }).join('');
+    return `
+        <p class="bus-signs-hint">Official operator pages. KTEL routes below are from Rhodes Town.</p>
+        <div class="standalone-about-links bus-info-links">${operators}</div>
+        <p class="bus-info-routes-heading">KTEL routes</p>
+        <div class="bus-info-route-list">${routes}</div>`;
+}
+
+function renderBusInfoRoutesPanel() {
     const mode = getBusSignsSortMode();
     const east = sortBusSignRows(BUS_SIGN_EAST, mode);
     const west = sortBusSignRows(BUS_SIGN_WEST, mode);
     return `
-        <div class="bus-signs bus-signs-drawer-inner">
+        <p class="bus-signs-hint">These codes are <strong>route numbers</strong> (and letters), not the bus vehicle number. Buses usually show the destination on the front; the route code may also appear on the display.</p>
+        <div class="bus-signs-sort" role="group" aria-label="Sort route numbers">
+            <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
+            <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Route</button>
+        </div>
+        <div class="bus-signs-grid">
+            <section class="bus-signs-panel">
+                <p class="bus-signs-title">KTEL · East</p>
+                ${renderBusSignList(east, { destFirst: false })}
+            </section>
+            <section class="bus-signs-panel">
+                <p class="bus-signs-title">RODA · West</p>
+                ${renderBusSignList(west, { destFirst: true })}
+            </section>
+        </div>`;
+}
+
+function renderBusSignsDrawerBody() {
+    const tab = getBusInfoDrawerTab();
+    return `
+        <div class="bus-signs bus-signs-drawer-inner bus-info-drawer">
             <p class="standalone-about-kicker">Help</p>
-            <h3 class="bus-signs-page-title">Bus destination signs</h3>
-            <p class="bus-signs-hint">Buses usually show the destination on the front. Line numbers and letters are extra route info — they may also appear on the display.</p>
-            <div class="bus-signs-sort" role="group" aria-label="Sort signs">
-                <button type="button" class="compact-chip${mode === 'destination' ? ' active' : ''}" data-signs-sort="destination">Destination</button>
-                <button type="button" class="compact-chip${mode === 'number' ? ' active' : ''}" data-signs-sort="number">Number</button>
+            <div class="bus-info-tabs" role="tablist" aria-label="Help sections">
+                <button type="button" role="tab" class="bus-info-tab${tab === 'routes' ? ' active' : ''}" data-info-tab="routes" aria-selected="${tab === 'routes' ? 'true' : 'false'}">Route Number</button>
+                <button type="button" role="tab" class="bus-info-tab${tab === 'links' ? ' active' : ''}" data-info-tab="links" aria-selected="${tab === 'links' ? 'true' : 'false'}">Links</button>
             </div>
-            <div class="bus-signs-grid">
-                <section class="bus-signs-panel">
-                    <p class="bus-signs-title">KTEL · East</p>
-                    ${renderBusSignList(east, { destFirst: false })}
-                </section>
-                <section class="bus-signs-panel">
-                    <p class="bus-signs-title">RODA · West</p>
-                    ${renderBusSignList(west, { destFirst: true })}
-                </section>
+            <div class="bus-info-tab-panel" data-info-panel="routes"${tab === 'routes' ? '' : ' hidden'}>
+                ${renderBusInfoRoutesPanel()}
+            </div>
+            <div class="bus-info-tab-panel" data-info-panel="links"${tab === 'links' ? '' : ' hidden'}>
+                ${renderBusInfoLinksPanel()}
             </div>
         </div>
     `;
@@ -2872,6 +3307,12 @@ function openBusSignsInfo() {
         cardClass: 'bus-signs-drawer-card',
         bodyHtml: renderBusSignsDrawerBody(),
         afterOpen: (card) => {
+            card.querySelectorAll('[data-info-tab]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    setBusInfoDrawerTab(btn.getAttribute('data-info-tab'));
+                    openBusSignsInfo();
+                });
+            });
             card.querySelectorAll('[data-signs-sort]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     setBusSignsSortMode(btn.getAttribute('data-signs-sort'));
@@ -3234,6 +3675,7 @@ function setLayout(mode) {
         syncScrollAwareHeaderState();
     }
     syncTableColsButton();
+    syncListLayoutButton();
     syncMapToggleButton();
     syncHeaderActionButtons();
     syncStarredFilterButton();
@@ -4139,9 +4581,7 @@ function matchesRowFilters(row, { includeSearch = true, includeDestinations = tr
         if (!selectedDestinations.has(getRowDestination(row))) return false;
     }
 
-    if (selectedOrigin) {
-        if (getRowOrigin(row) !== selectedOrigin) return false;
-    }
+    if (getRowOrigin(row) !== selectedOrigin) return false;
 
     if (includeSearch) {
         const terms = parseSearchTerms(document.getElementById('app-search')?.value);
@@ -4171,18 +4611,22 @@ function getAvailableOrigins() {
 }
 
 function pruneSelectedOrigin() {
-    if (!selectedOrigin) return;
-    const available = new Set(getAvailableOrigins());
-    if (!available.has(selectedOrigin)) {
-        selectedOrigin = available.has('Rodos') ? 'Rodos' : '';
+    const origins = getAvailableOrigins();
+    if (!origins.length) {
+        selectedOrigin = selectedOrigin || 'Rodos';
+        return;
+    }
+    if (!origins.includes(selectedOrigin)) {
+        selectedOrigin = origins.includes('Rodos') ? 'Rodos' : origins[0];
     }
 }
 
 function syncOriginPickerButton() {
     const btn = document.getElementById('from-picker-btn');
     if (!btn) return;
-    btn.textContent = selectedOrigin ? `From · ${selectedOrigin}` : 'From';
-    btn.classList.toggle('has-selection', Boolean(selectedOrigin));
+    pruneSelectedOrigin();
+    btn.textContent = `From · ${selectedOrigin}`;
+    btn.classList.add('has-selection');
     btn.setAttribute('aria-expanded', originPickerOpen ? 'true' : 'false');
 }
 
@@ -4211,7 +4655,6 @@ function renderOriginPickerPanel() {
             <span class="dest-picker-title">${escapeHtml(String(origins.length))} from</span>
             <div class="dest-picker-actions">
                 <button type="button" class="dest-picker-ok from-picker-ok">OK</button>
-                <button type="button" class="dest-picker-clear from-picker-clear"${selectedOrigin ? '' : ' disabled'}>All</button>
             </div>
         </div>
         <div class="dest-picker-list">${items}</div>`;
@@ -4222,23 +4665,13 @@ function renderOriginPickerPanel() {
         setOriginPickerOpen(false);
     });
 
-    panel.querySelector('.from-picker-clear')?.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        selectedOrigin = '';
-        syncOriginPickerButton();
-        renderOriginPickerPanel();
-        filterAndRenderEngine();
-        saveStandaloneBusState();
-    });
-
     panel.querySelectorAll('input[type="radio"]').forEach((input) => {
+        // Avoid browser scrolling the page to the focused radio in the dropdown.
+        input.addEventListener('mousedown', (event) => event.preventDefault());
         input.addEventListener('change', () => {
             if (!input.checked) return;
             selectedOrigin = input.value;
             syncOriginPickerButton();
-            const clearBtn = panel.querySelector('.from-picker-clear');
-            if (clearBtn) clearBtn.disabled = !selectedOrigin;
             filterAndRenderEngine();
             saveStandaloneBusState();
         });
@@ -4461,13 +4894,13 @@ function buildBusListScheduleHtml(row) {
     const outTimes = normalizeTimeList(row.timesOut || row.outbound || row.times || []);
     const backTimes = normalizeTimeList(row.timesBack || row.inbound || row.returns || []);
     const timeMarks = getTimeMarksForBusRow(row);
-    const outPills = outTimes.map((time) => formatBusTimePillHtml(time, {
-        mark: timeMarks.out[time] || ''
-    })).join('');
-    const backPills = backTimes.map((time) => formatBusTimePillHtml(time, {
-        inbound: true,
-        mark: timeMarks.back[time] || ''
-    })).join('');
+    const widthHint = getScheduleDirsLayout() === 'side' ? 320 : 640;
+    const outPills = outTimes.length
+        ? renderSchedulePillsHtml(outTimes, { marks: timeMarks.out, widthHint })
+        : '';
+    const backPills = backTimes.length
+        ? renderSchedulePillsHtml(backTimes, { inbound: true, marks: timeMarks.back, widthHint })
+        : '';
     const metaFooter = buildBusRouteMetaFooterHtml(row);
     const comments = String(row.comments || '').trim();
     const commentsHtml = comments
@@ -4476,17 +4909,22 @@ function buildBusListScheduleHtml(row) {
     if (!outTimes.length && !backTimes.length && !metaFooter && !commentsHtml) {
         return '<div class="bus-empty-hint">No times in current schedule</div>';
     }
+    const dir = busDirectionLabels(row);
+    const dirsHtml = (outTimes.length || backTimes.length) ? `
+        <div class="bus-schedule-dirs">
+            ${outTimes.length ? `
+            <div class="bus-schedule-block">
+                <div class="schedule-direction dir-out">${escapeHtml(dir.out)}</div>
+                ${outPills}
+            </div>` : ''}
+            ${backTimes.length ? `
+            <div class="bus-schedule-block inbound">
+                <div class="schedule-direction dir-in">${escapeHtml(dir.back)}</div>
+                ${backPills}
+            </div>` : ''}
+        </div>` : '';
     return `
-        ${outTimes.length ? `
-        <div class="bus-schedule-block">
-            <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
-            <div class="schedule-pills">${outPills}</div>
-        </div>` : ''}
-        ${backTimes.length ? `
-        <div class="bus-schedule-block inbound">
-            <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
-            <div class="schedule-pills">${backPills}</div>
-        </div>` : ''}
+        ${dirsHtml}
         ${metaFooter}
         ${commentsHtml}`;
 }
@@ -4540,6 +4978,7 @@ function buildBusListRow(row) {
         else listExpandedKeys.delete(starKey);
         if (open) {
             requestAnimationFrame(() => {
+                syncTimePillsColumnCounts(el);
                 el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             });
         }
@@ -4548,6 +4987,87 @@ function buildBusListRow(row) {
         toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
     });
     return el;
+}
+
+function getListCityPlacement() {
+    if (listCityPlacement === 'above' || listCityPlacement === 'below') return listCityPlacement;
+    return 'under-roda';
+}
+
+function shouldSplitListColumns() {
+    return !!listSplitColumns;
+}
+
+function partitionBusListRowsByRegion(rows) {
+    const east = [];
+    const west = [];
+    const city = [];
+    (rows || []).forEach((row) => {
+        const region = normalizeText(row?.region);
+        if (region === 'east') east.push(row);
+        else if (region === 'west') west.push(row);
+        else city.push(row);
+    });
+    return { east, west, city };
+}
+
+function appendBusListRows(container, rows) {
+    if (!container) return;
+    const fragment = document.createDocumentFragment();
+    (rows || []).forEach((row) => fragment.appendChild(buildBusListRow(row)));
+    container.appendChild(fragment);
+}
+
+function buildBusListColumnEl(title, rows, bandClass, emptyMessage) {
+    const col = document.createElement('div');
+    col.className = ['bus-list-col', bandClass || ''].filter(Boolean).join(' ');
+    const titleHtml = title
+        ? `<h3 class="bus-list-col-title">${escapeHtml(title)}</h3>`
+        : '';
+    col.innerHTML = `${titleHtml}<div class="bus-list-col-rows"></div>`;
+    const rowsEl = col.querySelector('.bus-list-col-rows');
+    if (!(rows || []).length) {
+        if (rowsEl) {
+            rowsEl.innerHTML = `<p class="bus-list-empty">${escapeHtml(emptyMessage || 'No routes')}</p>`;
+        }
+    } else {
+        appendBusListRows(rowsEl, rows);
+    }
+    return col;
+}
+
+function buildBusListCityBandEl(rows, emptyMessage) {
+    const band = document.createElement('div');
+    band.className = 'bus-list-city-band';
+    band.innerHTML = `
+        <h3 class="bus-list-col-title">City</h3>
+        <div class="bus-list-col-rows bus-list-city-rows"></div>`;
+    const rowsEl = band.querySelector('.bus-list-col-rows');
+    if (!(rows || []).length) {
+        if (rowsEl) {
+            rowsEl.innerHTML = `<p class="bus-list-empty">${escapeHtml(emptyMessage || 'No routes')}</p>`;
+        }
+    } else {
+        appendBusListRows(rowsEl, rows);
+    }
+    return band;
+}
+
+function setAllListRowsExpanded(root, open) {
+    if (!root) return;
+    root.querySelectorAll('.bus-list-row').forEach((el) => {
+        const key = el.dataset.starKey;
+        const head = el.querySelector('.bus-list-row-head');
+        const body = el.querySelector('.bus-list-row-body');
+        el.classList.toggle('is-expanded', open);
+        if (head) head.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (body) body.hidden = !open;
+        if (key) {
+            if (open) listExpandedKeys.add(key);
+            else listExpandedKeys.delete(key);
+        }
+    });
+    if (open) scheduleTimePillsColumnSync();
 }
 
 function renderListView(dataset) {
@@ -4563,29 +5083,65 @@ function renderListView(dataset) {
     const rows = Array.isArray(dataset) ? dataset : getFilteredRecords();
     const starredOnly = String(activeFilterState.starred || 'ALL') === 'Starred';
     const showClearAll = starredOnly && starredBusRoutes.size > 0;
+    const split = shouldSplitListColumns();
+    const emptyMsg = starredOnly
+        ? 'No starred routes yet — tap ★ on a card'
+        : 'No routes match the current filters';
 
-    root.className = 'view-container bus-list-view';
+    root.className = `view-container bus-list-view${split ? ' is-split-cols' : ''}`;
     root.innerHTML = `
-        <div class="bus-list-inner">
-            ${starredOnly ? `
+        <div class="bus-list-inner${split ? ' is-split' : ''}">
             <div class="bus-list-toolbar">
-                <p class="bus-list-toolbar-label">Starred</p>
-                <button type="button" id="favorites-clear-all" class="favorites-clear-all"${showClearAll ? '' : ' hidden'}>Clear all</button>
-            </div>` : ''}
-            <div id="bus-list-rows" class="bus-list-rows"></div>
+                <p class="bus-list-toolbar-label">${starredOnly ? 'Starred' : 'List'}</p>
+                <div class="bus-list-toolbar-actions">
+                    <button type="button" id="list-expand-all" class="bus-list-tool-btn">Expand all</button>
+                    <button type="button" id="list-collapse-all" class="bus-list-tool-btn">Collapse all</button>
+                    <button type="button" id="favorites-clear-all" class="favorites-clear-all"${showClearAll ? '' : ' hidden'}>Clear all</button>
+                </div>
+            </div>
+            <div id="bus-list-body" class="bus-list-body"></div>
         </div>`;
 
-    const listEl = root.querySelector('#bus-list-rows');
-    if (!rows.length) {
-        if (listEl) {
-            listEl.innerHTML = starredOnly
-                ? '<p class="bus-list-empty">No starred routes yet — tap ★ on a card</p>'
-                : '<p class="bus-list-empty">No routes match the current filters</p>';
+    const bodyEl = root.querySelector('#bus-list-body');
+    if (!bodyEl) return;
+
+    if (!split) {
+        bodyEl.className = 'bus-list-body bus-list-rows';
+        if (!rows.length) {
+            bodyEl.innerHTML = `<p class="bus-list-empty">${escapeHtml(emptyMsg)}</p>`;
+        } else {
+            appendBusListRows(bodyEl, rows);
         }
     } else {
-        const fragment = document.createDocumentFragment();
-        rows.forEach((row) => fragment.appendChild(buildBusListRow(row)));
-        listEl?.appendChild(fragment);
+        const { east, west, city } = partitionBusListRowsByRegion(rows);
+        const cityPlace = getListCityPlacement();
+        bodyEl.className = 'bus-list-body bus-list-split-body';
+
+        if (!rows.length) {
+            bodyEl.innerHTML = `<p class="bus-list-empty">${escapeHtml(emptyMsg)}</p>`;
+        } else {
+            if (cityPlace === 'above' && city.length) {
+                bodyEl.appendChild(buildBusListCityBandEl(city));
+            }
+
+            const splitRow = document.createElement('div');
+            splitRow.className = 'bus-list-split';
+            splitRow.appendChild(buildBusListColumnEl('KTEL', east, 'band-east'));
+
+            const westCol = buildBusListColumnEl('RODA', west, 'band-west');
+            if (cityPlace === 'under-roda' && city.length) {
+                const cityWrap = document.createElement('div');
+                cityWrap.className = 'bus-list-city-under';
+                cityWrap.appendChild(buildBusListCityBandEl(city));
+                westCol.appendChild(cityWrap);
+            }
+            splitRow.appendChild(westCol);
+            bodyEl.appendChild(splitRow);
+
+            if (cityPlace === 'below' && city.length) {
+                bodyEl.appendChild(buildBusListCityBandEl(city));
+            }
+        }
     }
 
     root.querySelector('#favorites-clear-all')?.addEventListener('click', (event) => {
@@ -4593,6 +5149,17 @@ function renderListView(dataset) {
         event.stopPropagation();
         clearStarredBusRoutes();
     });
+    root.querySelector('#list-expand-all')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setAllListRowsExpanded(root, true);
+    });
+    root.querySelector('#list-collapse-all')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setAllListRowsExpanded(root, false);
+    });
+    wireBusDragScrollSurfaces();
 }
 
 function buildBusScheduleCardElement(row, { forDrawer = false } = {}) {
@@ -4627,15 +5194,16 @@ function buildBusScheduleCardElement(row, { forDrawer = false } = {}) {
     ].filter(Boolean).join(' ');
     card.dataset.starKey = starKey;
     const timeMarks = getTimeMarksForBusRow(row);
-    const outPills = finalOutTimes.map((time) => formatBusTimePillHtml(time, {
-        mark: timeMarks.out[time] || ''
-    })).join('');
-    const backPills = finalBackTimes.map((time) => formatBusTimePillHtml(time, {
-        inbound: true,
-        mark: timeMarks.back[time] || ''
-    })).join('');
+    const widthHint = getScheduleDirsLayout() === 'side' ? 160 : 280;
+    const outPills = finalOutTimes.length
+        ? renderSchedulePillsHtml(finalOutTimes, { marks: timeMarks.out, widthHint })
+        : '';
+    const backPills = finalBackTimes.length
+        ? renderSchedulePillsHtml(finalBackTimes, { inbound: true, marks: timeMarks.back, widthHint })
+        : '';
     const metaFooter = buildBusRouteMetaFooterHtml(row);
     const emptyHint = isEmptyCard ? '<div class="bus-empty-hint">No times in current schedule</div>' : '';
+    const dir = busDirectionLabels(row);
     card.innerHTML = `
         ${renderBusFavButtonHtml(row, { floating: true })}
         <div style="width:100%;">
@@ -4649,16 +5217,19 @@ function buildBusScheduleCardElement(row, { forDrawer = false } = {}) {
                 ${formatBusPriceTagHtml(row.price)}
             </div>
             ${emptyHint}
-            ${finalOutTimes.length ? `
-            <div class="bus-schedule-block">
-                <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
-                <div class="schedule-pills">${outPills}</div>
-            </div>` : ''}
-            ${finalBackTimes.length ? `
-                <div class="bus-schedule-block inbound">
-                    <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
-                    <div class="schedule-pills">${backPills}</div>
+            ${(finalOutTimes.length || finalBackTimes.length) ? `
+            <div class="bus-schedule-dirs">
+                ${finalOutTimes.length ? `
+                <div class="bus-schedule-block">
+                    <div class="schedule-direction dir-out">${escapeHtml(dir.out)}</div>
+                    ${outPills}
                 </div>` : ''}
+                ${finalBackTimes.length ? `
+                <div class="bus-schedule-block inbound">
+                    <div class="schedule-direction dir-in">${escapeHtml(dir.back)}</div>
+                    ${backPills}
+                </div>` : ''}
+            </div>` : ''}
             ${metaFooter}
             ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments).replace(/\n/g, '<br>')}</div>` : ''}
         </div>`;
@@ -4931,8 +5502,14 @@ function getBusScheduleTableSections(rows) {
     return sections;
 }
 
-const BUS_OUTBOUND_LABEL = 'OUTBOUND FROM RHODES TOWN';
-const BUS_RETURN_LABEL = 'RETURN TO RHODES TOWN';
+function busDirectionLabels(row) {
+    const origin = getRowOrigin(row) || 'Rodos';
+    const place = /^rodos$/i.test(origin) ? 'RHODES TOWN' : origin.toUpperCase();
+    return {
+        out: `OUTBOUND FROM ${place}`,
+        back: `RETURN TO ${place}`
+    };
+}
 
 function getRouteTimeCounts(row) {
     const out = normalizeTimeList(row.timesOut || row.outbound || row.times || []).filter(Boolean);
@@ -6327,6 +6904,16 @@ async function filterAndRenderEngine() {
         currentLayoutMode = 'cards';
     }
 
+    const scrollRoot = getBusScrollRootEl();
+    const savedScrollTop = scrollRoot ? scrollRoot.scrollTop : 0;
+    const restoreScroll = () => {
+        if (!scrollRoot) return;
+        scrollRoot.scrollTop = savedScrollTop;
+        if (window.__STANDALONE_BUS__) {
+            window.scrollTo(0, savedScrollTop);
+        }
+    };
+
     syncSearchClearButton();
     syncDestinationPickerUI();
     // Sanitize starred *before* filtering so empty Starred never paints an empty list
@@ -6352,11 +6939,21 @@ async function filterAndRenderEngine() {
     if (window.ViewRegistry?.render) {
         const rendered = await window.ViewRegistry.render(currentLayoutMode, filtered);
         if (rendered) {
+            restoreScroll();
+            requestAnimationFrame(() => {
+                restoreScroll();
+                scheduleTimePillsColumnSync();
+            });
             return;
         }
     }
 
     renderCardsView(filtered);
+    restoreScroll();
+    requestAnimationFrame(() => {
+        restoreScroll();
+        scheduleTimePillsColumnSync();
+    });
 }
 
 function parseScheduleTimeMinutes(timeStr) {
@@ -6751,6 +7348,10 @@ function renderCardsView(dataset, options = {}) {
     const container = options.containerId ? document.getElementById(options.containerId) : document.getElementById('view-cards');
     if (!container) return;
 
+    // Save before clearing — emptying cards collapses page height and clamps scroll to 0.
+    const scrollRoot = getBusScrollRootEl();
+    const savedScrollTop = scrollRoot ? scrollRoot.scrollTop : 0;
+
     disconnectCardsInfiniteObserver();
 
     if (globalBusMasonryInstance) {
@@ -6765,6 +7366,7 @@ function renderCardsView(dataset, options = {}) {
         if (!baseDataset.length) {
             container.className = 'view-container';
             container.innerHTML = '<div class="view-empty-state">No entries match the current filters.</div>';
+            if (scrollRoot) scrollRoot.scrollTop = savedScrollTop;
             return;
         }
 
@@ -6776,7 +7378,11 @@ function renderCardsView(dataset, options = {}) {
 
         container.appendChild(fragment);
         if (container.querySelector('.profile-card')) {
-            requestAnimationFrame(() => layoutBusMasonry(container));
+            requestAnimationFrame(() => {
+                layoutBusMasonry(container, savedScrollTop);
+            });
+        } else if (scrollRoot) {
+            scrollRoot.scrollTop = savedScrollTop;
         }
         return;
     }
@@ -7082,6 +7688,103 @@ function getBusScrollRootEl() {
     return document.querySelector('.view-canvas');
 }
 
+/** Desktop drag-to-scroll; movement under threshold still counts as a click (list expand). */
+function wireDragToScroll(el, { axis = 'both', scrollTarget = null } = {}) {
+    if (!el || el.dataset.dragScrollWired === '1') return;
+    el.dataset.dragScrollWired = '1';
+    el.classList.add('is-drag-scroll');
+    const scroller = scrollTarget || el;
+    const isDocScroll = scroller === document.scrollingElement
+        || scroller === document.documentElement
+        || scroller === document.body;
+
+    const threshold = 6;
+    let active = false;
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let originLeft = 0;
+    let originTop = 0;
+    let pointerId = null;
+
+    // List row heads are buttons but must allow drag; click expands when under threshold.
+    const isInteractive = (target) => {
+        if (target?.closest?.('.bus-list-row-head')) return false;
+        return !!(target?.closest?.('a, button, input, select, textarea, label, .bus-fav-btn'));
+    };
+
+    el.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'touch') return;
+        if (event.button != null && event.button !== 0) return;
+        if (isInteractive(event.target)) return;
+        active = true;
+        dragging = false;
+        startX = event.clientX;
+        startY = event.clientY;
+        originLeft = isDocScroll ? (window.scrollX || 0) : (scroller.scrollLeft || 0);
+        originTop = isDocScroll ? (window.scrollY || 0) : (scroller.scrollTop || 0);
+        pointerId = event.pointerId;
+    });
+
+    el.addEventListener('pointermove', (event) => {
+        if (!active || pointerId !== event.pointerId) return;
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+        if (!dragging && (Math.abs(dx) > threshold || Math.abs(dy) > threshold)) {
+            dragging = true;
+            el.classList.add('is-drag-scrolling');
+            try { el.setPointerCapture(pointerId); } catch (error) { /* ignore */ }
+        }
+        if (!dragging) return;
+        event.preventDefault();
+        if (isDocScroll) {
+            const nx = (axis === 'x' || axis === 'both') ? originLeft - dx : window.scrollX;
+            const ny = (axis === 'y' || axis === 'both') ? originTop - dy : window.scrollY;
+            window.scrollTo(nx, ny);
+            return;
+        }
+        if (axis === 'x' || axis === 'both') scroller.scrollLeft = originLeft - dx;
+        if (axis === 'y' || axis === 'both') scroller.scrollTop = originTop - dy;
+    });
+
+    const endDrag = (event) => {
+        if (!active || (event.pointerId != null && pointerId !== event.pointerId)) return;
+        if (dragging) {
+            // Suppress the click that follows a drag (so list rows don't toggle).
+            const suppress = (clickEvent) => {
+                clickEvent.preventDefault();
+                clickEvent.stopImmediatePropagation();
+            };
+            el.addEventListener('click', suppress, { capture: true, once: true });
+            el.classList.remove('is-drag-scrolling');
+            try { el.releasePointerCapture(pointerId); } catch (error) { /* ignore */ }
+        }
+        active = false;
+        dragging = false;
+        pointerId = null;
+    };
+
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+}
+
+function wireBusDragScrollSurfaces() {
+    if (!window.__STANDALONE_BUS__) return;
+    const root = getBusScrollRootEl();
+    const list = document.getElementById('view-list');
+    if (list && currentLayoutMode === 'list') {
+        const docScroll = document.scrollingElement || document.documentElement;
+        if (root && root !== docScroll) {
+            wireDragToScroll(list, { axis: 'y', scrollTarget: root });
+        } else {
+            wireDragToScroll(list, { axis: 'y', scrollTarget: docScroll });
+        }
+    }
+    document.querySelectorAll('.bus-grouped-table-view .table-responsive-wrapper').forEach((wrap) => {
+        wireDragToScroll(wrap, { axis: 'x' });
+    });
+}
+
 function enhanceTableView(container, dataset) {
     if (!container || !dataset.length) return;
 
@@ -7130,6 +7833,8 @@ function renderBusScheduleGroupedTableView() {
         syncBusStickyOffsets();
         syncBusTableColumnWidths();
         syncTableScrollFadeState();
+        wireBusDragScrollSurfaces();
+        scheduleTimePillsColumnSync();
     });
 }
 
@@ -9389,6 +10094,8 @@ function getPrintMode() {
         if (parsed?.printMode === 'table' || parsed?.printMode === 'cards') {
             return parsed.printMode;
         }
+        // List print removed — fall back if an older session still has it stored.
+        if (parsed?.printMode === 'list') return 'cards';
     } catch (error) {
         /* ignore */
     }
@@ -9407,6 +10114,14 @@ function setPrintMode(mode) {
     }
     syncPrintModeButtons();
     return next;
+}
+
+function getActivePrintRows(mode = getPrintMode()) {
+    return mode === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+}
+
+function getActivePrintSections(rows) {
+    return getBusPrintSections(rows);
 }
 
 function getPrintPages() {
@@ -9521,7 +10236,14 @@ function getPrintTableColumnIds() {
             const picked = parsed.printTableColumns
                 .map((id) => String(id || '').trim())
                 .filter((id) => allowed.has(id));
-            if (picked.length) return picked;
+            if (picked.length) {
+                // Surface new From column when Destination was already selected for print.
+                if (allowed.has('from') && !picked.includes('from') && picked.includes('destination')) {
+                    const destIdx = picked.indexOf('destination');
+                    picked.splice(destIdx, 0, 'from');
+                }
+                return picked;
+            }
         }
     } catch (error) {
         /* ignore */
@@ -9657,7 +10379,10 @@ function wireTableColsPicker() {
         if (btn?.disabled) return;
         const popup = document.getElementById('table-cols-popup');
         if (popup && !popup.hidden) closeTableColsPopup();
-        else openTableColsPopup();
+        else {
+            closeListLayoutPopup();
+            openTableColsPopup();
+        }
     });
 
     document.getElementById('table-cols-popup')?.addEventListener('click', (event) => {
@@ -9680,6 +10405,108 @@ function wireTableColsPicker() {
 
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') closeTableColsPopup();
+    });
+}
+
+function syncListLayoutButton() {
+    const wrap = document.getElementById('list-layout-wrap');
+    const btn = document.getElementById('list-layout-btn');
+    if (!wrap || !btn) return;
+    const can = !!(window.__STANDALONE_BUS__ && currentLayoutMode === 'list');
+    wrap.hidden = false;
+    wrap.classList.remove('is-dormant');
+    btn.disabled = !can;
+    btn.setAttribute('aria-disabled', can ? 'false' : 'true');
+    btn.title = can ? 'List layout' : 'List layout (switch to List view)';
+    btn.classList.toggle('active', can && shouldSplitListColumns());
+    if (!can) closeListLayoutPopup();
+}
+
+function closeListLayoutPopup() {
+    const popup = document.getElementById('list-layout-popup');
+    if (popup) popup.hidden = true;
+}
+
+function syncListLayoutPopupCityOptions(popup) {
+    if (!popup) return;
+    const splitOn = popup.querySelector('input[name="list-layout-mode"][value="split"]')?.checked;
+    popup.querySelectorAll('input[name="list-city-placement"]').forEach((input) => {
+        input.disabled = !splitOn;
+    });
+    popup.querySelector('.list-city-placement-group')?.classList.toggle('is-disabled', !splitOn);
+}
+
+function openListLayoutPopup() {
+    const btn = document.getElementById('list-layout-btn');
+    const popup = document.getElementById('list-layout-popup');
+    if (!popup || btn?.disabled) return;
+    const split = shouldSplitListColumns();
+    const city = getListCityPlacement();
+    popup.innerHTML = `
+        <p class="print-cols-popup-title">List layout</p>
+        <label class="print-cols-option"><input type="radio" name="list-layout-mode" value="single"${split ? '' : ' checked'}/> Single column</label>
+        <label class="print-cols-option"><input type="radio" name="list-layout-mode" value="split"${split ? ' checked' : ''}/> KTEL | RODA columns</label>
+        <div class="list-city-placement-group">
+            <p class="print-cols-popup-title">City</p>
+            <label class="print-cols-option"><input type="radio" name="list-city-placement" value="under-roda"${city === 'under-roda' ? ' checked' : ''}/> Under RODA</label>
+            <label class="print-cols-option"><input type="radio" name="list-city-placement" value="above"${city === 'above' ? ' checked' : ''}/> Above both (wide)</label>
+            <label class="print-cols-option"><input type="radio" name="list-city-placement" value="below"${city === 'below' ? ' checked' : ''}/> Below both (wide)</label>
+        </div>
+        <div class="print-cols-popup-actions">
+            <button type="button" class="print-pages-reset" data-list-layout-action="apply">Apply</button>
+        </div>`;
+    syncListLayoutPopupCityOptions(popup);
+    popup.querySelectorAll('input[name="list-layout-mode"]').forEach((input) => {
+        input.addEventListener('change', () => syncListLayoutPopupCityOptions(popup));
+    });
+    popup.hidden = false;
+}
+
+function applyListLayoutPopup() {
+    const popup = document.getElementById('list-layout-popup');
+    if (!popup) return;
+    const mode = popup.querySelector('input[name="list-layout-mode"]:checked')?.value;
+    const city = popup.querySelector('input[name="list-city-placement"]:checked')?.value;
+    listSplitColumns = mode === 'split';
+    if (city === 'under-roda' || city === 'above' || city === 'below') {
+        listCityPlacement = city;
+    }
+    saveStandaloneBusState();
+    closeListLayoutPopup();
+    syncListLayoutButton();
+    if (currentLayoutMode === 'list') filterAndRenderEngine();
+}
+
+function wireListLayoutPicker() {
+    const wrap = document.getElementById('list-layout-wrap');
+    if (!wrap || wrap.dataset.wired === '1') return;
+    wrap.dataset.wired = '1';
+
+    document.getElementById('list-layout-btn')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const btn = document.getElementById('list-layout-btn');
+        if (btn?.disabled) return;
+        const popup = document.getElementById('list-layout-popup');
+        if (popup && !popup.hidden) closeListLayoutPopup();
+        else {
+            closeTableColsPopup();
+            openListLayoutPopup();
+        }
+    });
+
+    document.getElementById('list-layout-popup')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const action = event.target?.closest?.('[data-list-layout-action]')?.getAttribute('data-list-layout-action');
+        if (action === 'apply') applyListLayoutPopup();
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest?.('#list-layout-wrap')) closeListLayoutPopup();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeListLayoutPopup();
     });
 }
 
@@ -9856,7 +10683,7 @@ function splitPrintHtmlDocument(html) {
 
 function buildPrintDocumentHtml(mode = getPrintMode(), orientation = getPrintOrientation(), pagesSpec = getPrintPages()) {
     const nextMode = mode === 'table' ? 'table' : 'cards';
-    const rows = nextMode === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+    const rows = getActivePrintRows(nextMode);
     if (nextMode === 'cards') return buildTimetablePrintHtml(rows, orientation, pagesSpec);
     return buildBusTablePrintHtml(rows, orientation, pagesSpec);
 }
@@ -9976,6 +10803,14 @@ html, body {
 .flat-data-table.bus-print-table { width: 100%; max-width: 100%; border-collapse: collapse; table-layout: fixed; }
 .bus-print-table th.col-fit-cell,
 .bus-print-table td.col-fit-cell { white-space: nowrap; width: 6%; }
+.bus-print-table th.col-from,
+.bus-print-table td.col-from {
+  width: 8%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}
 .bus-print-table th.col-destination,
 .bus-print-table td.col-destination {
   width: 12%;
@@ -9984,6 +10819,8 @@ html, body {
   overflow-wrap: normal;
   hyphens: none;
 }
+.tt-sections-row .bus-print-table th.col-from,
+.tt-sections-row .bus-print-table td.col-from { width: 12%; }
 .tt-sections-row .bus-print-table th.col-destination,
 .tt-sections-row .bus-print-table td.col-destination { width: 22%; }
 .bus-print-table th.col-day,
@@ -10078,6 +10915,7 @@ function printColClass(column) {
     const id = column.id || '';
     if (id === 'outbound' || column.label === 'Outbound') return 'col-outbound';
     if (id === 'return' || column.label === 'Return') return 'col-return';
+    if (id === 'from') return 'col-from';
     if (id === 'destination') return 'col-destination';
     if (id === 'day') return 'col-day';
     if (id === 'distance') return 'col-distance';
@@ -10099,6 +10937,11 @@ function printColumnCellText(column, row) {
 function printColumnHasContent(column, rows) {
     const id = column.id || '';
     if (id === 'destination' || id === 'outbound' || id === 'return') return true;
+    if (id === 'from') {
+        const labels = new Set((rows || []).map((row) => printColumnCellText(column, row)).filter(Boolean));
+        // Hide when every row shares one From (typical single-origin filter).
+        return labels.size > 1;
+    }
     if (id === 'day') {
         const labels = new Set((rows || []).map((row) => printColumnCellText(column, row)).filter(Boolean));
         // Section band already names the day when every row shares one label.
@@ -10731,12 +11574,12 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
       </div>
       ${outTimes.length ? `
       <div class="bus-schedule-block">
-        <div class="schedule-direction dir-out">${BUS_OUTBOUND_LABEL}</div>
+        <div class="schedule-direction dir-out">${escapeHtml(busDirectionLabels(row).out)}</div>
         <div class="schedule-pills">${renderTimetablePills(outTimes, false, getTimeMarksForBusRow(row).out)}</div>
       </div>` : ''}
       ${backTimes.length ? `
       <div class="bus-schedule-block inbound">
-        <div class="schedule-direction dir-in">${BUS_RETURN_LABEL}</div>
+        <div class="schedule-direction dir-in">${escapeHtml(busDirectionLabels(row).back)}</div>
         <div class="schedule-pills">${renderTimetablePills(backTimes, true, getTimeMarksForBusRow(row).back)}</div>
       </div>` : ''}
       ${metaFooter}
@@ -10990,8 +11833,9 @@ function updatePrintPagesHint(sectionCount, pagesSpec) {
 }
 
 function resetPrintPagesField() {
-    const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
-    const sectionCount = getBusPrintSections(rows).length;
+    const mode = getPrintMode();
+    const rows = getActivePrintRows(mode);
+    const sectionCount = getActivePrintSections(rows).length;
     const next = defaultPrintPagesSpec(sectionCount);
     const pagesInput = document.getElementById('print-pages-input');
     if (pagesInput) pagesInput.value = next;
@@ -11014,13 +11858,13 @@ function fillPrintPreviewSheet() {
     const orientation = getPrintOrientation();
     const pagesInput = document.getElementById('print-pages-input');
     const pagesSpec = pagesInput ? pagesInput.value : getPrintPages();
-    const rows = mode === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+    const rows = getActivePrintRows(mode);
     if (!rows.length) {
         host.innerHTML = '<div class="tt-empty">No schedule data loaded to print.</div>';
         updatePrintPagesHint(0, '');
         return false;
     }
-    const sectionCount = getBusPrintSections(rows).length;
+    const sectionCount = getActivePrintSections(rows).length;
     if (pagesInput && !String(pagesInput.value || '').trim()) {
         pagesInput.value = defaultPrintPagesSpec(sectionCount);
     }
@@ -11079,8 +11923,8 @@ function openPrintPreview() {
     const pagesInput = document.getElementById('print-pages-input');
     if (pagesInput) {
         const saved = getPrintPages();
-        const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
-        pagesInput.value = saved || defaultPrintPagesSpec(getBusPrintSections(rows).length);
+        const rows = getActivePrintRows(getPrintMode());
+        pagesInput.value = saved || defaultPrintPagesSpec(getActivePrintSections(rows).length);
     }
     syncPrintOrientationButtons();
     syncPrintModeButtons();
@@ -11105,8 +11949,7 @@ function closePrintPreview() {
 function printFromPreview() {
     const pagesInput = document.getElementById('print-pages-input');
     if (pagesInput) setPrintPages(pagesInput.value);
-    const mode = getPrintMode();
-    if (mode === 'cards') triggerTimetablePrint();
+    if (getPrintMode() === 'cards') triggerTimetablePrint();
     else triggerBusTablePrint();
 }
 
@@ -11195,9 +12038,10 @@ function wireStandalonePrintMenu() {
             event.preventDefault();
             setPrintMode(item.getAttribute('data-print-mode') || 'cards');
             const pagesInput = document.getElementById('print-pages-input');
-            const rows = getPrintMode() === 'cards' ? getTimetablePrintRecords() : getBusPrintRecords();
+            const mode = getPrintMode();
+            const rows = getActivePrintRows(mode);
             if (pagesInput && !getPrintPages()) {
-                pagesInput.value = defaultPrintPagesSpec(getBusPrintSections(rows).length);
+                pagesInput.value = defaultPrintPagesSpec(getActivePrintSections(rows).length);
             }
             fillPrintPreviewSheet();
         });
