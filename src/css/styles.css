@@ -1381,6 +1381,28 @@ body.schedule-dirs-side .bus-schedule-dirs .bus-schedule-block {
     white-space: pre-line;
 }
 
+.bus-source-wrap {
+    margin-top: 2px;
+    width: 100%;
+}
+
+.bus-source-link {
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: var(--accent, #0f766e);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.bus-source-link:hover {
+    opacity: 0.85;
+}
+
+.bus-comments + .bus-source-wrap {
+    margin-top: 0;
+    padding-top: 0;
+}
+
 /* Posters Gallery Layout Engine Components */
 .m-card {
     background: var(--bg-surface);

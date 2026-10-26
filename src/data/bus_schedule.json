@@ -47,7 +47,8 @@
       "20:00",
       "20:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -88,7 +89,8 @@
       "19:20",
       "20:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -129,7 +131,8 @@
       "19:25",
       "20:05"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -169,7 +172,8 @@
       "19:35",
       "21:05"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -209,7 +213,8 @@
       "20:30",
       "21:20"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -238,7 +243,8 @@
       "16:10",
       "18:40"
     ],
-    "comments": "* not Sundays"
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -265,7 +271,8 @@
       "16:10",
       "18:40"
     ],
-    "comments": "* not Sundays"
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -293,7 +300,8 @@
       "17:30",
       "18:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -333,7 +341,8 @@
       "18:50",
       "19:40"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -349,7 +358,8 @@
       "13:00",
       "16:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -390,7 +400,8 @@
       "18:10",
       "20:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -408,7 +419,8 @@
     "timesBack": [
       "16:20"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -423,7 +435,8 @@
       "15:00"
     ],
     "timesBack": [],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -437,7 +450,8 @@
     "timesBack": [
       "08:30"
     ],
-    "comments": "* not Sundays"
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -451,7 +465,8 @@
     "timesBack": [
       "14:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -500,7 +515,8 @@
       "17:45",
       "18:30"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -533,7 +549,8 @@
       "15:50",
       "17:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -583,7 +600,8 @@
       "20:05",
       "20:50"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -604,7 +622,8 @@
       "13:15",
       "14:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -619,7 +638,8 @@
       "07:15",
       "15:00"
     ],
-    "comments": "** Mon-Fri only"
+    "comments": "** Mon-Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -633,7 +653,8 @@
     "timesBack": [
       "15:00"
     ],
-    "comments": "** Mon-Fri only"
+    "comments": "** Mon-Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -647,7 +668,8 @@
     "timesBack": [
       "15:00"
     ],
-    "comments": "** Mon-Fri only"
+    "comments": "** Mon-Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -661,7 +683,8 @@
     "timesBack": [
       "06:50"
     ],
-    "comments": "** Mon-Fri only"
+    "comments": "** Mon-Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -673,7 +696,8 @@
       "14:30"
     ],
     "timesBack": [],
-    "comments": "Mon/Wed/Fri only"
+    "comments": "Mon/Wed/Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -685,7 +709,8 @@
       "14:30"
     ],
     "timesBack": [],
-    "comments": "Tue/Thu only"
+    "comments": "Tue/Thu only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -706,7 +731,8 @@
       "13:10",
       "14:40"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -722,7 +748,8 @@
       "09:55",
       "15:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -832,7 +859,8 @@
       "23:20",
       "23:40"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Faliraki",
@@ -876,7 +904,8 @@
       "22:30",
       "23:30"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Airport",
@@ -920,7 +949,8 @@
       "22:00",
       "23:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
   },
   {
     "from": "Rodos",
@@ -1038,7 +1068,8 @@
       "23:55",
       "00:25"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1074,7 +1105,8 @@
       "21:50",
       "21:55"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1089,7 +1121,8 @@
     "timesBack": [
       "07:40"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1202,7 +1235,8 @@
       "23:50",
       "00:20"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1296,7 +1330,8 @@
       "23:45",
       "00:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1343,7 +1378,8 @@
       "22:35",
       "23:35"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1379,7 +1415,8 @@
       "21:15",
       "23:05"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1405,7 +1442,8 @@
       "20:00",
       "23:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1420,7 +1458,8 @@
       "07:00",
       "07:30"
     ],
-    "comments": "ONLY EVERY MONDAY"
+    "comments": "ONLY EVERY MONDAY",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1438,7 +1477,8 @@
       "14:15",
       "15:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1468,7 +1508,8 @@
       "20:05",
       "23:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1484,7 +1525,8 @@
       "06:15",
       "16:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1499,7 +1541,8 @@
       "07:25",
       "08:00"
     ],
-    "comments": "ONLY EVERY MONDAY"
+    "comments": "ONLY EVERY MONDAY",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1513,7 +1556,8 @@
     "timesBack": [
       "06:40"
     ],
-    "comments": "ONLY EVERY MONDAY"
+    "comments": "ONLY EVERY MONDAY",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1539,7 +1583,8 @@
       "20:00",
       "23:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1553,7 +1598,8 @@
     "timesBack": [
       "07:30"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΔΕΥΤΕΡA-ΠΑΡΑΣΚΕΥΗ-26.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -1670,7 +1716,8 @@
       "00:25",
       "00:55"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1700,7 +1747,8 @@
       "21:55",
       "22:05"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1740,7 +1788,8 @@
       "23:15",
       "00:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1763,7 +1812,8 @@
       "20:05",
       "23:00"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1781,7 +1831,8 @@
       "14:15",
       "15:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1896,7 +1947,8 @@
       "00:20",
       "00:50"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -1920,7 +1972,8 @@
       "20:00",
       "22:55"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2022,7 +2075,8 @@
       "00:15",
       "00:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2072,7 +2126,8 @@
       "23:35",
       "00:20"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2097,7 +2152,8 @@
       "20:00",
       "22:55"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/DYTIKI-PLEVRA-3-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2201,7 +2257,8 @@
       "23:55",
       "00:25"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2225,7 +2282,8 @@
       "15:30",
       "15:40"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2255,7 +2313,8 @@
       "21:35",
       "22:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2277,7 +2336,8 @@
       "16:15",
       "21:30"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2381,7 +2441,8 @@
       "23:50",
       "00:20"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2399,7 +2460,8 @@
       "10:15",
       "16:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2417,7 +2479,8 @@
       "10:10",
       "16:10"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2514,7 +2577,8 @@
       "23:45",
       "00:15"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2562,7 +2626,8 @@
       "22:50",
       "23:05"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2580,7 +2645,8 @@
       "14:15",
       "15:45"
     ],
-    "comments": ""
+    "comments": "",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/10/Δ.Ε.Σ.-ΡΟΔΑ-ΔΡΟΜΟΛΟΓΙΑ-ΔΥΤΙΚΗΣ-ΠΛΕΥΡΑΣ-ΚΥΡΙΑΚΗ-25.10.2026-Α3.pdf"
   },
   {
     "from": "Rodos",
@@ -2605,7 +2671,8 @@
       "20:30"
     ],
     "timesBack": [],
-    "comments": "Loop.\n*06:30 goes to the hospital.\nContinues to Koskinou at 08:30, 13:30, 20:30.\nFrom Koskinou to town only at 09:00, 14:00."
+    "comments": "Loop.\n*06:30 goes to the hospital.\nContinues to Koskinou at 08:30, 13:30, 20:30.\nFrom Koskinou to town only at 09:00, 14:00.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2628,7 +2695,8 @@
       "20:30"
     ],
     "timesBack": [],
-    "comments": "Loop.\n*06:30 goes to the hospital.\nContinues to Koskinou at 08:30, 14:30.\nFrom Koskinou to town only at 09:00, 15:00."
+    "comments": "Loop.\n*06:30 goes to the hospital.\nContinues to Koskinou at 08:30, 14:30.\nFrom Koskinou to town only at 09:00, 15:00.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2647,7 +2715,8 @@
       "20:30"
     ],
     "timesBack": [],
-    "comments": "Loop.\n*06:30 goes to the hospital.\nNo Koskinou to town returns listed."
+    "comments": "Loop.\n*06:30 goes to the hospital.\nNo Koskinou to town returns listed.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2674,7 +2743,8 @@
       "20:30"
     ],
     "timesBack": [],
-    "comments": "Loop."
+    "comments": "Loop.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2700,7 +2770,8 @@
       "21:30"
     ],
     "timesBack": [],
-    "comments": "Loop."
+    "comments": "Loop.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2719,7 +2790,8 @@
       "21:30"
     ],
     "timesBack": [],
-    "comments": "Loop."
+    "comments": "Loop.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
   },
   {
     "from": "Rodos",
@@ -2750,6 +2822,5245 @@
       "21:50"
     ],
     "timesBack": [],
-    "comments": "Loop."
+    "comments": "Loop.",
+    "sourceUrl": "https://www.rhodes.gr/wp-content/uploads/2026/08/ΡΟΔΑ-ΠΟΛΗ-08-2026.pdf"
+  },
+  {
+    "from": "Afantou",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:25",
+      "08:15",
+      "09:15",
+      "10:15",
+      "11:15",
+      "12:05",
+      "12:50",
+      "13:40",
+      "15:10",
+      "16:00",
+      "17:05",
+      "18:30",
+      "19:50",
+      "21:20"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:30",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Lindos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:15",
+      "09:30",
+      "10:30",
+      "12:00",
+      "13:30",
+      "15:00",
+      "17:00",
+      "18:30",
+      "22:00"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Lardos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:15",
+      "09:30",
+      "10:30",
+      "12:00",
+      "13:30",
+      "15:00",
+      "17:00",
+      "18:30"
+    ],
+    "timesBack": [
+      "07:05",
+      "08:15",
+      "14:00",
+      "15:00",
+      "17:30",
+      "18:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Malona-Massari",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:30",
+      "12:00",
+      "13:30",
+      "15:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Archangelos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:15",
+      "09:30",
+      "10:30",
+      "12:00",
+      "13:30",
+      "15:00",
+      "17:00",
+      "18:30",
+      "22:00",
+      "22:45"
+    ],
+    "timesBack": [
+      "06:20",
+      "07:15",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "11:50",
+      "12:35",
+      "13:25",
+      "15:00",
+      "15:50",
+      "16:50",
+      "18:20",
+      "19:35",
+      "21:05"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Gennadi",
+    "price": "5.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:15",
+      "09:30",
+      "10:30",
+      "12:00",
+      "13:30",
+      "15:00",
+      "17:00",
+      "18:30",
+      "22:00"
+    ],
+    "timesBack": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "17:20",
+      "18:30",
+      "19:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Afantou",
+    "to": "Faliraki",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:25",
+      "08:15",
+      "09:15",
+      "10:15",
+      "11:15",
+      "12:05",
+      "12:50",
+      "13:40",
+      "15:10",
+      "16:00",
+      "17:05",
+      "18:30",
+      "19:50",
+      "21:20"
+    ],
+    "timesBack": [
+      "06:35",
+      "07:05",
+      "09:20",
+      "10:20",
+      "11:50",
+      "13:20",
+      "14:50",
+      "16:50",
+      "18:20",
+      "19:50",
+      "21:50",
+      "22:35"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/afantou-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Rodos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "07:15",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "11:50",
+      "12:35",
+      "13:25",
+      "15:00",
+      "15:50",
+      "16:50",
+      "18:20",
+      "19:35",
+      "21:05"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:30",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Lindos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:25",
+      "09:45",
+      "10:45",
+      "12:15",
+      "13:45",
+      "15:15",
+      "17:15",
+      "18:45",
+      "22:10"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Lardos",
+    "price": "2.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:25",
+      "09:45",
+      "10:45",
+      "12:15",
+      "13:45",
+      "15:15",
+      "17:15",
+      "18:45"
+    ],
+    "timesBack": [
+      "07:05",
+      "08:15",
+      "14:00",
+      "15:00",
+      "17:30",
+      "18:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Malona-Massari",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:45",
+      "12:15",
+      "13:45",
+      "15:15"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Afantou",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "07:15",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "11:50",
+      "12:35",
+      "13:25",
+      "15:00",
+      "15:50",
+      "16:50",
+      "18:20",
+      "19:35",
+      "21:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Gennadi",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:25",
+      "09:45",
+      "10:45",
+      "12:15",
+      "15:15",
+      "17:15",
+      "18:45",
+      "22:10"
+    ],
+    "timesBack": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "17:20",
+      "18:30",
+      "19:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Faliraki",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "07:15",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "11:50",
+      "12:35",
+      "13:25",
+      "15:00",
+      "15:50",
+      "16:50",
+      "18:20",
+      "19:35",
+      "21:05"
+    ],
+    "timesBack": [
+      "06:35",
+      "07:05",
+      "08:25",
+      "09:20",
+      "10:20",
+      "11:50",
+      "13:20",
+      "14:50",
+      "16:50",
+      "18:20",
+      "19:50",
+      "21:50",
+      "22:35"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Kolymbia Beach",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:20",
+      "14:50",
+      "15:50"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Archangelos",
+    "to": "Kalithea Springs",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:20",
+      "14:50",
+      "15:50",
+      "16:50",
+      "18:20",
+      "19:35",
+      "21:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/archangelos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Lindos",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:05",
+      "08:25",
+      "09:20",
+      "09:55",
+      "10:20",
+      "10:55",
+      "11:25",
+      "11:50",
+      "12:20",
+      "13:20",
+      "14:20",
+      "14:50",
+      "15:55",
+      "16:50",
+      "17:45",
+      "18:20",
+      "19:50",
+      "21:50"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Lardos",
+    "price": "4.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:05",
+      "09:20",
+      "10:20",
+      "11:50",
+      "13:20",
+      "14:50",
+      "16:50",
+      "18:20",
+      "19:50"
+    ],
+    "timesBack": [
+      "07:05",
+      "08:15",
+      "14:00",
+      "15:00",
+      "17:30",
+      "18:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Tsambika Beach",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:25",
+      "10:55",
+      "11:25",
+      "12:20",
+      "15:20"
+    ],
+    "timesBack": [
+      "16:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Afantou",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:05",
+      "09:20",
+      "10:20",
+      "11:50",
+      "13:20",
+      "14:50",
+      "16:50",
+      "18:20",
+      "19:50",
+      "21:50",
+      "22:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Archangelos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:05",
+      "08:25",
+      "09:20",
+      "10:20",
+      "11:50",
+      "13:20",
+      "14:50",
+      "16:50",
+      "18:20",
+      "19:50",
+      "21:50",
+      "22:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Gennadi",
+    "price": "5.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:05",
+      "09:20",
+      "09:55",
+      "10:20",
+      "11:50",
+      "14:50",
+      "15:55",
+      "16:50",
+      "17:45",
+      "18:20",
+      "19:50",
+      "21:50"
+    ],
+    "timesBack": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "16:30",
+      "17:20",
+      "18:00",
+      "18:30",
+      "19:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Kolymbia Beach",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:20",
+      "10:55",
+      "12:20",
+      "14:20",
+      "14:50",
+      "15:20",
+      "15:50",
+      "16:20",
+      "17:20",
+      "17:50",
+      "18:35",
+      "19:25",
+      "19:50",
+      "21:50",
+      "22:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Ladiko",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:55",
+      "11:25",
+      "13:55",
+      "15:25",
+      "17:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Seven Springs",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:55"
+    ],
+    "timesBack": [
+      "14:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Prasonisi",
+    "price": "9.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:20",
+      "13:20"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:35",
+      "07:20",
+      "08:25",
+      "09:25",
+      "10:20",
+      "11:25",
+      "12:25",
+      "13:05",
+      "13:50",
+      "14:40",
+      "15:25",
+      "15:55",
+      "16:20",
+      "17:20",
+      "17:50",
+      "18:45",
+      "21:30"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "08:00",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Airport",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:30",
+      "11:30",
+      "12:30",
+      "13:30",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:30",
+      "19:00",
+      "21:00",
+      "22:00",
+      "23:00"
+    ],
+    "timesBack": [
+      "07:30",
+      "08:30",
+      "09:30",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:30",
+      "23:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-platanos-qr/"
+  },
+  {
+    "from": "Faliraki",
+    "to": "Malona-Massari",
+    "price": "2.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:20",
+      "11:50",
+      "13:20",
+      "14:50"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/faliraki-rhodes-lindos-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Rodos",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "16:30",
+      "17:20",
+      "18:00",
+      "18:30",
+      "19:20"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Lindos",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "16:30",
+      "17:20",
+      "18:00",
+      "18:30",
+      "19:20",
+      "21:30"
+    ],
+    "timesBack": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Lardos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "13:45",
+      "17:20",
+      "18:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Archangelos",
+    "price": "4.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "17:20",
+      "18:30",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Afantou",
+    "price": "5.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "17:20",
+      "18:30",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Faliraki",
+    "price": "5.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "16:30",
+      "17:20",
+      "18:00",
+      "18:30",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Prasonisi",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:10",
+      "15:10"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Gennadi",
+    "to": "Kalithea Springs",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:00",
+      "09:00",
+      "09:45",
+      "10:30",
+      "12:15",
+      "13:45",
+      "14:45",
+      "15:45",
+      "16:30",
+      "17:20",
+      "18:00",
+      "18:30",
+      "19:20"
+    ],
+    "timesBack": [
+      "09:10",
+      "09:40",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/gennadi-qr/"
+  },
+  {
+    "from": "Haraki",
+    "to": "Rodos",
+    "price": "4.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:50",
+      "15:45"
+    ],
+    "timesBack": [
+      "10:30",
+      "16:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/haraki-qr/"
+  },
+  {
+    "from": "Haraki",
+    "to": "Lindos",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:30",
+      "17:20"
+    ],
+    "timesBack": [
+      "09:35",
+      "15:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/haraki-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "13:10",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Afantou",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "13:10",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Archangelos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "13:10",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Gennadi",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Pefkos",
+    "price": "6.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Lardos",
+    "price": "6.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "13:10",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Ika",
+    "to": "Kalathos",
+    "price": "5.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:10",
+      "10:10",
+      "11:40",
+      "13:10",
+      "14:40",
+      "16:40",
+      "18:10",
+      "19:40",
+      "21:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ika-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Rodos",
+    "price": "5.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:35",
+      "08:45",
+      "09:45",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:05",
+      "14:05",
+      "14:35",
+      "15:05",
+      "15:35",
+      "16:35",
+      "17:20",
+      "18:05",
+      "18:50",
+      "19:20"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "08:00",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Archangelos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:35",
+      "08:45",
+      "09:45",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:05",
+      "14:35",
+      "15:35",
+      "16:35",
+      "18:05",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Afantou",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:35",
+      "08:45",
+      "09:45",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:05",
+      "14:35",
+      "15:35",
+      "16:35",
+      "18:05",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Faliraki",
+    "price": "3.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:35",
+      "08:45",
+      "09:45",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:05",
+      "14:05",
+      "14:35",
+      "15:05",
+      "15:35",
+      "16:35",
+      "17:20",
+      "18:05",
+      "18:50",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Lindos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:10",
+      "07:45",
+      "09:00",
+      "09:20",
+      "09:45",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:10",
+      "14:00",
+      "15:10",
+      "15:30",
+      "16:35",
+      "17:30",
+      "18:30",
+      "19:00",
+      "22:30"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Lardos",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:10",
+      "07:45",
+      "10:00",
+      "11:00",
+      "12:30",
+      "14:00",
+      "15:30",
+      "17:30",
+      "19:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Gennadi",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:10",
+      "07:45",
+      "10:00",
+      "10:30",
+      "11:00",
+      "12:30",
+      "14:00",
+      "15:30",
+      "17:30",
+      "18:30",
+      "19:00",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Pefkos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:10",
+      "07:45",
+      "10:00",
+      "10:30",
+      "11:00",
+      "12:30",
+      "14:00",
+      "15:30",
+      "17:30",
+      "18:30",
+      "19:00",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Kiotari",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:10",
+      "07:45",
+      "10:00",
+      "10:30",
+      "11:00",
+      "12:30",
+      "14:00",
+      "15:30",
+      "17:30",
+      "18:30",
+      "19:00",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos2-qr/"
+  },
+  {
+    "from": "Kalathos",
+    "to": "Prasonisi",
+    "price": "5.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:05",
+      "14:10"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos2-qr/"
+  },
+  {
+    "from": "Vlicha",
+    "to": "Rodos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:45",
+      "15:35"
+    ],
+    "timesBack": [
+      "12:00",
+      "16:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos3-qr/"
+  },
+  {
+    "from": "Vlicha",
+    "to": "Lindos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:45",
+      "13:15",
+      "14:45",
+      "17:40"
+    ],
+    "timesBack": [
+      "09:40",
+      "14:30",
+      "15:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalathos3-qr/"
+  },
+  {
+    "from": "Kalithies",
+    "to": "Psinthos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:50"
+    ],
+    "timesBack": [
+      "07:15",
+      "15:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalithies-qr/"
+  },
+  {
+    "from": "Kalithies",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:20",
+      "08:20",
+      "10:20",
+      "11:20",
+      "13:45",
+      "15:10",
+      "16:10",
+      "18:40"
+    ],
+    "timesBack": [
+      "10:00",
+      "12:00",
+      "13:30",
+      "14:20",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalithies-qr/"
+  },
+  {
+    "from": "Kalithies",
+    "to": "Faliraki",
+    "price": "1.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:20",
+      "08:20",
+      "10:20",
+      "11:20",
+      "13:45",
+      "15:10",
+      "16:10",
+      "18:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kalithies-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:10",
+      "09:10",
+      "09:40",
+      "10:10",
+      "10:40",
+      "11:10",
+      "11:40",
+      "12:10",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:40"
+    ],
+    "timesBack": [
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Tsambika Beach",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:10",
+      "10:40",
+      "11:10"
+    ],
+    "timesBack": [
+      "16:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Seven Springs",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:40"
+    ],
+    "timesBack": [
+      "14:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Ladiko",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:40",
+      "11:10",
+      "13:40",
+      "15:10"
+    ],
+    "timesBack": [
+      "09:20",
+      "14:30",
+      "15:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Kolymbia Beach",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:10",
+      "10:40",
+      "15:40",
+      "17:10",
+      "18:25",
+      "19:10"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kalithea",
+    "to": "Prasonisi",
+    "price": "11.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:10",
+      "13:10"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kallithea-faliraki1-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Rodos",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:50",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "16:35",
+      "17:25",
+      "18:05",
+      "18:35",
+      "19:25"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Lindos",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:25",
+      "09:50",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "16:35",
+      "17:05",
+      "17:25",
+      "18:05",
+      "18:35",
+      "19:25",
+      "21:35"
+    ],
+    "timesBack": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Lardos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "13:50",
+      "17:25",
+      "18:35"
+    ],
+    "timesBack": [
+      "07:30",
+      "08:00",
+      "10:45",
+      "11:35",
+      "13:00",
+      "16:00",
+      "17:45",
+      "19:25"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Archangelos",
+    "price": "4.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:50",
+      "11:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "17:25",
+      "18:35",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Afantou",
+    "price": "5.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:50",
+      "11:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "17:25",
+      "18:35",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Faliraki",
+    "price": "5.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:50",
+      "10:35",
+      "11:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "16:35",
+      "17:25",
+      "18:05",
+      "18:35",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Gennadi",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:40",
+      "08:10",
+      "10:35",
+      "10:55",
+      "11:45",
+      "12:30",
+      "12:55",
+      "13:25",
+      "14:35",
+      "15:25",
+      "15:55",
+      "17:05",
+      "17:55",
+      "19:35",
+      "21:05",
+      "22:25",
+      "23:10"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Prasonisi",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:05",
+      "15:05"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kiotari",
+    "to": "Kalithea Springs",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:05",
+      "09:05",
+      "09:50",
+      "10:35",
+      "12:20",
+      "13:50",
+      "14:50",
+      "15:50",
+      "16:35",
+      "17:25",
+      "18:05",
+      "18:35",
+      "19:25"
+    ],
+    "timesBack": [
+      "09:10",
+      "09:40",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kiotari-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Lindos",
+    "price": "3.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:10",
+      "10:35",
+      "11:10",
+      "11:40",
+      "12:05",
+      "13:35",
+      "15:05",
+      "16:10",
+      "17:05",
+      "18:35",
+      "22:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Lardos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:35",
+      "12:05",
+      "13:35",
+      "15:05",
+      "17:05",
+      "18:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Malona-Massari",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:35",
+      "12:05",
+      "13:35",
+      "15:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Archangelos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:35",
+      "12:05",
+      "13:35",
+      "15:05",
+      "17:05",
+      "18:35",
+      "22:05",
+      "22:55"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Kiotari",
+    "price": "5.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:10",
+      "10:35",
+      "12:05",
+      "15:05",
+      "16:10",
+      "17:05",
+      "18:35",
+      "22:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Pefkos",
+    "price": "3.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:10",
+      "10:35",
+      "12:05",
+      "15:05",
+      "16:10",
+      "17:05",
+      "18:35",
+      "22:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia",
+    "to": "Rodos",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "07:20",
+      "08:05",
+      "09:05",
+      "10:05",
+      "11:05",
+      "11:55",
+      "12:40",
+      "13:35",
+      "15:05",
+      "15:55",
+      "16:55",
+      "17:35",
+      "18:25",
+      "19:10",
+      "19:40",
+      "21:10"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Rodos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:45",
+      "08:45",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:25",
+      "13:30",
+      "14:05",
+      "15:00",
+      "16:00",
+      "16:30",
+      "17:40",
+      "18:10"
+    ],
+    "timesBack": [
+      "09:00",
+      "10:30",
+      "12:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "17:00",
+      "17:30",
+      "18:15",
+      "19:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Lindos",
+    "price": "4.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:45",
+      "09:15",
+      "09:45",
+      "10:45",
+      "12:45",
+      "14:45"
+    ],
+    "timesBack": [
+      "12:00",
+      "13:00",
+      "14:30",
+      "15:30",
+      "17:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Tsambika Beach",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:45",
+      "12:45",
+      "15:45"
+    ],
+    "timesBack": [
+      "16:20",
+      "18:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Seven Springs",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:25"
+    ],
+    "timesBack": [
+      "14:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Kalithea Springs",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:45",
+      "09:45",
+      "10:30",
+      "14:05",
+      "16:30",
+      "17:40"
+    ],
+    "timesBack": [
+      "09:10",
+      "10:40",
+      "15:40",
+      "17:10",
+      "18:25",
+      "19:10"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kolymbia Beach",
+    "to": "Prasonisi",
+    "price": "9.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:45"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kolymbia-beach-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Afantou",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Archangelos",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Lindos",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Gennadi",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Pefkos",
+    "price": "5.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Lardos",
+    "price": "5.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Kteo",
+    "to": "Kalathos",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "06:55",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/kteo-qr/"
+  },
+  {
+    "from": "Ladiko",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:20",
+      "14:30",
+      "15:45"
+    ],
+    "timesBack": [
+      "10:30",
+      "11:00",
+      "13:30",
+      "15:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ladiko-antony-quinn-qr/"
+  },
+  {
+    "from": "Ladiko",
+    "to": "Faliraki",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:20",
+      "14:30",
+      "15:45"
+    ],
+    "timesBack": [
+      "10:50",
+      "11:20",
+      "13:50",
+      "15:50"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/ladiko-antony-quinn-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Rodos",
+    "price": "6.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "10:00",
+      "10:45",
+      "11:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "16:45",
+      "17:35",
+      "18:15",
+      "18:45",
+      "19:35"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Lindos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "09:35",
+      "10:00",
+      "10:45",
+      "11:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "16:45",
+      "17:15",
+      "17:35",
+      "18:15",
+      "18:45",
+      "19:35",
+      "21:45"
+    ],
+    "timesBack": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Pefkos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "14:00",
+      "15:00",
+      "17:30",
+      "18:45"
+    ],
+    "timesBack": [
+      "07:20",
+      "07:50",
+      "10:40",
+      "11:30",
+      "12:45",
+      "15:45",
+      "17:45",
+      "19:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Archangelos",
+    "price": "2.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "10:00",
+      "11:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:35",
+      "18:45",
+      "19:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Afantou",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "10:00",
+      "11:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:35",
+      "18:45",
+      "19:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Kiotari",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:30",
+      "08:00",
+      "10:25",
+      "10:45",
+      "11:35",
+      "12:15",
+      "12:45",
+      "13:05",
+      "14:25",
+      "14:45",
+      "15:15",
+      "15:45",
+      "16:20",
+      "16:55",
+      "17:45",
+      "18:50",
+      "19:25",
+      "22:15",
+      "23:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Faliraki",
+    "price": "4.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "10:00",
+      "10:45",
+      "11:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "16:45",
+      "17:35",
+      "18:15",
+      "18:45",
+      "19:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Prasonisi",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:45",
+      "14:45"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lardos",
+    "to": "Kalithea Springs",
+    "price": "6.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:15",
+      "09:15",
+      "10:00",
+      "10:45",
+      "12:30",
+      "14:00",
+      "15:00",
+      "16:00",
+      "16:45",
+      "17:35",
+      "18:15",
+      "18:45",
+      "19:35"
+    ],
+    "timesBack": [
+      "09:10",
+      "09:40",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lardos-beach-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Rodos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "08:00",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Archangelos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Afantou",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Faliraki",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Kolymbia Beach",
+    "price": "4.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "12:00",
+      "13:00",
+      "14:30",
+      "15:30",
+      "17:15"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Prasonisi",
+    "price": "5.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:30",
+      "14:30"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Pefkos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Kiotari",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Gennadi",
+    "price": "3.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Lindos",
+    "to": "Lardos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "07:45",
+      "10:30",
+      "11:20",
+      "12:40",
+      "15:40",
+      "17:40",
+      "19:10"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/lindos-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Rodos",
+    "price": "3.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:55",
+      "09:55",
+      "10:45",
+      "11:45",
+      "12:30",
+      "13:15",
+      "14:45",
+      "15:45",
+      "16:45",
+      "17:30",
+      "18:15",
+      "19:00",
+      "19:30",
+      "21:00"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Archangelos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:55",
+      "09:55",
+      "10:45",
+      "11:45",
+      "12:30",
+      "13:15",
+      "14:45",
+      "15:45",
+      "16:45",
+      "18:15",
+      "19:30",
+      "21:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Afantou",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:55",
+      "09:55",
+      "10:45",
+      "11:45",
+      "12:30",
+      "13:15",
+      "14:45",
+      "15:45",
+      "16:45",
+      "18:15",
+      "19:30",
+      "21:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Faliraki",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:55",
+      "09:55",
+      "10:45",
+      "11:45",
+      "12:30",
+      "13:15",
+      "14:45",
+      "15:45",
+      "16:45",
+      "17:30",
+      "18:15",
+      "19:00",
+      "19:30",
+      "21:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Lindos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "11:20",
+      "11:50",
+      "12:20",
+      "13:05",
+      "13:50",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Pefkos",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Kiotari",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Malona",
+    "to": "Gennadi",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/malona-crossroad-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Lindos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "11:20",
+      "11:50",
+      "12:20",
+      "13:05",
+      "13:50",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:40",
+      "09:40",
+      "10:30",
+      "11:30",
+      "12:15",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:00",
+      "18:45",
+      "19:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Gennadi",
+    "price": "2.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Rodos",
+    "price": "4.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:40",
+      "08:50",
+      "09:50",
+      "10:40",
+      "11:40",
+      "12:25",
+      "13:10",
+      "14:40",
+      "15:40",
+      "16:40",
+      "17:25",
+      "18:10",
+      "18:55",
+      "19:25"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Archangelos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:40",
+      "08:50",
+      "09:50",
+      "10:40",
+      "11:40",
+      "12:25",
+      "13:10",
+      "14:40",
+      "15:40",
+      "16:40",
+      "18:10",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Afantou",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:40",
+      "08:50",
+      "09:50",
+      "10:40",
+      "11:40",
+      "12:25",
+      "13:10",
+      "14:40",
+      "15:40",
+      "16:40",
+      "18:10",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Mantomata",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:25",
+      "09:25",
+      "10:35",
+      "11:05",
+      "13:00",
+      "13:50",
+      "14:35",
+      "15:10",
+      "15:50",
+      "17:15"
+    ],
+    "timesBack": [
+      "09:30",
+      "10:30",
+      "11:00",
+      "12:00",
+      "13:30",
+      "14:30",
+      "15:00",
+      "16:00",
+      "17:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/mantomata-qr/"
+  },
+  {
+    "from": "Mantomata",
+    "to": "Lindos",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:55",
+      "10:55",
+      "11:25"
+    ],
+    "timesBack": [
+      "12:15",
+      "13:00",
+      "14:30",
+      "16:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/mantomata-qr/"
+  },
+  {
+    "from": "Mantomata",
+    "to": "Ladiko",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:55",
+      "11:25",
+      "13:55",
+      "15:25"
+    ],
+    "timesBack": [
+      "09:20",
+      "14:30",
+      "15:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/mantomata-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Faliraki",
+    "price": "2.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:55",
+      "07:40",
+      "08:50",
+      "09:50",
+      "10:40",
+      "11:40",
+      "12:25",
+      "13:10",
+      "14:40",
+      "15:40",
+      "16:40",
+      "17:25",
+      "18:10",
+      "18:55",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Pefkos",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Massari",
+    "to": "Kiotari",
+    "price": "2.90",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:05",
+      "07:40",
+      "09:55",
+      "10:20",
+      "10:50",
+      "12:20",
+      "15:20",
+      "16:20",
+      "17:20",
+      "18:50",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/massari-crossroad2-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:10",
+      "09:10",
+      "10:10",
+      "10:50",
+      "11:15",
+      "11:50",
+      "12:45",
+      "13:40",
+      "14:30",
+      "15:05",
+      "15:35",
+      "16:05",
+      "16:50",
+      "17:45",
+      "18:30"
+    ],
+    "timesBack": [
+      "08:00",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:15",
+      "19:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Lindos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:30",
+      "09:35",
+      "10:05",
+      "10:35",
+      "11:05",
+      "11:35",
+      "12:05",
+      "12:35",
+      "13:35",
+      "14:30",
+      "15:05",
+      "16:05",
+      "17:00",
+      "17:55"
+    ],
+    "timesBack": [
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:30",
+      "17:15",
+      "18:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Faliraki",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:10",
+      "09:10",
+      "10:10",
+      "10:50",
+      "11:15",
+      "11:50",
+      "12:45",
+      "13:40",
+      "14:30",
+      "15:05",
+      "15:35",
+      "16:05",
+      "16:50",
+      "17:45",
+      "18:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Tsambika Beach",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:35",
+      "11:05",
+      "11:35",
+      "12:30",
+      "15:35"
+    ],
+    "timesBack": [
+      "16:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Seven Springs",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:05"
+    ],
+    "timesBack": [
+      "14:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Oasis",
+    "to": "Kolymbia Beach",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:35",
+      "11:05",
+      "12:35",
+      "15:05",
+      "15:35",
+      "16:05",
+      "16:35",
+      "17:35",
+      "18:50",
+      "19:35",
+      "22:00"
+    ],
+    "timesBack": [
+      "07:45",
+      "08:45",
+      "09:45",
+      "10:30",
+      "11:30",
+      "12:25",
+      "13:30",
+      "14:05",
+      "15:00",
+      "16:00",
+      "16:30",
+      "17:40",
+      "18:10"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/oasis-lippia-iris-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Rodos",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:25",
+      "09:25",
+      "10:10",
+      "10:55",
+      "11:55",
+      "12:40",
+      "14:10",
+      "15:10",
+      "16:10",
+      "16:55",
+      "17:45",
+      "18:25",
+      "18:55",
+      "19:45"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Lindos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:30",
+      "09:30",
+      "09:50",
+      "10:15",
+      "11:00",
+      "12:00",
+      "12:45",
+      "14:15",
+      "15:15",
+      "16:15",
+      "17:00",
+      "17:30",
+      "17:50",
+      "18:30",
+      "19:00",
+      "19:50",
+      "21:00",
+      "22:00"
+    ],
+    "timesBack": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki2-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Archangelos",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:25",
+      "09:25",
+      "10:10",
+      "11:55",
+      "12:40",
+      "14:10",
+      "15:10",
+      "16:10",
+      "17:45",
+      "18:55",
+      "19:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Kiotari",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:20",
+      "07:50",
+      "10:20",
+      "10:40",
+      "11:30",
+      "12:10",
+      "12:40",
+      "13:00",
+      "14:20",
+      "14:40",
+      "15:10",
+      "15:40",
+      "16:15",
+      "16:50",
+      "17:40",
+      "18:45",
+      "19:20",
+      "22:10",
+      "22:55"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Lardos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:20",
+      "07:50",
+      "10:40",
+      "11:30",
+      "12:45",
+      "15:45",
+      "17:45",
+      "19:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Faliraki",
+    "price": "5.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:25",
+      "09:25",
+      "10:10",
+      "10:55",
+      "11:55",
+      "12:40",
+      "14:10",
+      "15:10",
+      "16:10",
+      "16:55",
+      "17:45",
+      "18:25",
+      "18:55",
+      "19:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Prasonisi",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:40",
+      "14:40"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Kalithea Springs",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:25",
+      "09:25",
+      "10:10",
+      "10:55",
+      "12:40",
+      "14:10",
+      "15:10",
+      "16:10",
+      "16:55",
+      "17:45",
+      "18:25",
+      "18:55",
+      "19:45"
+    ],
+    "timesBack": [
+      "09:10",
+      "09:40",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki-qr/"
+  },
+  {
+    "from": "Pefkos",
+    "to": "Gennadi",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "07:45",
+      "10:15",
+      "10:35",
+      "11:25",
+      "12:05",
+      "12:35",
+      "12:55",
+      "14:15",
+      "14:35",
+      "15:05",
+      "15:35",
+      "16:10",
+      "16:45",
+      "17:35",
+      "18:40",
+      "19:15",
+      "22:05",
+      "22:50"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki2-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Rodos",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "09:20",
+      "10:05",
+      "10:50",
+      "11:50",
+      "12:35",
+      "14:05",
+      "15:05",
+      "16:05",
+      "16:50",
+      "17:40",
+      "18:20",
+      "18:50",
+      "19:40"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "16:30",
+      "17:20",
+      "18:00",
+      "19:30",
+      "21:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Lindos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "09:20",
+      "09:40",
+      "10:05",
+      "10:50",
+      "11:50",
+      "12:35",
+      "14:05",
+      "15:05",
+      "16:05",
+      "16:50",
+      "17:20",
+      "17:40",
+      "18:20",
+      "18:50",
+      "19:40",
+      "21:50"
+    ],
+    "timesBack": [
+      "07:15",
+      "07:45",
+      "10:10",
+      "10:30",
+      "11:20",
+      "12:00",
+      "12:30",
+      "12:50",
+      "14:10",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:05",
+      "16:40",
+      "17:30",
+      "18:35",
+      "19:10",
+      "22:00",
+      "22:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Archangelos",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "09:20",
+      "10:05",
+      "11:50",
+      "12:35",
+      "14:05",
+      "15:05",
+      "16:05",
+      "17:40",
+      "18:50",
+      "19:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Kiotari",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:30",
+      "08:00",
+      "10:25",
+      "10:45",
+      "11:35",
+      "12:15",
+      "12:45",
+      "13:05",
+      "14:25",
+      "14:45",
+      "15:15",
+      "15:45",
+      "16:20",
+      "16:55",
+      "17:45",
+      "18:50",
+      "19:25",
+      "22:15",
+      "23:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Lardos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:25",
+      "07:55",
+      "10:45",
+      "11:35",
+      "12:50",
+      "15:50",
+      "17:50",
+      "19:25"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Faliraki",
+    "price": "5.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "09:20",
+      "10:05",
+      "10:50",
+      "11:50",
+      "12:35",
+      "14:05",
+      "15:05",
+      "16:05",
+      "16:50",
+      "17:40",
+      "18:20",
+      "18:50",
+      "19:40"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Prasonisi",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "10:45",
+      "14:45"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Lothiarika",
+    "to": "Kalithea Springs",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "09:20",
+      "10:05",
+      "10:50",
+      "12:35",
+      "14:05",
+      "15:05",
+      "16:05",
+      "16:50",
+      "17:40",
+      "18:20",
+      "18:50",
+      "19:40"
+    ],
+    "timesBack": [
+      "09:10",
+      "09:40",
+      "13:10",
+      "14:40",
+      "15:40",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/pefki3-qr/"
+  },
+  {
+    "from": "Plimmiri",
+    "to": "Rodos",
+    "price": "8.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:45",
+      "09:30",
+      "13:10",
+      "16:10"
+    ],
+    "timesBack": [
+      "09:00",
+      "13:00",
+      "16:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/plimmiri-qr/"
+  },
+  {
+    "from": "Plimmiri",
+    "to": "Lindos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:45",
+      "09:30",
+      "13:10",
+      "16:10"
+    ],
+    "timesBack": [
+      "14:30",
+      "17:40"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/plimmiri-qr/"
+  },
+  {
+    "from": "Plimmiri",
+    "to": "Prasonisi",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "11:30",
+      "15:10"
+    ],
+    "timesBack": [
+      "13:00",
+      "16:00"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/plimmiri-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Rodos",
+    "price": "11.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Kolymbia Beach",
+    "price": "9.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Faliraki",
+    "price": "9.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Kalithea",
+    "price": "",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Oasis",
+    "price": "8.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Kalathos",
+    "price": "5.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Pefkos",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Prasonisi",
+    "to": "Lindos",
+    "price": "5.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "13:00",
+      "16:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/prasonisi-qr/"
+  },
+  {
+    "from": "Psinthos",
+    "to": "Kalithies",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "15:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/psinthos-qr/"
+  },
+  {
+    "from": "Psinthos",
+    "to": "Rodos",
+    "price": "2.80",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "15:00"
+    ],
+    "timesBack": [
+      "14:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/psinthos-qr/"
+  },
+  {
+    "from": "Psinthos",
+    "to": "Faliraki",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "07:15",
+      "15:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/psinthos-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "13:05",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Afantou",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "13:05",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Archangelos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "13:05",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35",
+      "22:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Gennadi",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Pefkos",
+    "price": "6.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Lardos",
+    "price": "6.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "13:05",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Rodini",
+    "to": "Kalathos",
+    "price": "5.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:20",
+      "06:50",
+      "09:05",
+      "10:05",
+      "11:35",
+      "13:05",
+      "14:35",
+      "16:35",
+      "18:05",
+      "19:35",
+      "21:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rodini-qr/"
+  },
+  {
+    "from": "Seven Springs",
+    "to": "Rodos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/seven-springs-qr/"
+  },
+  {
+    "from": "Seven Springs",
+    "to": "Kolymbia Beach",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/seven-springs-qr/"
+  },
+  {
+    "from": "Seven Springs",
+    "to": "Faliraki",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/seven-springs-qr/"
+  },
+  {
+    "from": "Seven Springs",
+    "to": "Kalithea",
+    "price": "",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:00"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/seven-springs-qr/"
+  },
+  {
+    "from": "Stegna",
+    "to": "Rodos",
+    "price": "4.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:30"
+    ],
+    "timesBack": [
+      "14:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/stegna-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Lindos",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Lardos",
+    "price": "4.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Malona-Massari",
+    "price": "2.40",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:15",
+      "11:45",
+      "13:15",
+      "14:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Afantou",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Archangelos",
+    "price": "2.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "13:15",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Kiotari",
+    "price": "5.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Pefkos",
+    "price": "5.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:30",
+      "07:00",
+      "09:15",
+      "10:15",
+      "11:45",
+      "14:45",
+      "16:45",
+      "18:15",
+      "19:45",
+      "21:45"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Kolymbia Beach",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "14:45",
+      "16:15",
+      "17:45",
+      "19:45",
+      "21:55",
+      "22:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsairi",
+    "to": "Rodos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:40",
+      "07:30",
+      "08:30",
+      "09:30",
+      "10:30",
+      "11:30",
+      "12:35",
+      "13:05",
+      "13:55",
+      "15:30",
+      "16:20",
+      "18:50"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:00",
+      "16:00",
+      "16:30",
+      "17:30",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsairi-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Lindos",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "08:40",
+      "09:35",
+      "10:10",
+      "10:35",
+      "11:10",
+      "11:40",
+      "12:05",
+      "12:35",
+      "13:35",
+      "15:05",
+      "16:10",
+      "16:40",
+      "17:05",
+      "18:35",
+      "22:10"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Lardos",
+    "price": "2.70",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:35",
+      "12:05",
+      "13:35",
+      "15:05",
+      "17:05",
+      "18:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Malona-Massari",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:35",
+      "12:05",
+      "13:35",
+      "15:05"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Archangelos",
+    "price": "2.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:35",
+      "12:05",
+      "13:35",
+      "15:05",
+      "17:05",
+      "18:35",
+      "22:10",
+      "22:55"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Kiotari",
+    "price": "4.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:10",
+      "10:35",
+      "12:05",
+      "15:05",
+      "16:10",
+      "17:05",
+      "18:35",
+      "22:10",
+      "22:55"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Pefkos",
+    "price": "3.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:50",
+      "07:20",
+      "09:35",
+      "10:10",
+      "10:35",
+      "12:05",
+      "15:05",
+      "16:10",
+      "17:05",
+      "18:35",
+      "22:10",
+      "22:55"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika",
+    "to": "Rodos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:25",
+      "07:20",
+      "08:05",
+      "09:05",
+      "10:05",
+      "11:05",
+      "11:55",
+      "12:40",
+      "13:35",
+      "14:25",
+      "15:05",
+      "15:25",
+      "15:55",
+      "16:55",
+      "17:35",
+      "18:25",
+      "19:10",
+      "19:40",
+      "21:10"
+    ],
+    "timesBack": [
+      "06:15",
+      "06:45",
+      "08:00",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:00",
+      "14:30",
+      "15:30",
+      "16:00",
+      "16:30",
+      "18:00",
+      "19:30",
+      "21:30",
+      "22:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-qr/"
+  },
+  {
+    "from": "Tsambika Beach",
+    "to": "Rodos",
+    "price": "4.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "16:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-beach-qr/"
+  },
+  {
+    "from": "Tsambika Beach",
+    "to": "Kolymbia Beach",
+    "price": "2.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "16:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-beach-qr/"
+  },
+  {
+    "from": "Tsambika Beach",
+    "to": "Faliraki",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "16:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-beach-qr/"
+  },
+  {
+    "from": "Tsambika Beach",
+    "to": "Kalithea",
+    "price": "",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "16:20"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/tsambika-beach-qr/"
   }
 ]

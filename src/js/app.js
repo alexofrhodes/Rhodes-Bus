@@ -1056,6 +1056,8 @@ let lindosTravelMinutes = DEFAULT_LINDOS_TRAVEL_MINUTES;
 let eastTableDayBands = 'combined'; // 'combined' | 'split'
 let showRouteDistance = true;
 let showRouteEstTime = true;
+/** Off by default — Source links under notes when on. */
+let showScheduleSources = false;
 let tableTimePills = true;
 let tableCellVAlign = 'top'; // 'top' | 'center'
 let tableFreezeDestCols = false;
@@ -1085,6 +1087,10 @@ function shouldShowRouteDistance() {
 
 function shouldShowRouteEstTime() {
     return showRouteEstTime !== false;
+}
+
+function shouldShowScheduleSources() {
+    return showScheduleSources === true;
 }
 
 function shouldShowTableTimePills() {
@@ -1467,12 +1473,49 @@ function setShowRouteEstTime(on, { persist = true, refresh = true } = {}) {
     if (refresh && typeof filterAndRenderEngine === 'function') filterAndRenderEngine();
 }
 
+function setShowScheduleSources(on, { persist = true, refresh = true } = {}) {
+    showScheduleSources = !!on;
+    if (persist) saveStandaloneBusState();
+    if (refresh && typeof filterAndRenderEngine === 'function') filterAndRenderEngine();
+}
+
 // ponytail: one-shot sanity — Lindos 50km @ 87min ⇒ Gennadi 65km ≈ 113
 (function travelMinutesSelfCheck() {
     const speed = 50 / (87 / 60);
     const gennadi = Math.round((65 * 60) / speed);
     if (gennadi !== 113) console.warn('travel minutes self-check failed', gennadi);
 })();
+
+/** Strip legacy station:codename tokens from comments (now live in sourceUrl). */
+function formatBusDisplayComments(comments) {
+    const raw = String(comments || '').trim();
+    if (!raw) return '';
+    return raw.split(/\n/).map((line) => (
+        line.split(/\s*;\s*/)
+            .map((p) => p.trim())
+            .filter((p) => p && !/^station:[^\s;]+$/i.test(p))
+            .join('; ')
+    )).filter(Boolean).join('\n');
+}
+
+function buildBusSourceLinkHtml(row) {
+    if (!shouldShowScheduleSources()) return '';
+    const url = String(row?.sourceUrl || '').trim();
+    if (!/^https?:\/\//i.test(url)) return '';
+    return `<a class="bus-source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Source</a>`;
+}
+
+function buildBusNotesWithSourceHtml(row) {
+    const comments = formatBusDisplayComments(row?.comments);
+    const commentsHtml = comments
+        ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>`
+        : '';
+    const sourceHtml = buildBusSourceLinkHtml(row);
+    if (!commentsHtml && !sourceHtml) return '';
+    if (!sourceHtml) return commentsHtml;
+    if (!commentsHtml) return `<div class="bus-source-wrap">${sourceHtml}</div>`;
+    return `${commentsHtml}<div class="bus-source-wrap">${sourceHtml}</div>`;
+}
 
 function buildBusRouteMetaFooterHtml(row) {
     const stops = Array.isArray(row.routeStops) ? row.routeStops.filter((s) => s && s.name) : [];
@@ -1870,6 +1913,9 @@ async function bootApp() {
     }
     if (typeof restoredStandalone?.showRouteEstTime === 'boolean') {
         showRouteEstTime = restoredStandalone.showRouteEstTime;
+    }
+    if (typeof restoredStandalone?.showScheduleSources === 'boolean') {
+        showScheduleSources = restoredStandalone.showScheduleSources;
     }
     if (typeof restoredStandalone?.tableTimePills === 'boolean') {
         tableTimePills = restoredStandalone.tableTimePills;
@@ -2535,6 +2581,7 @@ function saveStandaloneBusState() {
             eastTableDayBands: getEastTableDayBands(),
             showRouteDistance: shouldShowRouteDistance(),
             showRouteEstTime: shouldShowRouteEstTime(),
+            showScheduleSources: shouldShowScheduleSources(),
             tableTimePills: shouldShowTableTimePills(),
             tableFreezeDestCols: shouldFreezeTableDestCols(),
             tableCellVAlign: getTableCellVAlign(),
@@ -2591,6 +2638,7 @@ function applyStandaloneBusState(state) {
     }
     if (typeof state.showRouteDistance === 'boolean') showRouteDistance = state.showRouteDistance;
     if (typeof state.showRouteEstTime === 'boolean') showRouteEstTime = state.showRouteEstTime;
+    if (typeof state.showScheduleSources === 'boolean') showScheduleSources = state.showScheduleSources;
     if (typeof state.tableTimePills === 'boolean') tableTimePills = state.tableTimePills;
     if (typeof state.tableFreezeDestCols === 'boolean') tableFreezeDestCols = state.tableFreezeDestCols;
     if (state.tableCellVAlign === 'center' || state.tableCellVAlign === 'top') {
@@ -2886,6 +2934,10 @@ function openBusSettingsPopup() {
                     <input id="settings-show-est-time" type="checkbox"${shouldShowRouteEstTime() ? ' checked' : ''} />
                     <span>Show estimated time on cards</span>
                 </label>
+                <label class="bus-settings-check">
+                    <input id="settings-show-sources" type="checkbox"${shouldShowScheduleSources() ? ' checked' : ''} />
+                    <span>Show schedule sources</span>
+                </label>
             </div>
             <h3>Schedule display</h3>
             <p class="bus-settings-hint">Passed times, sparse West routes, and empty destinations.</p>
@@ -3003,6 +3055,7 @@ function openBusSettingsPopup() {
                 const minInput = document.getElementById('settings-lindos-min');
                 const showDist = document.getElementById('settings-show-distance')?.checked !== false;
                 const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
+                const showSources = !!document.getElementById('settings-show-sources')?.checked;
                 const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
                 const freezeDest = !!document.getElementById('settings-table-freeze-dest')?.checked;
                 const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
@@ -3015,6 +3068,7 @@ function openBusSettingsPopup() {
                 const tablePillsColsNum = Number(tablePillsColsRaw);
                 showRouteDistance = showDist;
                 showRouteEstTime = showEst;
+                showScheduleSources = showSources;
                 tableTimePills = showPills;
                 tableFreezeDestCols = freezeDest;
                 tableCellVAlign = valign === 'center' ? 'center' : 'top';
@@ -4997,10 +5051,7 @@ function buildBusListScheduleHtml(row) {
         ? renderSchedulePillsHtml(backTimes, { inbound: true, marks: timeMarks.back, widthHint })
         : '';
     const metaFooter = buildBusRouteMetaFooterHtml(row);
-    const comments = String(row.comments || '').trim();
-    const commentsHtml = comments
-        ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>`
-        : '';
+    const commentsHtml = buildBusNotesWithSourceHtml(row);
     if (!outTimes.length && !backTimes.length && !metaFooter && !commentsHtml) {
         return '<div class="bus-empty-hint">No times in current schedule</div>';
     }
@@ -5326,7 +5377,7 @@ function buildBusScheduleCardElement(row, { forDrawer = false } = {}) {
                 </div>` : ''}
             </div>` : ''}
             ${metaFooter}
-            ${row.comments ? `<div class="bus-comments">${escapeHtml(row.comments).replace(/\n/g, '<br>')}</div>` : ''}
+            ${buildBusNotesWithSourceHtml(row)}
         </div>`;
     card.querySelector('.bus-fav-btn')?.addEventListener('click', (event) => {
         toggleBusRouteStar(event.currentTarget.getAttribute('data-star-key'), event);
@@ -5489,7 +5540,7 @@ function mergeEastDestinationRowsForTable(rows) {
 
     const commentParts = [];
     list.forEach((row) => {
-        const c = String(row.comments || '').trim();
+        const c = formatBusDisplayComments(row.comments);
         if (c && !commentParts.includes(c)) commentParts.push(c);
     });
     if (Object.values(timesOutMarks).includes('nosunday') || Object.values(timesBackMarks).includes('nosunday')) {
@@ -5501,6 +5552,7 @@ function mergeEastDestinationRowsForTable(rows) {
     if (Object.values(timesOutMarks).includes('nosaturday') || Object.values(timesBackMarks).includes('nosaturday')) {
         if (!commentParts.some((c) => /except Saturday/i.test(c))) commentParts.push('s except Saturday');
     }
+    const sourceUrl = list.map((row) => String(row.sourceUrl || '').trim()).find((u) => /^https?:\/\//i.test(u)) || preferred.sourceUrl || '';
 
     return [{
         ...preferred,
@@ -5510,6 +5562,7 @@ function mergeEastDestinationRowsForTable(rows) {
         timesOutMarks,
         timesBackMarks,
         comments: commentParts.join('; '),
+        sourceUrl,
         _eastCombined: true
     }];
 }
@@ -11288,6 +11341,8 @@ h1 { margin: 0 0 4mm; font-size: 12pt; }
 .bus-pill.inbound { background: #f5f3ff; color: #5b21b6; border-color: #ede9fe; }
 .bus-pill.passed-grey { opacity: 0.4; }
 .bus-comments { margin-top: 2px; font-size: 5pt; line-height: 1.25; color: #64748b; white-space: pre-line; }
+.bus-source-wrap { margin-top: 1px; }
+.bus-source-link { font-size: 5pt; font-weight: 600; color: #0f766e; text-decoration: underline; }
 .card-action-row, .card-right-qr-wrapper { display: none; }`;
 }
 
@@ -11647,8 +11702,7 @@ function renderTimetableMiniCard(row, { showDayTag = true } = {}) {
         if (fieldVisibility['btn-hide-empty-dest']) return '';
     }
 
-    const comments = String(row.comments || '').trim();
-    const note = comments ? `<div class="bus-comments">${escapeHtml(comments).replace(/\n/g, '<br>')}</div>` : '';
+    const note = buildBusNotesWithSourceHtml(row);
     const price = formatBusPriceTagHtml(row.price);
     const metaFooter = buildBusRouteMetaFooterHtml(row);
 
@@ -11847,6 +11901,8 @@ html, body {
   font-size: 4.5pt; line-height: 1.2; color: #64748b; margin-top: 2px; padding-top: 2px;
   border-top: 1px dashed #e2e8f0; font-style: italic; white-space: pre-line;
 }
+.tt-print-card .bus-source-wrap { margin-top: 1px; }
+.tt-print-card .bus-source-link { font-size: 4.5pt; font-weight: 600; color: #0f766e; text-decoration: underline; }
 .tt-print-card .bus-meta-footer {
   margin-top: 2px;
   display: flex;

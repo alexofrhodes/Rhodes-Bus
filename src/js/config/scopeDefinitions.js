@@ -85,7 +85,7 @@
                         if (Number.isFinite(n) && n <= 0) return '';
                         return escapeHtml(`€${row.price || raw}`);
                     } },
-                    { id: 'notes', label: 'Notes', render: (row) => escapeHtml(row.comments || '').replace(/\n/g, '<br>') },
+                    { id: 'notes', label: 'Notes', render: (row) => (typeof buildBusNotesWithSourceHtml === 'function' ? buildBusNotesWithSourceHtml(row) : escapeHtml(row.comments || '').replace(/\n/g, '<br>')) },
                 ],
                 locationFields: []
             }
