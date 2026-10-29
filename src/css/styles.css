@@ -1327,6 +1327,15 @@ body.schedule-dirs-side .bus-schedule-dirs .bus-schedule-block {
     box-sizing: border-box;
 }
 
+.schedule-pills .bus-pill.is-spacer {
+    visibility: hidden;
+    pointer-events: none;
+    border: none;
+    background: transparent;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
 .table-schedule-pills {
     min-width: 8.5rem;
     width: 100%;
@@ -5855,6 +5864,13 @@ body.standalone-bus .bus-list-empty {
     color: var(--text-sub);
     text-align: center;
     line-height: 1.35;
+}
+
+/* Lock document scroll only while a drawer/modal is open; closed state keeps overflow-y:auto above. */
+html.standalone-bus-root.standalone-drawer-open,
+body.standalone-bus.standalone-drawer-open {
+    overflow: hidden !important;
+    overscroll-behavior: none;
 }
 
 /* Bottom drawers for Settings / Help / About */

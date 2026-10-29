@@ -1175,13 +1175,21 @@ function orderTimesForPillsFlow(times, cols, flow = getTimePillsFlow()) {
     if (flow !== 'column' || colCount < 2 || n < 2) return list;
     const rows = Math.ceil(n / colCount);
     const out = [];
+    // Pad to rows×cols so CSS row-major grid reads column-major (uneven last cols).
     for (let r = 0; r < rows; r += 1) {
         for (let c = 0; c < colCount; c += 1) {
             const src = c * rows + r;
-            if (src < n) out.push(list[src]);
+            out.push(src < n ? list[src] : null);
         }
     }
     return out;
+}
+
+function renderOrderedTimePillHtml(time, { inbound = false, mark = '', asTable = false } = {}) {
+    if (time == null || time === '') {
+        return `<div class="bus-pill is-spacer${asTable ? ' bus-table-time is-pill' : ''}" aria-hidden="true"></div>`;
+    }
+    return formatBusTimePillHtml(time, { inbound, mark, asTable });
 }
 
 function renderSchedulePillsHtml(times, {
@@ -1198,9 +1206,9 @@ function renderSchedulePillsHtml(times, {
     const flow = getEffectiveTimePillsFlow(asTable);
     const cols = resolveTimePillsColumnCount(widthHint, list.length, asTable);
     const ordered = orderTimesForPillsFlow(list, cols, flow);
-    const pills = ordered.map((time) => formatBusTimePillHtml(time, {
+    const pills = ordered.map((time) => renderOrderedTimePillHtml(time, {
         inbound,
-        mark: markMap[time] || '',
+        mark: time == null ? '' : (markMap[time] || ''),
         asTable
     })).join('');
     const cls = `schedule-pills${asTable ? ' table-schedule-pills' : ''}`;
@@ -1256,9 +1264,9 @@ function applySchedulePillsCols(el, {
     auto
 }) {
     const ordered = orderTimesForPillsFlow(times, cols, flow);
-    const html = ordered.map((time) => formatBusTimePillHtml(time, {
+    const html = ordered.map((time) => renderOrderedTimePillHtml(time, {
         inbound,
-        mark: (markMap && markMap[time]) || '',
+        mark: time == null ? '' : ((markMap && markMap[time]) || ''),
         asTable
     })).join('');
     el.style.setProperty('--pills-cols', String(cols));
@@ -1292,8 +1300,8 @@ function syncTimePillsColumnCounts(root = document) {
             times.length,
             asTable
         );
-        // Table auto+column: converge on viewport measure (table is max-content).
-        const settle = asTable && auto && flow === 'column';
+        // Auto+column: converge width measure ↔ N (List/Cards/Table — table is max-content).
+        const settle = auto && flow === 'column';
         const passes = settle ? 4 : 1;
         let prevCols = -1;
         for (let i = 0; i < passes; i += 1) {
@@ -1318,9 +1326,9 @@ function syncTimePillsColumnCounts(root = document) {
             prevCols = cols;
             cols = next;
         }
-        // Final guard: reorder must match painted CSS tracks.
+        // Final guard: reorder must match painted CSS tracks (all column-flow views).
         const painted = countPaintedPillsCols(el);
-        if (settle && painted > 0 && painted !== cols) {
+        if (flow === 'column' && painted > 0 && painted !== cols) {
             cols = painted;
             applySchedulePillsCols(el, {
                 times, markMap, inbound, asTable, flow, cols, auto
@@ -1331,11 +1339,12 @@ function syncTimePillsColumnCounts(root = document) {
 
 let timePillsSyncResizeTimer = 0;
 let timePillsTableResizeObs = null;
-function scheduleTimePillsColumnSync() {
-    // Double rAF: wait for table sticky/col-width pass so N matches painted tracks.
+function scheduleTimePillsColumnSync(root = document) {
+    // Double rAF: wait for sticky/col-width/masonry pass so N matches painted tracks.
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            syncTimePillsColumnCounts();
+            observeTimePillsResizeTargets(root);
+            syncTimePillsColumnCounts(root);
         });
     });
 }
@@ -1362,16 +1371,31 @@ function wireTimePillsColumnSync() {
     if (got !== '1,4,7,2,5,8,3,6,9') {
         console.warn('orderTimesForPillsFlow self-check failed', got);
     }
+    // Uneven N=5 with 12 times: pad so CSS 5-col row-major still reads column-major.
+    const afantou = ['06:15', '06:45', '09:00', '10:00', '11:30', '13:00', '14:30', '16:30', '18:00', '19:30', '21:30', '22:15'];
+    const o5 = orderTimesForPillsFlow(afantou, 5, 'column');
+    if (o5.length !== 15 || o5[0] !== '06:15' || o5[5] !== '06:45' || o5[10] !== '09:00') {
+        console.warn('orderTimesForPillsFlow pad/column-1 failed', o5);
+    }
+    if (o5[4] != null || o5[9] != null || o5[14] != null) {
+        console.warn('orderTimesForPillsFlow expected trailing column spacers', o5);
+    }
 }
 
-function observeTablePillsResizeTargets(root = document) {
+function observeTimePillsResizeTargets(root = document) {
     wireTimePillsColumnSync();
     if (!timePillsTableResizeObs) return;
     const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
-    scope.querySelectorAll('.bus-grouped-table-view .table-responsive-wrapper').forEach((wrap) => {
-        if (wrap.dataset.pillsRo === '1') return;
-        wrap.dataset.pillsRo = '1';
-        timePillsTableResizeObs.observe(wrap);
+    const targets = [
+        ...scope.querySelectorAll('.bus-grouped-table-view .table-responsive-wrapper'),
+        ...scope.querySelectorAll('.bus-list-row-body .schedule-pills'),
+        ...scope.querySelectorAll('.layout-masonry-buses .schedule-pills'),
+        ...scope.querySelectorAll('.bus-schedule-block .schedule-pills')
+    ];
+    targets.forEach((el) => {
+        if (el.dataset.pillsRo === '1') return;
+        el.dataset.pillsRo = '1';
+        timePillsTableResizeObs.observe(el);
     });
 }
 
@@ -2808,6 +2832,26 @@ function wireStandaloneInstallPrompt() {
     syncInstallAppBar();
 }
 
+let _standaloneDrawerScrollY = 0;
+
+function lockStandaloneBackgroundScroll() {
+    _standaloneDrawerScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add('standalone-drawer-open');
+    document.body.classList.add('standalone-drawer-open');
+}
+
+function unlockStandaloneBackgroundScroll() {
+    document.documentElement.classList.remove('standalone-drawer-open');
+    document.body.classList.remove('standalone-drawer-open');
+    // Clear any leftover inline lock styles so document scroll works again.
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, _standaloneDrawerScrollY || 0);
+}
+
 function closeStandaloneDrawer() {
     const lightbox = document.getElementById('lightbox');
     const target = document.getElementById('modal-body-target');
@@ -2825,7 +2869,7 @@ function closeStandaloneDrawer() {
         lightbox.classList.remove('is-drawer');
         lightbox.onclick = null;
     }
-    document.body.classList.remove('standalone-drawer-open');
+    unlockStandaloneBackgroundScroll();
     syncStarredFilterButton();
 }
 
@@ -2895,7 +2939,7 @@ function openStandaloneDrawer({ cardClass = '', bodyHtml = '', afterOpen = null 
     if (!target || !lightbox) return null;
 
     lightbox.classList.add('is-drawer');
-    document.body.classList.add('standalone-drawer-open');
+    lockStandaloneBackgroundScroll();
     target.className = `modal-card is-drawer ${cardClass}`.trim();
     target.style.transform = '';
     target.style.transition = '';
@@ -3121,7 +3165,7 @@ function openStandaloneCenteredModal({ cardClass = '', bodyHtml = '', afterOpen 
     if (!target || !lightbox) return null;
 
     lightbox.classList.remove('is-drawer');
-    document.body.classList.remove('standalone-drawer-open');
+    lockStandaloneBackgroundScroll();
     target.className = `modal-card ${cardClass}`.trim();
     target.style.transform = '';
     target.style.transition = '';
@@ -5124,6 +5168,7 @@ function buildBusListRow(row) {
         else listExpandedKeys.delete(starKey);
         if (open) {
             requestAnimationFrame(() => {
+                observeTimePillsResizeTargets(el);
                 syncTimePillsColumnCounts(el);
                 el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             });
@@ -7982,8 +8027,7 @@ function renderBusScheduleGroupedTableView() {
         syncBusTableColumnWidths();
         syncTableScrollFadeState();
         wireBusDragScrollSurfaces();
-        observeTablePillsResizeTargets(container);
-        scheduleTimePillsColumnSync();
+        scheduleTimePillsColumnSync(container);
     });
 }
 
