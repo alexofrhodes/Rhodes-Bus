@@ -3646,13 +3646,22 @@ body.map-layout-mode #map-container {
     }
 }
 
-/* Standalone-Bus: no sidebar; Events-like document scroll (fixes iOS top frost). */
-html.standalone-bus-root,
-body.standalone-bus {
+/* Standalone-Bus: no sidebar; document scroll on html only (body must not also
+   be a scrollport — dual overflow-y:auto breaks mouse-wheel on Chromium). */
+html.standalone-bus-root {
     height: auto;
     min-height: 100dvh;
     overflow-x: clip;
     overflow-y: auto;
+    background: #ffffff;
+    overscroll-behavior-y: none;
+}
+
+body.standalone-bus {
+    height: auto;
+    min-height: 100dvh;
+    overflow-x: clip;
+    overflow-y: visible;
     background: #ffffff;
     overscroll-behavior-y: none;
 }

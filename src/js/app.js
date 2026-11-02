@@ -1,7 +1,7 @@
 let activeDataset = [];
 let activeScope = 'contacts';
 let activeScopeConfig = null;
-let currentLayoutMode = 'cards';
+let currentLayoutMode = 'list';
 let signsPageReturnLayout = 'cards';
 let listExpandedKeys = new Set();
 let activeFilterState = {};
@@ -1982,11 +1982,12 @@ async function bootApp() {
     if (standaloneBus) {
         wireDestinationPicker();
         wireOriginPicker();
-        if (!applyStandaloneBusState(restoredStandalone)) {
-            if (requestedLayout && activeScopeConfig?.layouts?.includes(requestedLayout)) {
-                setLayout(requestedLayout);
-            }
-        }
+        applyStandaloneBusState(restoredStandalone);
+        // Always open on List unless URL has ?layout=
+        const bootLayout = (requestedLayout && activeScopeConfig?.layouts?.includes(requestedLayout))
+            ? requestedLayout
+            : (activeScopeConfig?.defaultLayout || 'list');
+        setLayout(bootLayout);
         suppressStandalonePersist = false;
         saveStandaloneBusState();
         wireStandaloneInstallPrompt();
@@ -2180,7 +2181,7 @@ function updateActiveScopeButtons() {
     document.querySelectorAll('.nav-link').forEach((el) => el.classList.toggle('active', el.id === `lnk-${activeScope}`));
 }
 
-let mapReturnLayout = 'cards';
+let mapReturnLayout = 'list';
 
 function renderLayoutTabs() {
     const target = document.getElementById('layout-toggles');
@@ -2277,11 +2278,11 @@ function renderLayoutTabs() {
 
 function toggleMapLayout() {
     if (currentLayoutMode === 'map') {
-        const back = mapReturnLayout && mapReturnLayout !== 'map' ? mapReturnLayout : 'cards';
+        const back = mapReturnLayout && mapReturnLayout !== 'map' ? mapReturnLayout : 'list';
         setLayout(back);
         return;
     }
-    mapReturnLayout = currentLayoutMode === 'signs' ? 'cards' : (currentLayoutMode || 'cards');
+    mapReturnLayout = currentLayoutMode === 'signs' ? 'list' : (currentLayoutMode || 'list');
     setLayout('map');
 }
 
@@ -2585,7 +2586,7 @@ function saveStandaloneBusState() {
             destinations: Array.from(selectedDestinations),
             origin: selectedOrigin || '',
             starred: Array.from(starredBusRoutes),
-            layout: (currentLayoutMode === 'signs' ? signsPageReturnLayout : currentLayoutMode) || 'cards',
+            layout: (currentLayoutMode === 'signs' ? signsPageReturnLayout : currentLayoutMode) || 'list',
             filters: { ...activeFilterState },
             toggles: { ...fieldVisibility },
             timeStart: document.getElementById('time-filter-start')?.value || '',
@@ -2724,9 +2725,7 @@ function applyStandaloneBusState(state) {
     if (end && typeof state.timeEnd === 'string') end.value = state.timeEnd;
     window.ClockTimePicker?.syncTriggers();
 
-    const available = activeScopeConfig?.layouts || ['cards'];
-    const nextLayout = available.includes(state.layout) ? state.layout : (activeScopeConfig?.defaultLayout || available[0] || 'cards');
-    setLayout(nextLayout);
+    // Layout is applied by bootApp (always List unless ?layout=) — do not restore here.
     syncSearchClearButton();
     syncDestinationPickerUI();
     return true;

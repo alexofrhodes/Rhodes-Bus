@@ -1,5 +1,5 @@
-const APP_CACHE = 'standalone-bus-app-634fe7f5';
-const DATA_CACHE = 'standalone-bus-data-f0d297f6';
+const APP_CACHE = 'standalone-bus-app-9c01872d';
+const DATA_CACHE = 'standalone-bus-data-4522aa21';
 
 const APP_SHELL = [
   './',
