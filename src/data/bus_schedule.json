@@ -1,6 +1,777 @@
 [
   {
     "from": "Rodos",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "06:45",
+      "07:30",
+      "08:30",
+      "10:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "18:00"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:30",
+      "08:30",
+      "10:30",
+      "13:00",
+      "14:30",
+      "15:30",
+      "18:00"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kiotari-Gennadi",
+    "price": "7.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:15",
+      "11:30",
+      "14:30"
+    ],
+    "timesBack": [
+      "08:00",
+      "13:45",
+      "17:20"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Archangelos",
+    "price": "3.50",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "06:20",
+      "07:15",
+      "08:00",
+      "08:50",
+      "10:00",
+      "11:00",
+      "13:25",
+      "15:00",
+      "15:50",
+      "18:20",
+      "20:15"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Archangelos",
+    "price": "3.50",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "07:15",
+      "08:00",
+      "08:50",
+      "10:00",
+      "11:00",
+      "13:25",
+      "15:00",
+      "15:50",
+      "18:20",
+      "20:15"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Afantou",
+    "price": "2.50",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "06:30",
+      "07:25",
+      "08:10",
+      "09:00",
+      "10:10",
+      "11:10",
+      "13:40",
+      "15:10",
+      "16:00",
+      "18:30",
+      "20:30"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Afantou",
+    "price": "2.50",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "07:25",
+      "08:10",
+      "09:00",
+      "10:10",
+      "11:10",
+      "13:40",
+      "15:10",
+      "16:00",
+      "18:30",
+      "20:30"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kalithies",
+    "price": "2.50",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "10:00",
+      "12:00",
+      "13:30",
+      "14:20",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "07:20",
+      "08:20",
+      "10:20",
+      "11:20",
+      "13:45",
+      "15:10",
+      "16:10",
+      "18:40"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kalithies",
+    "price": "2.50",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "10:00",
+      "12:00",
+      "14:20",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "08:20",
+      "10:20",
+      "11:20",
+      "13:45",
+      "15:10",
+      "16:10",
+      "18:40"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Lardos",
+    "price": "6.20",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:15",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:05",
+      "08:15",
+      "14:00",
+      "15:00",
+      "17:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Psinthos",
+    "price": "2.80",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "14:20"
+    ],
+    "timesBack": [
+      "07:15",
+      "15:00"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Psinthos",
+    "price": "2.80",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "14:20"
+    ],
+    "timesBack": [
+      "15:00"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Pεfkos",
+    "price": "6.60",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "06:15",
+      "11:30",
+      "14:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Vati-Profilia-Istrio-Arnitha-Apolakia",
+    "price": "",
+    "region": "East",
+    "day": "Mon-Wed-Fri",
+    "timesOut": [
+      "14:30"
+    ],
+    "timesBack": [
+      "07:20"
+    ],
+    "comments": "Mon/Wed/Fri only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Asklipio-Lachania-Katavia",
+    "price": "",
+    "region": "East",
+    "day": "Tue-Thu",
+    "timesOut": [
+      "14:30"
+    ],
+    "timesBack": [
+      "07:15"
+    ],
+    "comments": "Tue/Thu only",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:15",
+      "06:45",
+      "09:00",
+      "10:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "12:00",
+      "13:00",
+      "14:30",
+      "16:00",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-Rodos-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "2.50",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:35",
+      "07:25",
+      "08:20",
+      "09:05",
+      "10:15",
+      "11:15",
+      "13:45",
+      "15:20",
+      "16:10",
+      "18:45",
+      "20:35"
+    ],
+    "timesBack": [],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-Rodos-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "2.50",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "07:25",
+      "08:20",
+      "09:05",
+      "10:15",
+      "11:15",
+      "13:45",
+      "15:20",
+      "16:10",
+      "18:45",
+      "20:35"
+    ],
+    "timesBack": [],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kalathos",
+    "price": "5.40",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "06:50",
+      "07:35",
+      "08:35",
+      "10:35",
+      "13:05",
+      "14:35",
+      "15:35",
+      "18:05"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kalathos",
+    "price": "5.40",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "06:15",
+      "09:00",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:35",
+      "08:35",
+      "10:35",
+      "13:05",
+      "14:35",
+      "15:35",
+      "18:05"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Malona",
+    "price": "4.10",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:00",
+      "07:45",
+      "10:45",
+      "13:15",
+      "14:45"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Malona",
+    "price": "4.10",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:45",
+      "10:45",
+      "13:15",
+      "14:45"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Massari",
+    "price": "4.30",
+    "region": "East",
+    "day": "Mon-Sat",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:00",
+      "07:45",
+      "10:45",
+      "13:15",
+      "14:45"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Massari",
+    "price": "4.30",
+    "region": "East",
+    "day": "Sunday",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30"
+    ],
+    "timesBack": [
+      "07:45",
+      "10:45",
+      "13:15",
+      "14:45"
+    ],
+    "comments": "* not Sundays",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Lindos",
+    "price": "6.00",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00"
+    ],
+    "timesBack": [
+      "07:30",
+      "10:30",
+      "13:00",
+      "14:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Archangelos",
+    "price": "3.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "08:00",
+      "10:00",
+      "11:00",
+      "13:30",
+      "15:00",
+      "18:20",
+      "20:15"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Afantou",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "08:10",
+      "10:10",
+      "11:10",
+      "13:40",
+      "15:10",
+      "18:30",
+      "20:30"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Kalithies",
+    "price": "2.50",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [
+      "08:20",
+      "10:20",
+      "11:20",
+      "13:45",
+      "15:10",
+      "18:40"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Malona",
+    "price": "4.10",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00"
+    ],
+    "timesBack": [
+      "07:45",
+      "10:45",
+      "13:15",
+      "14:45"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Massari",
+    "price": "4.30",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00"
+    ],
+    "timesBack": [
+      "07:40",
+      "10:40",
+      "13:10",
+      "14:40"
+    ],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "09:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "17:30",
+      "19:30",
+      "21:30"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
+    "to": "Faliraki-Rodos-(ΜΕΣΩ-ΛΕΩΦ..ΛΙΝΔΟΥ-Lindou-AV.)",
+    "price": "",
+    "region": "East",
+    "day": "All",
+    "timesOut": [
+      "08:20",
+      "10:15",
+      "11:15",
+      "13:45",
+      "15:20",
+      "18:45",
+      "20:35"
+    ],
+    "timesBack": [],
+    "comments": "",
+    "sourceUrl": "https://www.ktelrodou.gr/rhodes-1-5/"
+  },
+  {
+    "from": "Rodos",
     "to": "Ixia Ialysos",
     "price": "",
     "region": "West",

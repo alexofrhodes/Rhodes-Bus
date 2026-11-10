@@ -5628,6 +5628,12 @@ body.standalone-bus .bus-list-city-under {
     border-top: 1px dashed #cbd5e1;
 }
 
+body.standalone-bus .bus-list-city-above {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
 @media (max-width: 720px) {
     body.standalone-bus .bus-list-split {
         grid-template-columns: 1fr;
@@ -6036,6 +6042,56 @@ body.standalone-bus .bus-settings h3 {
     font-weight: 800;
 }
 
+body.standalone-bus .bus-settings-group {
+    margin: 0 0 8px;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+}
+
+body.standalone-bus .bus-settings-group-summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text, #0f172a);
+    background: #f8fafc;
+}
+
+body.standalone-bus .bus-settings-group-summary::-webkit-details-marker {
+    display: none;
+}
+
+body.standalone-bus .bus-settings-group-summary::after {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 2px solid #64748b;
+    border-bottom: 2px solid #64748b;
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+    flex: 0 0 auto;
+}
+
+body.standalone-bus .bus-settings-group[open] > .bus-settings-group-summary::after {
+    transform: rotate(-135deg);
+    margin-top: 3px;
+}
+
+body.standalone-bus .bus-settings-group-body {
+    padding: 8px 10px 10px;
+    border-top: 1px solid var(--border, #e2e8f0);
+}
+
 body.standalone-bus .bus-settings-hint {
     margin: 0 0 10px;
     font-size: 0.72rem;
@@ -6106,7 +6162,7 @@ body.standalone-bus .bus-settings-body {
 
 body.standalone-bus .bus-settings-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: stretch;
     gap: 8px;
     flex-wrap: wrap;
     flex: 0 0 auto;
@@ -6118,6 +6174,12 @@ body.standalone-bus .bus-settings-actions {
     border-top: 1px solid var(--border, #e2e8f0);
     background: #fff;
     box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.06);
+}
+
+body.standalone-bus .bus-settings-actions .compact-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
 }
 
 body.standalone-bus .bus-settings-links {

@@ -1071,13 +1071,26 @@ let timePillsColumns = 'auto';
 let tablePillsSkipColumn = false;
 /** Table column count — 'inherit' | 'auto' | 2 | 3 | 4 | 5. */
 let tablePillsColumns = 'inherit';
+/** Settings drawer section open/closed (persisted). */
+const BUS_SETTINGS_GROUP_DEFAULTS = {
+    travel: true,
+    schedule: true,
+    dirs: true,
+    city: true,
+    pills: true,
+    east: true,
+    'table-scroll': true,
+    'table-times': true,
+    'table-align': true
+};
+let busSettingsGroupsOpen = { ...BUS_SETTINGS_GROUP_DEFAULTS };
 const TIME_PILLS_MIN_PX = 41;
 const TIME_PILLS_AUTO_CAP = 5;
 /** null = derive defaults (all cols, distance/est from settings). */
 let tableViewColumnIds = null;
 /** List: false = single column; true = KTEL | RODA. */
 let listSplitColumns = false;
-/** When split: 'under-roda' | 'above' | 'below'. */
+/** When split: 'above-roda' | 'under-roda' | 'above' | 'below'. */
 let listCityPlacement = 'under-roda';
 let routeTravelMeta = { lindosKm: 50, fallbackSpeedKmh: 40 };
 
@@ -2614,7 +2627,8 @@ function saveStandaloneBusState() {
             timePillsFlow: getTimePillsFlow(),
             timePillsColumns: getTimePillsColumnsSetting(),
             tablePillsSkipColumn: shouldSkipTablePillsColumn(),
-            tablePillsColumns: getTablePillsColumnsSetting()
+            tablePillsColumns: getTablePillsColumnsSetting(),
+            settingsGroupsOpen: getBusSettingsGroupsOpen()
         };
         window.localStorage.setItem(STANDALONE_BUS_STATE_KEY, JSON.stringify(payload));
     } catch (error) {
@@ -2708,10 +2722,22 @@ function applyStandaloneBusState(state) {
     if (typeof state.listSplitColumns === 'boolean') {
         listSplitColumns = state.listSplitColumns;
     }
-    if (state.listCityPlacement === 'under-roda'
+    if (state.listCityPlacement === 'above-roda'
+        || state.listCityPlacement === 'under-roda'
         || state.listCityPlacement === 'above'
         || state.listCityPlacement === 'below') {
         listCityPlacement = state.listCityPlacement;
+    }
+    if (state.settingsGroupsOpen && typeof state.settingsGroupsOpen === 'object') {
+        busSettingsGroupsOpen = {
+            ...BUS_SETTINGS_GROUP_DEFAULTS,
+            ...Object.fromEntries(
+                Object.entries(state.settingsGroupsOpen).filter(([k, v]) => (
+                    Object.prototype.hasOwnProperty.call(BUS_SETTINGS_GROUP_DEFAULTS, k)
+                    && typeof v === 'boolean'
+                ))
+            )
+        };
     }
 
     injectCompactControlsHeaderBar();
@@ -2954,6 +2980,107 @@ function openStandaloneDrawer({ cardClass = '', bodyHtml = '', afterOpen = null 
     return target;
 }
 
+function getBusSettingsGroupsOpen() {
+    return { ...BUS_SETTINGS_GROUP_DEFAULTS, ...busSettingsGroupsOpen };
+}
+
+function busSettingsGroupOpenAttr(id) {
+    return getBusSettingsGroupsOpen()[id] !== false ? ' open' : '';
+}
+
+function busSettingsGroupHtml(id, title, innerHtml) {
+    return `<details class="bus-settings-group" data-settings-group="${escapeHtml(id)}"${busSettingsGroupOpenAttr(id)}>
+                <summary class="bus-settings-group-summary">${escapeHtml(title)}</summary>
+                <div class="bus-settings-group-body">${innerHtml}</div>
+            </details>`;
+}
+
+function syncBusSettingsGroupsFromDom(root) {
+    const next = { ...getBusSettingsGroupsOpen() };
+    root?.querySelectorAll('details.bus-settings-group[data-settings-group]')?.forEach((el) => {
+        const id = el.getAttribute('data-settings-group');
+        if (!Object.prototype.hasOwnProperty.call(BUS_SETTINGS_GROUP_DEFAULTS, id)) return;
+        next[id] = !!el.open;
+    });
+    busSettingsGroupsOpen = next;
+}
+
+function setAllBusSettingsGroupsOpen(open, root) {
+    const next = {};
+    Object.keys(BUS_SETTINGS_GROUP_DEFAULTS).forEach((id) => {
+        next[id] = !!open;
+    });
+    busSettingsGroupsOpen = next;
+    root?.querySelectorAll('details.bus-settings-group[data-settings-group]')?.forEach((el) => {
+        el.open = !!open;
+    });
+    saveStandaloneBusState();
+}
+
+function applyBusSettingsFromDrawer() {
+    const minInput = document.getElementById('settings-lindos-min');
+    const showDist = document.getElementById('settings-show-distance')?.checked !== false;
+    const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
+    const showSources = !!document.getElementById('settings-show-sources')?.checked;
+    const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
+    const freezeDest = !!document.getElementById('settings-table-freeze-dest')?.checked;
+    const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
+    const valign = document.querySelector('input[name="settings-table-valign"]:checked')?.value || 'top';
+    const dirsLayout = document.querySelector('input[name="settings-dirs-layout"]:checked')?.value || 'stack';
+    const cityPlace = document.querySelector('input[name="settings-city-placement"]:checked')?.value || 'under-roda';
+    const pillsFlow = document.querySelector('input[name="settings-pills-flow"]:checked')?.value || 'row';
+    const pillsColsRaw = document.querySelector('input[name="settings-pills-cols"]:checked')?.value || 'auto';
+    const pillsColsNum = Number(pillsColsRaw);
+    const tablePillsColsRaw = document.querySelector('input[name="settings-table-pills-cols"]:checked')?.value || 'inherit';
+    const tablePillsColsNum = Number(tablePillsColsRaw);
+    showRouteDistance = showDist;
+    showRouteEstTime = showEst;
+    showScheduleSources = showSources;
+    tableTimePills = showPills;
+    tableFreezeDestCols = freezeDest;
+    tableCellVAlign = valign === 'center' ? 'center' : 'top';
+    scheduleDirsLayout = dirsLayout === 'side' ? 'side' : 'stack';
+    if (
+        cityPlace === 'above-roda'
+        || cityPlace === 'under-roda'
+        || cityPlace === 'above'
+        || cityPlace === 'below'
+    ) {
+        listCityPlacement = cityPlace;
+    }
+    timePillsFlow = pillsFlow === 'column' ? 'column' : 'row';
+    timePillsColumns = (pillsColsNum === 2 || pillsColsNum === 3 || pillsColsNum === 4 || pillsColsNum === 5)
+        ? pillsColsNum
+        : 'auto';
+    tablePillsSkipColumn = !!document.getElementById('settings-table-skip-column')?.checked;
+    if (tablePillsColsRaw === 'auto') tablePillsColumns = 'auto';
+    else if (tablePillsColsNum === 2 || tablePillsColsNum === 3 || tablePillsColsNum === 4 || tablePillsColsNum === 5) {
+        tablePillsColumns = tablePillsColsNum;
+    } else {
+        tablePillsColumns = 'inherit';
+    }
+    applyTableCellVAlignToDom();
+    applyTableFreezeDestToDom();
+    applyScheduleLayoutToDom();
+    fieldVisibility['btn-grey'] = !!document.getElementById('settings-grey-passed')?.checked;
+    fieldVisibility['btn-rem'] = !!document.getElementById('settings-hide-passed')?.checked;
+    fieldVisibility['btn-hide-sparse-west'] = !!document.getElementById('settings-hide-sparse-west')?.checked;
+    fieldVisibility['btn-hide-empty-dest'] = !!document.getElementById('settings-hide-empty-dest')?.checked;
+    setEastTableDayBands(eastMode, { persist: false, refresh: false });
+    if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
+        if (minInput) minInput.value = String(getLindosTravelMinutes());
+        return false;
+    }
+    syncBusSettingsGroupsFromDom(document.querySelector('.bus-settings'));
+    saveStandaloneBusState();
+    filterAndRenderEngine();
+    if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
+        fillPrintPreviewSheet();
+    }
+    if (minInput) minInput.value = String(getLindosTravelMinutes());
+    return true;
+}
+
 function openBusSettingsPopup() {
     openStandaloneDrawer({
         cardClass: 'bus-settings-card',
@@ -2961,7 +3088,7 @@ function openBusSettingsPopup() {
         <div class="bus-settings">
             <div class="bus-settings-body">
             <p class="standalone-about-kicker">Settings</p>
-            <h3>Travel time</h3>
+            ${busSettingsGroupHtml('travel', 'Travel time', `
             <p class="bus-settings-hint">Lindos sets the bus speed; other routes scale by km.</p>
             <label class="bus-settings-row" for="settings-lindos-min">
                 <span>Lindos est.</span>
@@ -2981,9 +3108,8 @@ function openBusSettingsPopup() {
                     <input id="settings-show-sources" type="checkbox"${shouldShowScheduleSources() ? ' checked' : ''} />
                     <span>Show schedule sources</span>
                 </label>
-            </div>
-            <h3>Schedule display</h3>
-            <p class="bus-settings-hint">Passed times, sparse West routes, and empty destinations.</p>
+            </div>`)}
+            ${busSettingsGroupHtml('schedule', 'Schedule display', `
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input id="settings-grey-passed" type="checkbox"${fieldVisibility['btn-grey'] ? ' checked' : ''} />
@@ -3001,9 +3127,8 @@ function openBusSettingsPopup() {
                     <input id="settings-hide-empty-dest" type="checkbox"${fieldVisibility['btn-hide-empty-dest'] ? ' checked' : ''} />
                     <span>Hide empty destinations</span>
                 </label>
-            </div>
-            <h3>Outbound / return</h3>
-            <p class="bus-settings-hint">List and Cards: stack directions or place them side by side.</p>
+            </div>`)}
+            ${busSettingsGroupHtml('dirs', 'Outbound / return', `
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input type="radio" name="settings-dirs-layout" value="stack"${getScheduleDirsLayout() === 'stack' ? ' checked' : ''} />
@@ -3013,8 +3138,28 @@ function openBusSettingsPopup() {
                     <input type="radio" name="settings-dirs-layout" value="side"${getScheduleDirsLayout() === 'side' ? ' checked' : ''} />
                     <span>Left / right</span>
                 </label>
-            </div>
-            <h3>Time pills</h3>
+            </div>`)}
+            ${busSettingsGroupHtml('city', 'City display', `
+            <p class="bus-settings-hint">List split (KTEL | RODA). City sits with the West column or spans both.</p>
+            <div class="bus-settings-checks">
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-city-placement" value="above-roda"${getListCityPlacement() === 'above-roda' ? ' checked' : ''} />
+                    <span>Above RODA</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-city-placement" value="under-roda"${getListCityPlacement() === 'under-roda' ? ' checked' : ''} />
+                    <span>Under RODA</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-city-placement" value="above"${getListCityPlacement() === 'above' ? ' checked' : ''} />
+                    <span>Above both (wide)</span>
+                </label>
+                <label class="bus-settings-check">
+                    <input type="radio" name="settings-city-placement" value="below"${getListCityPlacement() === 'below' ? ' checked' : ''} />
+                    <span>Below both (wide)</span>
+                </label>
+            </div>`)}
+            ${busSettingsGroupHtml('pills', 'Time pills', `
             <p class="bus-settings-hint">List, Cards, and Table. Row fills left→right; column fills top→bottom (transposed).</p>
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
@@ -3049,8 +3194,8 @@ function openBusSettingsPopup() {
                     const label = opt === 'inherit' ? 'Inherit' : (opt === 'auto' ? 'Auto' : String(opt));
                     return `<label class="bus-settings-check"><input type="radio" name="settings-table-pills-cols" value="${val}"${checked} /><span>${label}</span></label>`;
                 }).join('')}
-            </div>
-            <h3>East table</h3>
+            </div>`)}
+            ${busSettingsGroupHtml('east', 'East table', `
             <p class="bus-settings-hint">Combined merges Sat/Sun exceptions into one band and marks times.</p>
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
@@ -3061,23 +3206,22 @@ function openBusSettingsPopup() {
                     <input type="radio" name="settings-east-bands" value="split"${getEastTableDayBands() === 'split' ? ' checked' : ''} />
                     <span>Split by day</span>
                 </label>
-            </div>
-            <h3>Table scroll</h3>
-            <p class="bus-settings-hint">Keep destination visible while swiping columns.</p>
+            </div>`)}
+            ${busSettingsGroupHtml('table-scroll', 'Table scroll', `
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input id="settings-table-freeze-dest" type="checkbox"${shouldFreezeTableDestCols() ? ' checked' : ''} />
                     <span>Freeze star &amp; destination columns</span>
                 </label>
-            </div>
-            <h3>Table times</h3>
+            </div>`)}
+            ${busSettingsGroupHtml('table-times', 'Table times', `
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input id="settings-table-time-pills" type="checkbox"${shouldShowTableTimePills() ? ' checked' : ''} />
                     <span>Pill style on table &amp; print times</span>
                 </label>
-            </div>
-            <h3>Table cell align</h3>
+            </div>`)}
+            ${busSettingsGroupHtml('table-align', 'Table cell align', `
             <div class="bus-settings-checks">
                 <label class="bus-settings-check">
                     <input type="radio" name="settings-table-valign" value="top"${getTableCellVAlign() === 'top' ? ' checked' : ''} />
@@ -3087,72 +3231,46 @@ function openBusSettingsPopup() {
                     <input type="radio" name="settings-table-valign" value="center"${getTableCellVAlign() === 'center' ? ' checked' : ''} />
                     <span>Center</span>
                 </label>
-            </div>
+            </div>`)}
             </div>
             <div class="bus-settings-actions">
-                <button type="button" class="compact-btn primary" id="settings-apply-btn">Apply</button>
+                <button type="button" class="compact-btn" id="settings-expand-all-btn">Expand all</button>
+                <button type="button" class="compact-btn" id="settings-collapse-all-btn">Collapse all</button>
             </div>
         </div>`,
         afterOpen: () => {
-            const apply = () => {
-                const minInput = document.getElementById('settings-lindos-min');
-                const showDist = document.getElementById('settings-show-distance')?.checked !== false;
-                const showEst = document.getElementById('settings-show-est-time')?.checked !== false;
-                const showSources = !!document.getElementById('settings-show-sources')?.checked;
-                const showPills = document.getElementById('settings-table-time-pills')?.checked !== false;
-                const freezeDest = !!document.getElementById('settings-table-freeze-dest')?.checked;
-                const eastMode = document.querySelector('input[name="settings-east-bands"]:checked')?.value || 'combined';
-                const valign = document.querySelector('input[name="settings-table-valign"]:checked')?.value || 'top';
-                const dirsLayout = document.querySelector('input[name="settings-dirs-layout"]:checked')?.value || 'stack';
-                const pillsFlow = document.querySelector('input[name="settings-pills-flow"]:checked')?.value || 'row';
-                const pillsColsRaw = document.querySelector('input[name="settings-pills-cols"]:checked')?.value || 'auto';
-                const pillsColsNum = Number(pillsColsRaw);
-                const tablePillsColsRaw = document.querySelector('input[name="settings-table-pills-cols"]:checked')?.value || 'inherit';
-                const tablePillsColsNum = Number(tablePillsColsRaw);
-                showRouteDistance = showDist;
-                showRouteEstTime = showEst;
-                showScheduleSources = showSources;
-                tableTimePills = showPills;
-                tableFreezeDestCols = freezeDest;
-                tableCellVAlign = valign === 'center' ? 'center' : 'top';
-                scheduleDirsLayout = dirsLayout === 'side' ? 'side' : 'stack';
-                timePillsFlow = pillsFlow === 'column' ? 'column' : 'row';
-                timePillsColumns = (pillsColsNum === 2 || pillsColsNum === 3 || pillsColsNum === 4 || pillsColsNum === 5)
-                    ? pillsColsNum
-                    : 'auto';
-                tablePillsSkipColumn = !!document.getElementById('settings-table-skip-column')?.checked;
-                if (tablePillsColsRaw === 'auto') tablePillsColumns = 'auto';
-                else if (tablePillsColsNum === 2 || tablePillsColsNum === 3 || tablePillsColsNum === 4 || tablePillsColsNum === 5) {
-                    tablePillsColumns = tablePillsColsNum;
-                } else {
-                    tablePillsColumns = 'inherit';
-                }
-                applyTableCellVAlignToDom();
-                applyTableFreezeDestToDom();
-                applyScheduleLayoutToDom();
-                fieldVisibility['btn-grey'] = !!document.getElementById('settings-grey-passed')?.checked;
-                fieldVisibility['btn-rem'] = !!document.getElementById('settings-hide-passed')?.checked;
-                fieldVisibility['btn-hide-sparse-west'] = !!document.getElementById('settings-hide-sparse-west')?.checked;
-                fieldVisibility['btn-hide-empty-dest'] = !!document.getElementById('settings-hide-empty-dest')?.checked;
-                setEastTableDayBands(eastMode, { persist: false, refresh: false });
-                if (!setLindosTravelMinutes(minInput?.value, { persist: false, refresh: false })) {
-                    if (minInput) minInput.value = String(getLindosTravelMinutes());
-                    return;
-                }
+            const root = document.querySelector('.bus-settings');
+            let lindosTimer = 0;
+            const persistGroups = () => {
+                syncBusSettingsGroupsFromDom(root);
                 saveStandaloneBusState();
-                filterAndRenderEngine();
-                if (document.body.classList.contains('print-preview-open') && typeof fillPrintPreviewSheet === 'function') {
-                    fillPrintPreviewSheet();
-                }
-                if (minInput) minInput.value = String(getLindosTravelMinutes());
-                closeStandaloneDrawer();
             };
-
-            document.getElementById('settings-apply-btn')?.addEventListener('click', apply);
-            document.getElementById('settings-lindos-min')?.addEventListener('keydown', (event) => {
+            root?.querySelectorAll('details.bus-settings-group')?.forEach((el) => {
+                el.addEventListener('toggle', persistGroups);
+            });
+            document.getElementById('settings-expand-all-btn')?.addEventListener('click', () => {
+                setAllBusSettingsGroupsOpen(true, root);
+            });
+            document.getElementById('settings-collapse-all-btn')?.addEventListener('click', () => {
+                setAllBusSettingsGroupsOpen(false, root);
+            });
+            root?.addEventListener('change', (event) => {
+                const t = event.target;
+                if (!(t instanceof HTMLInputElement)) return;
+                if (t.id === 'settings-lindos-min') return;
+                applyBusSettingsFromDrawer();
+            });
+            const minInput = document.getElementById('settings-lindos-min');
+            minInput?.addEventListener('change', () => applyBusSettingsFromDrawer());
+            minInput?.addEventListener('input', () => {
+                window.clearTimeout(lindosTimer);
+                lindosTimer = window.setTimeout(() => applyBusSettingsFromDrawer(), 400);
+            });
+            minInput?.addEventListener('keydown', (event) => {
                 if (event.key !== 'Enter') return;
                 event.preventDefault();
-                apply();
+                window.clearTimeout(lindosTimer);
+                applyBusSettingsFromDrawer();
             });
         }
     });
@@ -5180,7 +5298,13 @@ function buildBusListRow(row) {
 }
 
 function getListCityPlacement() {
-    if (listCityPlacement === 'above' || listCityPlacement === 'below') return listCityPlacement;
+    if (
+        listCityPlacement === 'above-roda'
+        || listCityPlacement === 'above'
+        || listCityPlacement === 'below'
+    ) {
+        return listCityPlacement;
+    }
     return 'under-roda';
 }
 
@@ -5319,11 +5443,17 @@ function renderListView(dataset) {
             splitRow.appendChild(buildBusListColumnEl('KTEL', east, 'band-east'));
 
             const westCol = buildBusListColumnEl('RODA', west, 'band-west');
-            if (cityPlace === 'under-roda' && city.length) {
+            if (city.length && (cityPlace === 'above-roda' || cityPlace === 'under-roda')) {
                 const cityWrap = document.createElement('div');
-                cityWrap.className = 'bus-list-city-under';
+                cityWrap.className = cityPlace === 'above-roda'
+                    ? 'bus-list-city-above'
+                    : 'bus-list-city-under';
                 cityWrap.appendChild(buildBusListCityBandEl(city));
-                westCol.appendChild(cityWrap);
+                if (cityPlace === 'above-roda') {
+                    westCol.insertBefore(cityWrap, westCol.firstChild);
+                } else {
+                    westCol.appendChild(cityWrap);
+                }
             }
             splitRow.appendChild(westCol);
             bodyEl.appendChild(splitRow);
@@ -10539,23 +10669,26 @@ function openTableColsPopup() {
         ${options || '<p class="print-cols-popup-title">No columns</p>'}
         <div class="print-cols-popup-actions">
             <button type="button" class="print-pages-reset" data-table-cols-action="all">All</button>
-            <button type="button" class="print-pages-reset" data-table-cols-action="apply">Apply</button>
         </div>`;
     popup.hidden = false;
 }
 
-function applyTableColsPopup() {
+function applyTableColsPopup({ close = false } = {}) {
     const popup = document.getElementById('table-cols-popup');
     if (!popup) return;
-    const ids = [...popup.querySelectorAll('input[data-table-col-id]:checked')]
+    const inputs = [...popup.querySelectorAll('input[data-table-col-id]')];
+    const ids = inputs
+        .filter((input) => input.checked)
         .map((input) => input.getAttribute('data-table-col-id'))
         .filter(Boolean);
     if (!ids.length) {
+        const fallback = inputs[0];
+        if (fallback) fallback.checked = true;
         alert('Keep at least one column checked.');
         return;
     }
     setTableViewColumnIds(ids);
-    closeTableColsPopup();
+    if (close) closeTableColsPopup();
     if (currentLayoutMode === 'table') filterAndRenderEngine();
 }
 
@@ -10577,18 +10710,21 @@ function wireTableColsPicker() {
         }
     });
 
-    document.getElementById('table-cols-popup')?.addEventListener('click', (event) => {
+    const popup = document.getElementById('table-cols-popup');
+    popup?.addEventListener('click', (event) => {
         event.stopPropagation();
         const action = event.target?.closest?.('[data-table-cols-action]')?.getAttribute('data-table-cols-action');
-        if (action === 'apply') {
-            applyTableColsPopup();
-            return;
-        }
         if (action === 'all') {
-            document.querySelectorAll('#table-cols-popup input[data-table-col-id]').forEach((input) => {
+            popup.querySelectorAll('input[data-table-col-id]').forEach((input) => {
                 input.checked = true;
             });
+            applyTableColsPopup();
         }
+    });
+    popup?.addEventListener('change', (event) => {
+        if (!(event.target instanceof HTMLInputElement)) return;
+        if (!event.target.hasAttribute('data-table-col-id')) return;
+        applyTableColsPopup();
     });
 
     document.addEventListener('click', (event) => {
@@ -10640,32 +10776,33 @@ function openListLayoutPopup() {
         <label class="print-cols-option"><input type="radio" name="list-layout-mode" value="split"${split ? ' checked' : ''}/> KTEL | RODA columns</label>
         <div class="list-city-placement-group">
             <p class="print-cols-popup-title">City</p>
+            <label class="print-cols-option"><input type="radio" name="list-city-placement" value="above-roda"${city === 'above-roda' ? ' checked' : ''}/> Above RODA</label>
             <label class="print-cols-option"><input type="radio" name="list-city-placement" value="under-roda"${city === 'under-roda' ? ' checked' : ''}/> Under RODA</label>
             <label class="print-cols-option"><input type="radio" name="list-city-placement" value="above"${city === 'above' ? ' checked' : ''}/> Above both (wide)</label>
             <label class="print-cols-option"><input type="radio" name="list-city-placement" value="below"${city === 'below' ? ' checked' : ''}/> Below both (wide)</label>
-        </div>
-        <div class="print-cols-popup-actions">
-            <button type="button" class="print-pages-reset" data-list-layout-action="apply">Apply</button>
         </div>`;
     syncListLayoutPopupCityOptions(popup);
-    popup.querySelectorAll('input[name="list-layout-mode"]').forEach((input) => {
-        input.addEventListener('change', () => syncListLayoutPopupCityOptions(popup));
-    });
     popup.hidden = false;
 }
 
-function applyListLayoutPopup() {
+function applyListLayoutPopup({ close = false } = {}) {
     const popup = document.getElementById('list-layout-popup');
     if (!popup) return;
     const mode = popup.querySelector('input[name="list-layout-mode"]:checked')?.value;
     const city = popup.querySelector('input[name="list-city-placement"]:checked')?.value;
     listSplitColumns = mode === 'split';
-    if (city === 'under-roda' || city === 'above' || city === 'below') {
+    if (
+        city === 'above-roda'
+        || city === 'under-roda'
+        || city === 'above'
+        || city === 'below'
+    ) {
         listCityPlacement = city;
     }
     saveStandaloneBusState();
-    closeListLayoutPopup();
+    if (close) closeListLayoutPopup();
     syncListLayoutButton();
+    syncListLayoutPopupCityOptions(popup);
     if (currentLayoutMode === 'list') filterAndRenderEngine();
 }
 
@@ -10687,10 +10824,13 @@ function wireListLayoutPicker() {
         }
     });
 
-    document.getElementById('list-layout-popup')?.addEventListener('click', (event) => {
+    const popup = document.getElementById('list-layout-popup');
+    popup?.addEventListener('click', (event) => {
         event.stopPropagation();
-        const action = event.target?.closest?.('[data-list-layout-action]')?.getAttribute('data-list-layout-action');
-        if (action === 'apply') applyListLayoutPopup();
+    });
+    popup?.addEventListener('change', (event) => {
+        if (!(event.target instanceof HTMLInputElement)) return;
+        applyListLayoutPopup();
     });
 
     document.addEventListener('click', (event) => {
@@ -12173,23 +12313,26 @@ function openPrintColsPopup() {
         ${options || '<p class="print-cols-popup-title">No columns</p>'}
         <div class="print-cols-popup-actions">
             <button type="button" class="print-pages-reset" data-print-cols-action="all">All</button>
-            <button type="button" class="print-pages-reset" data-print-cols-action="apply">Apply</button>
         </div>`;
     popup.hidden = false;
 }
 
-function applyPrintColsPopup() {
+function applyPrintColsPopup({ close = false } = {}) {
     const popup = document.getElementById('print-cols-popup');
     if (!popup) return;
-    const ids = [...popup.querySelectorAll('input[data-print-col-id]:checked')]
+    const inputs = [...popup.querySelectorAll('input[data-print-col-id]')];
+    const ids = inputs
+        .filter((input) => input.checked)
         .map((input) => input.getAttribute('data-print-col-id'))
         .filter(Boolean);
     if (!ids.length) {
+        const fallback = inputs[0];
+        if (fallback) fallback.checked = true;
         alert('Keep at least one column checked.');
         return;
     }
     setPrintTableColumnIds(ids);
-    closePrintColsPopup();
+    if (close) closePrintColsPopup();
     fillPrintPreviewSheet();
 }
 
@@ -12276,18 +12419,21 @@ function wireStandalonePrintMenu() {
         else openPrintColsPopup();
     });
 
-    document.getElementById('print-cols-popup')?.addEventListener('click', (event) => {
+    const printColsPopup = document.getElementById('print-cols-popup');
+    printColsPopup?.addEventListener('click', (event) => {
         event.stopPropagation();
         const action = event.target?.closest?.('[data-print-cols-action]')?.getAttribute('data-print-cols-action');
-        if (action === 'apply') {
-            applyPrintColsPopup();
-            return;
-        }
         if (action === 'all') {
-            document.querySelectorAll('#print-cols-popup input[data-print-col-id]').forEach((input) => {
+            printColsPopup.querySelectorAll('input[data-print-col-id]').forEach((input) => {
                 input.checked = true;
             });
+            applyPrintColsPopup();
         }
+    });
+    printColsPopup?.addEventListener('change', (event) => {
+        if (!(event.target instanceof HTMLInputElement)) return;
+        if (!event.target.hasAttribute('data-print-col-id')) return;
+        applyPrintColsPopup();
     });
 
     document.addEventListener('click', (event) => {
